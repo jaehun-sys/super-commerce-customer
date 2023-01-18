@@ -2,15 +2,15 @@ package com.bestcommerce.customer.controller.product;
 
 import com.bestcommerce.customer.domain.Product;
 import com.bestcommerce.customer.service.product.ProductSelectService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
+@RestController
 @RequestMapping("/item")
-@Controller
 public class FilterController {
 
     private final ProductSelectService productSelectService;
@@ -20,9 +20,7 @@ public class FilterController {
     }
 
     @GetMapping("/all")
-    public String showAllProduct(Model model){
-        List<Product> allProductList = productSelectService.getAllProductList();
-        model.addAttribute("list",allProductList);
-        return "/product/main.html";
+    public List<Product> showAllProduct(){
+        return productSelectService.getAllProductList();
     }
 }
