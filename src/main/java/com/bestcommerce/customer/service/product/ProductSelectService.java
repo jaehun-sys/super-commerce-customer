@@ -8,7 +8,11 @@ import java.util.List;
 
 @Service
 public class ProductSelectService {
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public ProductSelectService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public List<Product> getAllProductList(){
         return productRepository.findAll();
