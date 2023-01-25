@@ -2,6 +2,7 @@ package com.bestcommerce.customer.domain;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -11,7 +12,9 @@ public class Customer {
 
     @Id
     private long cu_id;
-    private String cu_email;
+
+    @Column(name = "cu_email")
+    private String cuEmail;
 
     private String password;
     private String cu_name;
