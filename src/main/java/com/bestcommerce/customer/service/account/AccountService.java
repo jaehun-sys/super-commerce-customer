@@ -22,4 +22,8 @@ public class AccountService {
 
         customerRepository.save(customer);
     }
+
+    public Customer getOneCustomerInfo(long id){
+        return customerRepository.findById(id).get();
+    }
 }
