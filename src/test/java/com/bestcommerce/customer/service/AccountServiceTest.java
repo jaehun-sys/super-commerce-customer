@@ -21,7 +21,7 @@ public class AccountServiceTest {
 
         accountService.save(expected);
 
-        Customer actual = accountService.getOneCustomerInfo(expected.getCu_id());
+        Customer actual = accountService.getOneCustomerInfo(expected.getCuId());
 
         assertEquals(expected,actual);
     }
