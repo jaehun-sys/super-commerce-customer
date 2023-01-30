@@ -17,7 +17,7 @@ public class AccountServiceTest {
 
     @Test
     public void joinTestCase01() throws Exception{
-        Customer expected = new Customer(1,"dudtkd0219@gmail.com","dudtkd0219","박영상","010-0000-0000","19960826",'Y');
+        Customer expected = new Customer("dudtkd0219@gmail.com","dudtkd0219","박영상","010-0000-0000","19960826",'Y');
 
         accountService.save(expected);
 
