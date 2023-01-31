@@ -33,6 +33,9 @@ public class Customer {
     @Column(name = "auth_yn")
     private Character authYn;
 
+    @OneToMany(mappedBy = "customer")
+    private List<Address> addressList = new ArrayList<>();
+
     public Customer() {
 
     }
@@ -45,7 +48,4 @@ public class Customer {
         this.birthdate = birthdate;
         this.authYn = authYn;
     }
-
-    @OneToMany(mappedBy = "customer")
-    private List<Address> addressList = new ArrayList<>();
 }
