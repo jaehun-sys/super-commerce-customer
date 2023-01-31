@@ -13,9 +13,6 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long addrId;
 
-    @Column(name = "customer_id")
-    private Long customerId;
-
     @Column(name = "addr")
     private String addr;
 
@@ -25,16 +22,15 @@ public class Address {
     @Column(name = "zip_code")
     private String zipCode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_address_cu_id_foreign_key")
+    @ManyToOne
+    @JoinColumn(name = "cu_id")
     private Customer customer;
 
     public Address() {
 
     }
 
-    public Address(Long customerId, String addr, Character repYn, String zipCode, Customer customer){
-        this.customerId = customerId;
+    public Address(String addr, Character repYn, String zipCode, Customer customer){
         this.addr = addr;
         this.repYn = repYn;
         this.zipCode = zipCode;
