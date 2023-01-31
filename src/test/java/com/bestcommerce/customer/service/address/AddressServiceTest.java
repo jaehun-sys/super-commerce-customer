@@ -24,16 +24,12 @@ public class AddressServiceTest {
     @Test
     public void putAddressTest() throws Exception{
         Customer account = accountService.getOneCustomerInfo(1L);
-        Address expected = new Address(account.getCuId(), "대구광역시",'Y',"이게뭐지",account);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(expected.getAddrId());
-        System.out.println(expected.getCustomerId());
-        System.out.println(expected.getAddr());
+        Address expected = new Address( "서울특별시",'Y',"????",account);
+        expected.setCustomer(account);
         addressService.saveAddress(expected);
 
-        List<Address> actual = addressService.getAllAddressByCustomerId(1L);
-        System.out.println(actual);
+        List<Address> actual = addressService.getAllAddressesByCustomer(account);
 
-        assertEquals(expected, actual.get(0));
+        assertEquals(expected, actual.get(1));
     }
 }
