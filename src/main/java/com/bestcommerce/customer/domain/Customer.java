@@ -2,42 +2,50 @@ package com.bestcommerce.customer.domain;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "customer")
 @Data
 public class Customer {
 
     @Id
-    private long cu_id;
+    @Column(name = "cu_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long cuId;
 
     @Column(name = "cu_email")
     private String cuEmail;
 
+    @Column(name = "password")
     private String password;
-    private String cu_name;
 
-    private String cu_telno;
+    @Column(name = "cu_name")
+    private String cuName;
 
+    @Column(name = "cu_telno")
+    private String cuTelNumber;
+
+    @Column(name = "birthdate")
     private String birthdate;
 
-    private Character auth_yn;
+    @Column(name = "auth_yn")
+    private Character authYn;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Address> addressList = new ArrayList<>();
 
     public Customer() {
 
     }
 
-    public Customer(long cu_id, String cuEmail, String password, String cu_name, String cu_telno, String birthdate, Character auth_yn){
-        this.cu_id = cu_id;
+    public Customer(String cuEmail, String password, String cuName, String cuTelNumber, String birthdate, Character authYn){
         this.cuEmail = cuEmail;
         this.password = password;
-        this.cu_name = cu_name;
-        this.cu_telno = cu_telno;
+        this.cuName = cuName;
+        this.cuTelNumber = cuTelNumber;
         this.birthdate = birthdate;
-        this.auth_yn = auth_yn;
+        this.authYn = authYn;
     }
-
-
 }
