@@ -36,6 +36,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Address> addressList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "customer")
+    private List<Cart> cartsList = new ArrayList<>();
+
     public Customer() {
 
     }
