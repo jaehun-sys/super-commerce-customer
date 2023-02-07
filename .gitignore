@@ -41,3 +41,6 @@ out/
 
 ### properties
 *.yml
+
+### log file
+*.log
