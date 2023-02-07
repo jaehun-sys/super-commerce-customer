@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Entity(name = "address")
 @Getter
-@Setter
 public class Address {
 
     @Id
