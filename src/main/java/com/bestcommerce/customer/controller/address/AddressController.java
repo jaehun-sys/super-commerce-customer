@@ -1,15 +1,16 @@
 package com.bestcommerce.customer.controller.address;
 
-import com.bestcommerce.customer.domain.Address;
+import com.bestcommerce.customer.dto.AddressDto;
 import com.bestcommerce.customer.service.address.AddressService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/address")
 public class AddressController {
+
+    private static final Logger log = LoggerFactory.getLogger(AddressController.class);
     private final AddressService addressService;
 
     public AddressController(AddressService addressService){
@@ -17,7 +18,7 @@ public class AddressController {
     }
 
     @PostMapping("/save")
-    public void saveAddress(@RequestParam("cu_id") Long cu_id, Address address){
-        addressService.saveAddressByCustomerId(cu_id,address);
+    public void saveAddress(@RequestBody AddressDto address){
+        addressService.saveAddressByCustomerId(address);
     }
 }
