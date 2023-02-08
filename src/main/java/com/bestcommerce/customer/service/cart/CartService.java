@@ -3,6 +3,7 @@ package com.bestcommerce.customer.service.cart;
 import com.bestcommerce.customer.domain.Cart;
 import com.bestcommerce.customer.domain.Customer;
 import com.bestcommerce.customer.domain.Product;
+import com.bestcommerce.customer.dto.CartDto;
 import com.bestcommerce.customer.repository.domain.CartRepository;
 import com.bestcommerce.customer.repository.domain.CustomerRepository;
 import com.bestcommerce.customer.repository.domain.ProductRepository;
@@ -24,16 +25,12 @@ public class CartService {
         this.productRepository = productRepository;
     }
 
-    public void putProductToCart(Long cu_id, Long product_id, Long size_id, int product_cnt){
+    public void putProductToCart(CartDto cartDto){
         AccountService accountService = new AccountService(customerRepository);
         ProductSelectService productSelectService = new ProductSelectService(productRepository);
-        Customer customer = accountService.getOneCustomerInfo(cu_id);
-        Product product = productSelectService.getOnlyOneProduct(product_id);
-        Cart cart = new Cart();
-        cart.setCustomer(customer);
-        cart.setProduct(product);
-        cart.setSizeId(size_id);
-        cart.setProductCount(product_cnt);
+        Customer customer = accountService.getOneCustomerInfo(cartDto.getCustomerId());
+        Product product = productSelectService.getOnlyOneProduct(cartDto.getProductId());
+        Cart cart = new Cart(cartDto.getProductCount(), cartDto.getSizeId(), customer, product);
         cartRepository.save(cart);
     }
 }

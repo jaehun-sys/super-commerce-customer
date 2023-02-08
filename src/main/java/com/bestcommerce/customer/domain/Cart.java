@@ -1,10 +1,10 @@
 package com.bestcommerce.customer.domain;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
 @Entity(name = "cart")
 public class Cart {
 
@@ -26,4 +26,14 @@ public class Cart {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    public Cart(){
+    }
+
+    public Cart(int productCount, Long sizeId, Customer customer, Product product){
+        this.productCount = productCount;
+        this.sizeId = sizeId;
+        this.customer = customer;
+        this.product = product;
+    }
 }
