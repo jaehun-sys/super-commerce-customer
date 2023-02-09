@@ -35,4 +35,8 @@ public class AccountService {
         Optional<Customer> optionalCustomer = customerRepository.findById(id);
         return optionalCustomer.orElseGet(Customer::new);
     }
+
+    public Customer getOneCustomerInfo(String cu_email){
+        return customerRepository.findByCuEmail(cu_email);
+    }
 }

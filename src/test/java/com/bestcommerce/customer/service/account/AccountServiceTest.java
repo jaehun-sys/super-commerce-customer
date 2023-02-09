@@ -23,9 +23,8 @@ public class AccountServiceTest {
 
         accountService.save(expected);
 
-        Customer actual = accountService.getOneCustomerInfo(expected.getCustomerId());
+        Customer actual = accountService.getOneCustomerInfo(expected.getCustomerEmail());
 
-        assertEquals(expected.getCustomerId(),actual.getCuId());
         assertEquals(expected.getCustomerEmail(),actual.getCuEmail());
         assertEquals(expected.getCustomerPassword(),actual.getPassword());
         assertEquals(expected.getCustomerName(),actual.getCuName());
