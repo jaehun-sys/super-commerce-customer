@@ -1,8 +1,8 @@
 package com.bestcommerce.customer.dto;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class AddressDto {
 
     private Long customerId;

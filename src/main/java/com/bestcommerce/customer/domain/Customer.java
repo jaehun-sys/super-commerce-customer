@@ -1,13 +1,13 @@
 package com.bestcommerce.customer.domain;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "customer")
-@Data
+@Getter
 public class Customer {
 
     @Id

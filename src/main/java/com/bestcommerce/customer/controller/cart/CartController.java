@@ -1,25 +1,28 @@
 package com.bestcommerce.customer.controller.cart;
 
+import com.bestcommerce.customer.dto.CartDto;
+import com.bestcommerce.customer.service.account.AccountService;
 import com.bestcommerce.customer.service.cart.CartService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.bestcommerce.customer.service.product.ProductSelectService;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cart")
 public class CartController {
     private final CartService cartService;
 
-    public CartController(CartService cartService){
+    private final ProductSelectService productSelectService;
+
+    private final AccountService accountService;
+
+    public CartController(CartService cartService, ProductSelectService productSelectService, AccountService accountService){
         this.cartService = cartService;
+        this.productSelectService = productSelectService;
+        this.accountService = accountService;
     }
 
     @PostMapping("/put")
-    public void putProductToCart(@RequestParam("cu_id") Long cu_id
-                                ,@RequestParam("product_id") Long product_id
-                                ,@RequestParam("size_id") Long size_id
-                                ,@RequestParam("product_cnt") int product_cnt){
-        cartService.putProductToCart(cu_id, product_id, size_id, product_cnt);
+    public void putProductToCart(@RequestBody CartDto cartDto){
+        cartService.putProductToCart(accountService.getOneCustomerInfo(cartDto.getCustomerId()), productSelectService.getOnlyOneProduct(cartDto.getProductId()), cartDto);
     }
 }
