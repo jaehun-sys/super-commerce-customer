@@ -5,8 +5,6 @@ import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.repository.domain.CustomerRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class AccountService {
 
@@ -32,8 +30,7 @@ public class AccountService {
     }
 
     public Customer getOneCustomerInfo(long id){
-        Optional<Customer> optionalCustomer = customerRepository.findById(id);
-        return optionalCustomer.orElseGet(Customer::new);
+        return customerRepository.findById(id).orElseGet(Customer::new);
     }
 
     public Customer getOneCustomerInfo(String cu_email){

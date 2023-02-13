@@ -19,8 +19,8 @@ public class ProductSelectService {
     }
 
     public Product getOnlyOneProduct(Long product_id){
-
-        return productRepository.findById(product_id).get();
+        return productRepository.findById(product_id).orElseGet(Product::new);
     }
+
 
 }
