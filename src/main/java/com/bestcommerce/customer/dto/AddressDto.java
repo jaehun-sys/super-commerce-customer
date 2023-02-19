@@ -12,4 +12,10 @@ public class AddressDto {
     private Character represent;
     private String zipcode;
 
+    public AddressDto(Long customerId, String addr, Character represent, String zipcode) {
+        this.customerId = customerId;
+        this.addr = addr;
+        this.represent = represent;
+        this.zipcode = zipcode;
+    }
 }
