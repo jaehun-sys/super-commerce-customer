@@ -2,6 +2,7 @@ package com.bestcommerce.customer.controller.account;
 
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.service.account.AccountService;
+import com.bestcommerce.customer.util.EntityConverter;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -10,8 +11,11 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    public AccountController(AccountService accountService){
+    private final EntityConverter entityConverter;
+
+    public AccountController(AccountService accountService, EntityConverter entityConverter){
         this.accountService = accountService;
+        this.entityConverter = entityConverter;
     }
 
     @PostMapping("/check/email")
@@ -20,7 +24,7 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody CustomerDto customer){
-        accountService.save(customer);
+    public void register(@RequestBody CustomerDto customerDto){
+        accountService.save(entityConverter.toCustomer(customerDto));
     }
 }

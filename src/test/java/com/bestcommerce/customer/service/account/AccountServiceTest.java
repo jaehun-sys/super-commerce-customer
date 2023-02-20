@@ -2,6 +2,7 @@ package com.bestcommerce.customer.service.account;
 
 import com.bestcommerce.customer.domain.Customer;
 import com.bestcommerce.customer.dto.CustomerDto;
+import com.bestcommerce.customer.util.EntityConverter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,15 @@ public class AccountServiceTest {
     @Autowired
     private AccountService accountService;
 
+    @Autowired
+    private EntityConverter entityConverter;
 
     @Test
     @DisplayName("계정 정보 저장이 가능해야 한다.")
     public void joinTestCase01() throws Exception{
         CustomerDto expected = new CustomerDto("test@gmail.com","test1234","test","010-2222-2222","19960131",'N');
 
-        accountService.save(expected);
+        accountService.save(entityConverter.toCustomer(expected));
 
         Customer actual = accountService.getOneCustomerInfo(expected.getCustomerEmail());
 
