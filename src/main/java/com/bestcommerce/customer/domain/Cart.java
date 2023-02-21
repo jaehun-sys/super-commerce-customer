@@ -16,12 +16,14 @@ public class Cart {
     @Column(name = "product_cnt")
     private int productCount;
 
-    @Column(name = "size_id")
-    private Long sizeId;
 
     @ManyToOne
     @JoinColumn(name = "cu_id")
     private Customer customer;
+
+    @ManyToOne
+    @JoinColumn(name = "size_id")
+    private Size size;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -30,9 +32,9 @@ public class Cart {
     public Cart(){
     }
 
-    public Cart(int productCount, Long sizeId, Customer customer, Product product){
+    public Cart(int productCount, Size size, Customer customer, Product product){
         this.productCount = productCount;
-        this.sizeId = sizeId;
+        this.size = size;
         this.customer = customer;
         this.product = product;
     }

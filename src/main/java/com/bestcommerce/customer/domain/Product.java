@@ -35,4 +35,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Cart> cartsList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<Size> sizeList = new ArrayList<>();
 }
