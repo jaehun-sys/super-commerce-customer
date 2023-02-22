@@ -29,4 +29,8 @@ public class AccountService {
     public Customer getOneCustomerInfo(String cu_email){
         return customerRepository.findByCuEmail(cu_email);
     }
+
+    public void deleteOneCustomer(String cu_email){
+        customerRepository.deleteCustomerByCuEmail(cu_email);
+    }
 }
