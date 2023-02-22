@@ -70,12 +70,14 @@ public class AccountControllerTest {
         ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, customerDto, Object.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(false);
 
         customerDto = new CustomerDto(testEmail02,"","","","",'N');
 
         response = restTemplate.postForEntity(testUrl, customerDto, Object.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isEqualTo(true);
 
     }
 }
