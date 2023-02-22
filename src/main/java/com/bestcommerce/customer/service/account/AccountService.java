@@ -14,8 +14,7 @@ public class AccountService {
     }
 
     public Boolean isUsableEmail(String cu_email){
-        Customer customer = customerRepository.findByCuEmail(cu_email);
-        return customer != null;
+        return customerRepository.findByCuEmail(cu_email) == null;
     }
 
     public void save(Customer customer){
