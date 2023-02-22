@@ -58,4 +58,24 @@ public class AccountControllerTest {
 
         accountService.deleteOneCustomer(testEmail);
     }
+    @DisplayName("유효한 이메일인지 체크하는 테스트")
+    @Test
+    public void checkValidEmailTest() throws Exception{
+        String testEmail01 = "dudtkd0219@gmail.com";
+        String testEmail02 = "zzangman@gmail.com";
+
+        CustomerDto customerDto = new CustomerDto(testEmail01,"","","","",'N');
+        String testUrl = "http://localhost:"+port+"/account/check/email";
+
+        ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, customerDto, Object.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        customerDto = new CustomerDto(testEmail02,"","","","",'N');
+
+        response = restTemplate.postForEntity(testUrl, customerDto, Object.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+    }
 }
