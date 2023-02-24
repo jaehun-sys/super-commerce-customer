@@ -28,7 +28,6 @@ public class AccountControllerTest {
     @Autowired
     private AccountService accountService;
 
-
     @DisplayName("회원 가입 테스트")
     @Test
     public void insertAccountInfoTest() throws Exception{
@@ -58,6 +57,7 @@ public class AccountControllerTest {
 
         accountService.deleteOneCustomer(testEmail);
     }
+
     @DisplayName("유효한 이메일인지 체크하는 테스트")
     @Test
     public void checkValidEmailTest() throws Exception{

@@ -14,5 +14,10 @@ public class CartDto {
 
     private Long productId;
 
-
+    public CartDto(int productCount, Long sizeId, Long customerId, Long productId) {
+        this.productCount = productCount;
+        this.sizeId = sizeId;
+        this.customerId = customerId;
+        this.productId = productId;
+    }
 }
