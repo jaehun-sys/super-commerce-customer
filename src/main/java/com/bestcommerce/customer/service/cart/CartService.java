@@ -1,9 +1,6 @@
 package com.bestcommerce.customer.service.cart;
 
-import com.bestcommerce.customer.domain.Cart;
-import com.bestcommerce.customer.domain.Customer;
-import com.bestcommerce.customer.domain.Product;
-import com.bestcommerce.customer.domain.Size;
+import com.bestcommerce.customer.domain.*;
 import com.bestcommerce.customer.repository.domain.CartRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +13,14 @@ public class CartService {
     }
 
     public void putProductToCart(Size size, Customer customer, Product product, int productCount){
+        CartKey cartKey = new CartKey(customer.getCuId(), product.getProductId(), size.getSizeId());
+        boolean isExistInTable = cartRepository.existsById(cartKey);
+        if(isExistInTable){
+            /*
+            * TODO update method
+            * */
+            return;
+        }
         cartRepository.save(new Cart(productCount, size, customer, product));
     }
 }
