@@ -19,8 +19,8 @@ public class AccountController {
     }
 
     @PostMapping("/check/email")
-    public Boolean checkEmail(@RequestParam("customerEmail") String customerEmail){
-        return accountService.isUsableEmail(customerEmail);
+    public Boolean checkEmail(@RequestBody CustomerDto customerDto){
+        return accountService.isUsableEmail(customerDto.getCustomerEmail());
     }
 
     @PostMapping("/register")

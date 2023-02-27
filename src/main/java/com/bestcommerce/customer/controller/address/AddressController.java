@@ -34,12 +34,13 @@ public class AddressController {
 
     @PostMapping("/save")
     public void saveAddress(@RequestBody AddressDto addressDto){
+
         log.info("address put method");
         addressService.saveAddressByCustomerId(entityConverter.toAddress(addressDto, accountService.getOneCustomerInfo(addressDto.getCustomerId())));
     }
 
     @PostMapping("/get")
     public List<AddressDto> getAllAddress(@RequestBody CustomerDto customerDto){
-        return dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(accountService.getOneCustomerInfo(customerDto.getCustomerId())));
+        return dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(accountService.getOneCustomerInfo(customerDto.getCustomerEmail())));
     }
 }

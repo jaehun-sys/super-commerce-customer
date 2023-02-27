@@ -27,4 +27,8 @@ public class AddressService {
     public List<Address> getAllAddressesByCustomer(Customer customer){
         return addressRepository.getAddressesByCustomer(customer);
     }
+
+    public void deleteAddressByAddrId(Long addressId){
+        addressRepository.deleteAddressByAddrId(addressId);
+    }
 }
