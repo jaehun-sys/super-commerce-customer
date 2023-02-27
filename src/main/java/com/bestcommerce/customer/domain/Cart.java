@@ -6,28 +6,28 @@ import javax.persistence.*;
 
 @Getter
 @Entity(name = "cart")
-public class Cart {
+public class Cart{
 
-    @Id
-    @Column(name = "cart_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cartId;
-
-    @Column(name = "product_cnt")
-    private int productCount;
-
+    @EmbeddedId
+    private CartKey cartKey = new CartKey();
 
     @ManyToOne
     @JoinColumn(name = "cu_id")
+    @MapsId("customerId")
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "size_id")
-    private Size size;
+    @JoinColumn(name = "product_id")
+    @MapsId("productId")
+    private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "size_id")
+    @MapsId("sizeId")
+    private Size size;
+
+    @Column(name = "product_cnt")
+    private int productCount;
 
     public Cart(){
     }

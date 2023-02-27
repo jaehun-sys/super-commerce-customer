@@ -41,19 +41,13 @@ public class CartControllerTest {
         int productCount = 4;
         Long sizeId = 1L;
         Long customerId = 1L;
-        Long productId = 1L;
+        Long productId = 3L;
 
         CartDto cartDto = new CartDto(productCount,sizeId,customerId,productId);
 
         String testUrl = "http://localhost:"+port+"/cart/put";
 
         ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, cartDto, Object.class);
-
-        /*
-        * 
-        * !!!
-        * TODO 설계 허점
-        * */
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
