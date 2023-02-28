@@ -1,10 +1,13 @@
 package com.bestcommerce.customer.domain;
 
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
 @Embeddable
 public class CartKey implements Serializable {
 
