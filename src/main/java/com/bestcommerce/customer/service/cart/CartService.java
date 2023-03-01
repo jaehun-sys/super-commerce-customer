@@ -14,9 +14,8 @@ public class CartService {
 
     public void putProductToCart(Size size, Customer customer, Product product, int productCount){
         CartKey cartKey = new CartKey(customer.getCuId(), product.getProductId(), size.getSizeId());
-        boolean isExistInTable = cartRepository.existsById(cartKey);
-        if(isExistInTable){
-            cartRepository.increaseProductCountByCartKey(cartKey.getCustomerId(), cartKey.getProductId(), cartKey.getSizeId(), productCount);
+        if(cartRepository.existsById(cartKey)){
+            cartRepository.increaseProductCountByCartKey(cartKey, productCount);
             return;
         }
         cartRepository.save(new Cart(productCount, size, customer, product));

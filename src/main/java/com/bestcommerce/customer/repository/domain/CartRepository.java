@@ -15,8 +15,6 @@ public interface CartRepository extends JpaRepository<Cart, CartKey> {
     @Transactional
     @Modifying(clearAutomatically = true)
     @Query("update cart c set c.productCount = c.productCount + :count " +
-            "where c.customer.cuId = :cu_id " +
-            "and c.product.productId = :product_id " +
-            "and c.size.sizeId = :size_id")
-    int increaseProductCountByCartKey(Long cu_id, Long product_id, Long size_id, int count);
+            "where c.cartKey = :cartKey")
+    int increaseProductCountByCartKey(CartKey cartKey, int count);
 }
