@@ -38,10 +38,10 @@ public class CartControllerTest {
     @DisplayName("장바구니 담는 테스트")
     @Test
     public void insertAccountInfoTest() throws Exception {
-        int productCount = 4;
+        int productCount = 8;
         Long sizeId = 1L;
-        Long customerId = 1L;
-        Long productId = 3L;
+        Long customerId = 5L;
+        Long productId = 7L;
 
         CartDto cartDto = new CartDto(productCount,sizeId,customerId,productId);
 
