@@ -5,6 +5,8 @@ import com.bestcommerce.customer.dto.AddressDto;
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.service.account.AccountService;
 import com.bestcommerce.customer.service.address.AddressService;
+import com.bestcommerce.customer.util.DtoConverter;
+import org.json.JSONArray;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,10 @@ public class AddressControllerTest {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private DtoConverter dtoConverter;
+
 
     @DisplayName("주소 저장 테스트")
     @Test
@@ -75,10 +81,19 @@ public class AddressControllerTest {
 
         String testUrl = "http://localhost:"+port+"/address/get";
 
-        ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, customerDto, Object.class);
+        ResponseEntity<String> response = restTemplate.postForEntity(testUrl, customerDto, String.class);
+        List<AddressDto> addressDtoList = dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(accountService.getOneCustomerInfo(customerEmail)));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        System.out.println(response.getBody());
+        JSONArray jsonArray = new JSONArray(response.getBody());
+        assertThat(jsonArray.length()).isEqualTo(addressDtoList.size());
+
+        for(int i = 0; i < jsonArray.length(); i++){
+            assertThat(jsonArray.getJSONObject(i).getLong("customerId")).isEqualTo(addressDtoList.get(i).getCustomerId());
+            assertThat(jsonArray.getJSONObject(i).getString("addr")).isEqualTo(addressDtoList.get(i).getAddr());
+            assertThat(jsonArray.getJSONObject(i).getString("represent")).isEqualTo(String.valueOf(addressDtoList.get(i).getRepresent()));
+            assertThat(jsonArray.getJSONObject(i).getString("zipcode")).isEqualTo(addressDtoList.get(i).getZipcode());
+        }
     }
 }

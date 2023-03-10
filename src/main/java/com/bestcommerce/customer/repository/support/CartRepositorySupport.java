@@ -23,7 +23,7 @@ public class CartRepositorySupport extends QuerydslRepositorySupport {
         this.queryFactory = queryFactory;
     }
 
-    public List<CartItemDto> getCartItemDtoList() {
+    public List<CartItemDto> getCartItemDtoList(Long id) {
         List<CartItemDto> result =
                 queryFactory.select(Projections.constructor(CartItemDto.class,
                                 customer.cuId.as("customerId"),
@@ -42,7 +42,7 @@ public class CartRepositorySupport extends QuerydslRepositorySupport {
                                 size.contentName.as("contentName"),
                                 size.sizeValue.as("sizeValue")))
                         .from(cart).innerJoin(cart.customer, customer).innerJoin(cart.product, product).innerJoin(cart.size, size)
-                        .where(customer.cuId.eq(1L)).fetch();
+                        .where(customer.cuId.eq(id)).fetch();
 
         return result;
     }

@@ -33,8 +33,8 @@ public class CartController {
         cartService.putProductToCart(sizeService.getOneSizeInfo(cartDto.getSizeId()), accountService.getOneCustomerInfo(cartDto.getCustomerId()), productSelectService.getOnlyOneProduct(cartDto.getProductId()), cartDto.getProductCount());
     }
 
-    @GetMapping("/get/test")
-    public List<CartItemDto> getCartItemList(){
-        return cartService.practice();
+    @PostMapping("/list")
+    public List<CartItemDto> getCartItemList(@RequestBody CartItemDto cartItemDto){
+        return cartService.getCartList(cartItemDto.getCustomerId());
     }
 }

@@ -30,7 +30,7 @@ public class CartService {
         cartRepository.save(new Cart(productCount, size, customer, product));
     }
 
-    public List<CartItemDto> practice(){
-        return cartRepositorySupport.getCartItemDtoList();
+    public List<CartItemDto> getCartList(Long id){
+        return cartRepositorySupport.getCartItemDtoList(id);
     }
 }

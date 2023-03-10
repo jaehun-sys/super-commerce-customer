@@ -1,8 +1,10 @@
 package com.bestcommerce.customer.util;
 
 import com.bestcommerce.customer.domain.Address;
+import com.bestcommerce.customer.domain.Cart;
 import com.bestcommerce.customer.domain.Product;
 import com.bestcommerce.customer.dto.AddressDto;
+import com.bestcommerce.customer.dto.CartDto;
 import com.bestcommerce.customer.dto.ProductDto;
 import org.springframework.stereotype.Component;
 
@@ -34,5 +36,9 @@ public class DtoConverter {
             addressDtoList.add(toAddressDto(address));
         }
         return addressDtoList;
+    }
+
+    public CartDto toCartDto(Cart cart){
+        return new CartDto(cart.getProductCount(), cart.getSize().getSizeId(), cart.getCartKey().getCustomerId(), cart.getProduct().getProductId());
     }
 }

@@ -53,4 +53,5 @@ public class CartItemDto {
         this.contentName = contentName;
         this.sizeValue = sizeValue;
     }
+
 }
