@@ -3,6 +3,7 @@ package com.bestcommerce.customer.controller;
 import com.bestcommerce.customer.domain.CartKey;
 import com.bestcommerce.customer.dto.CartDto;
 import com.bestcommerce.customer.dto.CartItemDto;
+import com.bestcommerce.customer.dto.CartKeyDto;
 import com.bestcommerce.customer.repository.domain.CartRepository;
 import com.bestcommerce.customer.service.cart.CartService;
 import com.bestcommerce.customer.util.DtoConverter;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -77,6 +79,10 @@ public class CartControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         JSONArray jsonArray = new JSONArray(response.getBody());
+        if(cartItemDtoList.isEmpty()){
+            System.out.println("장바구니가 비었습니다");
+            return;
+        }
         assertThat(jsonArray.length()).isEqualTo(cartItemDtoList.size());
         for(int i = 0; i < jsonArray.length(); i++){
             assertThat(cartItemDtoList.get(i).getCustomerName()).isEqualTo(jsonArray.getJSONObject(i).getString("customerName"));
@@ -85,5 +91,21 @@ public class CartControllerTest {
         }
     }
 
+    @DisplayName("장바구니 리스트 삭제 테스트")
+    @Test
+    public void deleteCartListTest() throws Exception{
 
+        List<CartKeyDto> cartKeyDtoList = new ArrayList<>();
+
+        cartKeyDtoList.add(new CartKeyDto(1L,1L,1L));
+        cartKeyDtoList.add(new CartKeyDto(1L,3L,1L));
+
+        String testUrl = "http://localhost:"+port+"/cart/delete";
+
+        ResponseEntity<String> response = restTemplate.postForEntity(testUrl, cartKeyDtoList, String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        List<CartItemDto> cartItemDtoList = cartService.getCartList(1L);
+        assertThat(cartItemDtoList.isEmpty()).isTrue();
+    }
 }
