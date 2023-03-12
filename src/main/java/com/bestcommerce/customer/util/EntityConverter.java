@@ -1,8 +1,10 @@
 package com.bestcommerce.customer.util;
 
 import com.bestcommerce.customer.domain.Address;
+import com.bestcommerce.customer.domain.CartKey;
 import com.bestcommerce.customer.domain.Customer;
 import com.bestcommerce.customer.dto.AddressDto;
+import com.bestcommerce.customer.dto.CartKeyDto;
 import com.bestcommerce.customer.dto.CustomerDto;
 import org.springframework.stereotype.Component;
 
@@ -25,5 +27,17 @@ public class EntityConverter {
 
     public Address toAddress(AddressDto addressDto, Customer customer){
         return new Address(addressDto.getAddr(), addressDto.getRepresent(), addressDto.getZipcode(), customer);
+    }
+
+    public CartKey toCartKey(CartKeyDto cartKeyDto){
+        return new CartKey(cartKeyDto.getCustomerId(), cartKeyDto.getProductId(), cartKeyDto.getSizeId());
+    }
+
+    public List<CartKey> toCartKeyList(List<CartKeyDto> cartKeyDtoList){
+        List<CartKey> cartKeyList = new ArrayList<>();
+        for(CartKeyDto cartKeyDto : cartKeyDtoList){
+            cartKeyList.add(toCartKey(cartKeyDto));
+        }
+        return cartKeyList;
     }
 }

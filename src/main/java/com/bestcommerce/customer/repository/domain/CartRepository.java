@@ -19,4 +19,8 @@ public interface CartRepository extends JpaRepository<Cart, CartKey> {
     int increaseProductCountByCartKey(CartKey cartKey, int count);
 
     Cart getCartByCartKey(CartKey cartKey);
+
+    @Transactional
+    int deleteAllByCartKey(CartKey cartKey);
+
 }

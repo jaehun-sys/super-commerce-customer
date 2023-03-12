@@ -33,4 +33,10 @@ public class CartService {
     public List<CartItemDto> getCartList(Long id){
         return cartRepositorySupport.getCartItemDtoList(id);
     }
+
+    public void deleteCartList(List<CartKey> cartKeyList){
+        for(CartKey cartKey : cartKeyList){
+            cartRepository.deleteAllByCartKey(cartKey);
+        }
+    }
 }
