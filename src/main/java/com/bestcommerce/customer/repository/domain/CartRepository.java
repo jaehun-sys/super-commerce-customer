@@ -20,7 +20,4 @@ public interface CartRepository extends JpaRepository<Cart, CartKey> {
 
     Cart getCartByCartKey(CartKey cartKey);
 
-    @Transactional
-    int deleteAllByCartKey(CartKey cartKey);
-
 }
