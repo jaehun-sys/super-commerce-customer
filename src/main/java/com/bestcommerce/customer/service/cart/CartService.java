@@ -35,8 +35,6 @@ public class CartService {
     }
 
     public void deleteCartList(List<CartKey> cartKeyList){
-        for(CartKey cartKey : cartKeyList){
-            cartRepository.deleteAllByCartKey(cartKey);
-        }
+        cartRepositorySupport.deleteCartList(cartKeyList);
     }
 }

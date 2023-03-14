@@ -1,11 +1,15 @@
 package com.bestcommerce.customer.repository.support;
 
+import com.bestcommerce.customer.domain.CartKey;
+import com.bestcommerce.customer.domain.QCartKey;
 import com.bestcommerce.customer.dto.CartItemDto;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static com.bestcommerce.customer.domain.QCart.cart;
@@ -45,5 +49,15 @@ public class CartRepositorySupport extends QuerydslRepositorySupport {
                         .where(customer.cuId.eq(id)).fetch();
 
         return result;
+    }
+
+    @Transactional
+    public void deleteCartList(List<CartKey> cartKeyList){
+        BooleanBuilder builder = new BooleanBuilder();
+        QCartKey qCartKey = QCartKey.cartKey;
+        for(CartKey cartKey : cartKeyList){
+            builder.and(qCartKey.eq(cartKey));
+        }
+        long count = queryFactory.delete(cart).where(builder).execute();
     }
 }
