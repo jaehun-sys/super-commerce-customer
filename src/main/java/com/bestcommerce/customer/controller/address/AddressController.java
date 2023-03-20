@@ -36,11 +36,16 @@ public class AddressController {
     public void saveAddress(@RequestBody AddressDto addressDto){
 
         log.info("address put method");
-        addressService.saveAddressByCustomerId(entityConverter.toAddress(addressDto, accountService.getOneCustomerInfo(addressDto.getCustomerId())));
+        addressService.saveAddress(entityConverter.toAddress(addressDto, accountService.getOneCustomerInfo(addressDto.getCustomerId())));
     }
 
     @PostMapping("/get")
     public List<AddressDto> getAllAddress(@RequestBody CustomerDto customerDto){
         return dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(accountService.getOneCustomerInfo(customerDto.getCustomerEmail())));
+    }
+
+    @PostMapping("/update")
+    public void updateAddress(@RequestBody AddressDto addressDto){
+        addressService.updateAddress(addressDto.getAddressId(), addressDto.getAddr(), addressDto.getZipcode());
     }
 }
