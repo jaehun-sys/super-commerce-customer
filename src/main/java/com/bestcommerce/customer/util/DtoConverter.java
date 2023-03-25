@@ -27,7 +27,7 @@ public class DtoConverter {
     }
 
     public AddressDto toAddressDto(Address address){
-        return new AddressDto(address.getCustomer().getCuId(), address.getAddr(), address.getRepYn(), address.getZipCode());
+        return new AddressDto(address.getAddrId(), address.getCustomer().getCuId(), address.getAddr(), address.getRepYn(), address.getZipCode());
     }
 
     public List<AddressDto> toAddressDtoList(List<Address> addressList){

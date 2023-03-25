@@ -3,6 +3,7 @@ package com.bestcommerce.customer.controller;
 import com.bestcommerce.customer.domain.Address;
 import com.bestcommerce.customer.dto.AddressDto;
 import com.bestcommerce.customer.dto.CustomerDto;
+import com.bestcommerce.customer.repository.domain.AddressRepository;
 import com.bestcommerce.customer.service.account.AccountService;
 import com.bestcommerce.customer.service.address.AddressService;
 import com.bestcommerce.customer.util.DtoConverter;
@@ -40,6 +41,9 @@ public class AddressControllerTest {
     @Autowired
     private DtoConverter dtoConverter;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
 
     @DisplayName("주소 저장 테스트")
     @Test
@@ -50,7 +54,7 @@ public class AddressControllerTest {
         Character represent = 'Y';
         String zipcode = "23897";
 
-        AddressDto addressDto = new AddressDto(customerId, addr, represent, zipcode);
+        AddressDto addressDto = new AddressDto(1L,customerId, addr, represent, zipcode);
 
         String testUrl = "http://localhost:"+port+"/address/save";
 
@@ -95,5 +99,23 @@ public class AddressControllerTest {
             assertThat(jsonArray.getJSONObject(i).getString("represent")).isEqualTo(String.valueOf(addressDtoList.get(i).getRepresent()));
             assertThat(jsonArray.getJSONObject(i).getString("zipcode")).isEqualTo(addressDtoList.get(i).getZipcode());
         }
+    }
+
+    @DisplayName("주소 업데이트 테스트")
+    @Test
+    public void updateAddressTest() throws Exception{
+        AddressDto addressDto = new AddressDto(2L, 1L, "서울턱별시 관악구 봉천동",'0', "3237");
+
+        String testUrl = "http://localhost:"+port+"/address/update";
+
+        ResponseEntity<String> response = restTemplate.postForEntity(testUrl, addressDto, String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        Address address = addressRepository.findById(addressDto.getAddressId()).orElseGet(Address::new);
+
+        assertThat(address.getAddr()).isEqualTo(addressDto.getAddr());
+        assertThat(address.getZipCode()).isEqualTo(addressDto.getZipcode());
+
     }
 }

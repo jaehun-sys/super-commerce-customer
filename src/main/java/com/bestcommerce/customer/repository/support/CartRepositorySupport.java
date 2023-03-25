@@ -56,7 +56,7 @@ public class CartRepositorySupport extends QuerydslRepositorySupport {
         BooleanBuilder builder = new BooleanBuilder();
         QCartKey qCartKey = QCartKey.cartKey;
         for(CartKey cartKey : cartKeyList){
-            builder.and(qCartKey.eq(cartKey));
+            builder.or(qCartKey.eq(cartKey));
         }
         long count = queryFactory.delete(cart).where(builder).execute();
     }
