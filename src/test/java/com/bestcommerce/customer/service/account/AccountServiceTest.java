@@ -22,7 +22,7 @@ public class AccountServiceTest {
     @Test
     @DisplayName("계정 정보 저장이 가능해야 한다.")
     public void joinTestCase01() throws Exception{
-        CustomerDto expected = new CustomerDto("test@gmail.com","test1234","test","010-2222-2222","19960131",'N');
+        CustomerDto expected = new CustomerDto("test@gmail.com","test1234","test","010-2222-2222","19960131",'N',"","");
 
         accountService.save(entityConverter.toCustomer(expected));
 

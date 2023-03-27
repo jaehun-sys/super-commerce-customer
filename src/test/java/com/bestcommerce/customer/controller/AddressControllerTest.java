@@ -81,7 +81,7 @@ public class AddressControllerTest {
 
         String customerEmail = "dudtkd0219@gmail.com";
 
-        CustomerDto customerDto = new CustomerDto(customerEmail,"","","","",'0');
+        CustomerDto customerDto = new CustomerDto(customerEmail,"","","","",'0',"","");
 
         String testUrl = "http://localhost:"+port+"/address/get";
 

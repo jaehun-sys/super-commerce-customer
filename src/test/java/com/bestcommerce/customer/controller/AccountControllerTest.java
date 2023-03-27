@@ -32,14 +32,14 @@ public class AccountControllerTest {
     @Test
     public void insertAccountInfoTest() throws Exception{
 
-        String testEmail = "customer01@naver.com";
-        String testPassword = "1234";
-        String testName = "테스트";
-        String testNumber = "010-1111-1111";
-        String testBirthDate = "20010913";
+        String testEmail = "beauty01@naver.com";
+        String testPassword = "5678";
+        String testName = "iamTest";
+        String testNumber = "010-2222-3333";
+        String testBirthDate = "19901206";
         Character testAuthYn ='N';
 
-        CustomerDto customerDto = new CustomerDto(testEmail,testPassword,testName,testNumber,testBirthDate,testAuthYn);
+        CustomerDto customerDto = new CustomerDto(testEmail,testPassword,testName,testNumber,testBirthDate,testAuthYn, "","");
         String testUrl = "http://localhost:"+port+"/account/register";
 
         ResponseEntity<Long> response = restTemplate.postForEntity(testUrl, customerDto, Long.class);
@@ -64,7 +64,7 @@ public class AccountControllerTest {
         String testEmail01 = "dudtkd0219@gmail.com";
         String testEmail02 = "zzangman@gmail.com";
 
-        CustomerDto customerDto = new CustomerDto(testEmail01,"","","","",'N');
+        CustomerDto customerDto = new CustomerDto(testEmail01,"","","","",'N',"","");
         String testUrl = "http://localhost:"+port+"/account/check/email";
 
         ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, customerDto, Object.class);
@@ -72,7 +72,7 @@ public class AccountControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(false);
 
-        customerDto = new CustomerDto(testEmail02,"","","","",'N');
+        customerDto = new CustomerDto(testEmail02,"","","","",'N', "","");
 
         response = restTemplate.postForEntity(testUrl, customerDto, Object.class);
 
