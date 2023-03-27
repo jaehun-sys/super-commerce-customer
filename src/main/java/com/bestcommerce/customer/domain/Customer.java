@@ -33,6 +33,12 @@ public class Customer {
     @Column(name = "auth_yn")
     private Character authYn;
 
+    @Column(name = "regdate")
+    private String registerDate;
+
+    @Column(name = "modify_date")
+    private String modifyDate;
+
     @OneToMany(mappedBy = "customer")
     private List<Address> addressList = new ArrayList<>();
 
@@ -43,12 +49,14 @@ public class Customer {
 
     }
 
-    public Customer(String cuEmail, String password, String cuName, String cuTelNumber, String birthdate, Character authYn){
+    public Customer(String cuEmail, String password, String cuName, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
         this.cuEmail = cuEmail;
         this.password = password;
         this.cuName = cuName;
         this.cuTelNumber = cuTelNumber;
         this.birthdate = birthdate;
         this.authYn = authYn;
+        this.registerDate = registerDate;
+        this.modifyDate = modifyDate;
     }
 }
