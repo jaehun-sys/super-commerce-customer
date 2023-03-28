@@ -14,16 +14,22 @@ public class AccountService {
     }
 
     public Boolean isUsableEmail(String cu_email){
-        Customer customer = customerRepository.findByCuEmail(cu_email);
-        return customer != null;
+        return customerRepository.findByCuEmail(cu_email) == null;
     }
 
     public void save(Customer customer){
-
         customerRepository.save(customer);
     }
 
     public Customer getOneCustomerInfo(long id){
-        return customerRepository.findById(id).get();
+        return customerRepository.findById(id).orElseGet(Customer::new);
+    }
+
+    public Customer getOneCustomerInfo(String cu_email){
+        return customerRepository.findByCuEmail(cu_email);
+    }
+
+    public void deleteOneCustomer(String cu_email){
+        customerRepository.deleteCustomerByCuEmail(cu_email);
     }
 }

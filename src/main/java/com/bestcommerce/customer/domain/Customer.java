@@ -1,13 +1,13 @@
 package com.bestcommerce.customer.domain;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "customer")
-@Data
+@Getter
 public class Customer {
 
     @Id
@@ -33,19 +33,30 @@ public class Customer {
     @Column(name = "auth_yn")
     private Character authYn;
 
+    @Column(name = "regdate")
+    private String registerDate;
+
+    @Column(name = "modify_date")
+    private String modifyDate;
+
     @OneToMany(mappedBy = "customer")
     private List<Address> addressList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer")
+    private List<Cart> cartsList = new ArrayList<>();
 
     public Customer() {
 
     }
 
-    public Customer(String cuEmail, String password, String cuName, String cuTelNumber, String birthdate, Character authYn){
+    public Customer(String cuEmail, String password, String cuName, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
         this.cuEmail = cuEmail;
         this.password = password;
         this.cuName = cuName;
         this.cuTelNumber = cuTelNumber;
         this.birthdate = birthdate;
         this.authYn = authYn;
+        this.registerDate = registerDate;
+        this.modifyDate = modifyDate;
     }
 }

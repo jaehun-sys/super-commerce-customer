@@ -25,7 +25,6 @@ public class AddressServiceTest {
     public void putAddressTest() throws Exception{
         Customer account = accountService.getOneCustomerInfo(1L);
         Address expected = new Address( "서울특별시",'Y',"????",account);
-        expected.setCustomer(account);
         addressService.saveAddress(expected);
 
         List<Address> actual = addressService.getAllAddressesByCustomer(account);

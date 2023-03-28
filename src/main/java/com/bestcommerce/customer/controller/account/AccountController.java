@@ -1,11 +1,9 @@
 package com.bestcommerce.customer.controller.account;
 
-import com.bestcommerce.customer.domain.Customer;
+import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.service.account.AccountService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.bestcommerce.customer.util.EntityConverter;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/account")
@@ -13,17 +11,20 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    public AccountController(AccountService accountService){
+    private final EntityConverter entityConverter;
+
+    public AccountController(AccountService accountService, EntityConverter entityConverter){
         this.accountService = accountService;
+        this.entityConverter = entityConverter;
     }
 
     @PostMapping("/check/email")
-    public Boolean checkEmail(@RequestParam("cu_email") String cu_email){
-        return accountService.isUsableEmail(cu_email);
+    public Boolean checkEmail(@RequestBody CustomerDto customerDto){
+        return accountService.isUsableEmail(customerDto.getCustomerEmail());
     }
 
     @PostMapping("/register")
-    public void register(Customer customer){
-        accountService.save(customer);
+    public void register(@RequestBody CustomerDto customerDto){
+        accountService.save(entityConverter.toCustomer(customerDto));
     }
 }

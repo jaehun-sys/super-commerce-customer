@@ -1,11 +1,11 @@
 package com.bestcommerce.customer.domain;
 
-import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity(name = "address")
-@Data
+@Getter
 public class Address {
 
     @Id

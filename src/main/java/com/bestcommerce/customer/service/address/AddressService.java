@@ -3,8 +3,8 @@ package com.bestcommerce.customer.service.address;
 import com.bestcommerce.customer.domain.Address;
 import com.bestcommerce.customer.domain.Customer;
 import com.bestcommerce.customer.repository.domain.AddressRepository;
-import com.bestcommerce.customer.repository.domain.CustomerRepository;
-import com.bestcommerce.customer.service.account.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,28 +12,30 @@ import java.util.List;
 @Service
 public class AddressService {
     private final AddressRepository addressRepository;
+    private static final Logger log = LoggerFactory.getLogger(AddressService.class);
 
-    private final CustomerRepository customerRepository;
-
-
-    public AddressService(AddressRepository addressRepository, CustomerRepository customerRepository){
+    public AddressService(AddressRepository addressRepository){
         this.addressRepository = addressRepository;
-        this.customerRepository = customerRepository;
     }
 
     public void saveAddress(Address address){
-
-        addressRepository.save(address);
-    }
-
-    public void saveAddressByCustomerId(Long cu_id, Address address){
-        AccountService accountService = new AccountService(customerRepository);
-        Customer customer = accountService.getOneCustomerInfo(cu_id);
-        address.setCustomer(customer);
         addressRepository.save(address);
     }
 
     public List<Address> getAllAddressesByCustomer(Customer customer){
         return addressRepository.getAddressesByCustomer(customer);
+    }
+
+    public void deleteAddressByAddrId(Long addressId){
+        addressRepository.deleteAddressByAddrId(addressId);
+    }
+
+    public void updateAddress(Long id, String addressInformation, String zipCode){
+        if(addressRepository.existsById(id)){
+            addressRepository.updateAddressInformation(id,addressInformation,zipCode);
+            return;
+        }
+        log.info("Wrong Address ID : {}", id);
+        log.error("Wrong Address ID : {}", id);
     }
 }
