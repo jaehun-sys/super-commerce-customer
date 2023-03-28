@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 
+import java.time.LocalDate;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 
@@ -28,6 +30,7 @@ public class AccountControllerTest {
     @Autowired
     private AccountService accountService;
 
+
     @DisplayName("회원 가입 테스트")
     @Test
     public void insertAccountInfoTest() throws Exception{
@@ -39,7 +42,7 @@ public class AccountControllerTest {
         String testBirthDate = "19901206";
         Character testAuthYn ='N';
 
-        CustomerDto customerDto = new CustomerDto(testEmail,testPassword,testName,testNumber,testBirthDate,testAuthYn, "","");
+        CustomerDto customerDto = new CustomerDto(1L, testEmail,testPassword,testName,testNumber,testBirthDate,testAuthYn, "","");
         String testUrl = "http://localhost:"+port+"/account/register";
 
         ResponseEntity<Long> response = restTemplate.postForEntity(testUrl, customerDto, Long.class);
@@ -64,7 +67,7 @@ public class AccountControllerTest {
         String testEmail01 = "dudtkd0219@gmail.com";
         String testEmail02 = "zzangman@gmail.com";
 
-        CustomerDto customerDto = new CustomerDto(testEmail01,"","","","",'N',"","");
+        CustomerDto customerDto = new CustomerDto(1L, testEmail01,"","","","",'N',"","");
         String testUrl = "http://localhost:"+port+"/account/check/email";
 
         ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, customerDto, Object.class);
@@ -72,12 +75,32 @@ public class AccountControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(false);
 
-        customerDto = new CustomerDto(testEmail02,"","","","",'N', "","");
+        customerDto = new CustomerDto(1L, testEmail02,"","","","",'N', "","");
 
         response = restTemplate.postForEntity(testUrl, customerDto, Object.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(true);
+
+    }
+
+    @DisplayName("회원정보 수정 테스트")
+    @Test
+    public void updateCustomerTest() throws Exception{
+        Customer customer = accountService.getOneCustomerInfo(9L);
+
+        CustomerDto customerDto = new CustomerDto(9L, customer.getCuEmail(),"5678","최민식","","",'N',"","");
+        String testUrl = "http://localhost:"+port+"/account/update";
+
+        ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, customerDto, Object.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        Customer modifyCustomer = accountService.getOneCustomerInfo(9L);
+
+        assertThat(customerDto.getCustomerPassword()).isEqualTo(modifyCustomer.getPassword());
+        assertThat(customerDto.getCustomerName()).isEqualTo(modifyCustomer.getCuName());
+        assertThat(LocalDate.now().toString()).isEqualTo(modifyCustomer.getModifyDate());
 
     }
 }

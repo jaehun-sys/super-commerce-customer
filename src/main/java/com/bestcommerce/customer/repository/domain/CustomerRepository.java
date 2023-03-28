@@ -12,4 +12,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Transactional
     void deleteCustomerByCuEmail(String cu_email);
+
+    boolean existsByCuEmail(String cu_email);
 }
