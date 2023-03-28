@@ -35,7 +35,6 @@ public class AddressService {
             addressRepository.updateAddressInformation(id,addressInformation,zipCode);
             return;
         }
-        log.info("Wrong Address ID : {}", id);
-        log.error("Wrong Address ID : {}", id);
+        throw new RuntimeException("Wrong Address ID : "+id);
     }
 }

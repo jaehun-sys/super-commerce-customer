@@ -27,4 +27,9 @@ public class AccountController {
     public void register(@RequestBody CustomerDto customerDto){
         accountService.save(entityConverter.toCustomer(customerDto));
     }
+
+    @PostMapping("/update")
+    public void update(@RequestBody CustomerDto customerDto){
+        accountService.updateCustomer(customerDto);
+    }
 }

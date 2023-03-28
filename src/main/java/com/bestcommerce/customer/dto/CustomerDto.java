@@ -23,7 +23,8 @@ public class CustomerDto {
 
     private String modifyDate;
 
-    public CustomerDto(String cuEmail, String password, String cuName, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
+    public CustomerDto(long customerId, String cuEmail, String password, String cuName, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
+        this.customerId = customerId;
         this.customerEmail = cuEmail;
         this.customerPassword = password;
         this.customerName = cuName;
