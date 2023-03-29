@@ -1,35 +1,35 @@
-package com.bestcommerce.customer.controller.account;
+package com.bestcommerce.customer.controller.customer;
 
 import com.bestcommerce.customer.dto.CustomerDto;
-import com.bestcommerce.customer.service.account.AccountService;
+import com.bestcommerce.customer.service.customer.CustomerService;
 import com.bestcommerce.customer.util.EntityConverter;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/account")
-public class AccountController {
+public class CustomerController {
 
-    private final AccountService accountService;
+    private final CustomerService customerService;
 
     private final EntityConverter entityConverter;
 
-    public AccountController(AccountService accountService, EntityConverter entityConverter){
-        this.accountService = accountService;
+    public CustomerController(CustomerService customerService, EntityConverter entityConverter){
+        this.customerService = customerService;
         this.entityConverter = entityConverter;
     }
 
     @PostMapping("/check/email")
     public Boolean checkEmail(@RequestBody CustomerDto customerDto){
-        return accountService.isUsableEmail(customerDto.getCustomerEmail());
+        return customerService.isUsableEmail(customerDto.getCustomerEmail());
     }
 
     @PostMapping("/register")
     public void register(@RequestBody CustomerDto customerDto){
-        accountService.save(entityConverter.toCustomer(customerDto));
+        customerService.save(entityConverter.toCustomer(customerDto));
     }
 
     @PostMapping("/update")
     public void update(@RequestBody CustomerDto customerDto){
-        accountService.updateCustomer(customerDto);
+        customerService.updateCustomer(customerDto);
     }
 }

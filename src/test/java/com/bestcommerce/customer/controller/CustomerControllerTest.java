@@ -2,7 +2,7 @@ package com.bestcommerce.customer.controller;
 
 import com.bestcommerce.customer.domain.Customer;
 import com.bestcommerce.customer.dto.CustomerDto;
-import com.bestcommerce.customer.service.account.AccountService;
+import com.bestcommerce.customer.service.customer.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Rollback
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AccountControllerTest {
+public class CustomerControllerTest {
     @LocalServerPort
     private int port;
 
@@ -28,7 +28,7 @@ public class AccountControllerTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private AccountService accountService;
+    private CustomerService customerService;
 
 
     @DisplayName("회원 가입 테스트")
@@ -49,7 +49,7 @@ public class AccountControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        Customer customer = accountService.getOneCustomerInfo(testEmail);
+        Customer customer = customerService.getOneCustomerInfo(testEmail);
 
         assertThat(customer.getCuEmail()).isEqualTo(testEmail);
         assertThat(customer.getPassword()).isEqualTo(testPassword);
@@ -58,7 +58,7 @@ public class AccountControllerTest {
         assertThat(customer.getBirthdate()).isEqualTo(testBirthDate);
         assertThat(customer.getAuthYn()).isEqualTo(testAuthYn);
 
-        accountService.deleteOneCustomer(testEmail);
+        customerService.deleteOneCustomer(testEmail);
     }
 
     @DisplayName("유효한 이메일인지 체크하는 테스트")
@@ -87,7 +87,7 @@ public class AccountControllerTest {
     @DisplayName("회원정보 수정 테스트")
     @Test
     public void updateCustomerTest() throws Exception{
-        Customer customer = accountService.getOneCustomerInfo(9L);
+        Customer customer = customerService.getOneCustomerInfo(9L);
 
         CustomerDto customerDto = new CustomerDto(9L, customer.getCuEmail(),"5678","최민식","","",'N',"","");
         String testUrl = "http://localhost:"+port+"/account/update";
@@ -96,7 +96,7 @@ public class AccountControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        Customer modifyCustomer = accountService.getOneCustomerInfo(9L);
+        Customer modifyCustomer = customerService.getOneCustomerInfo(9L);
 
         assertThat(customerDto.getCustomerPassword()).isEqualTo(modifyCustomer.getPassword());
         assertThat(customerDto.getCustomerName()).isEqualTo(modifyCustomer.getCuName());

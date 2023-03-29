@@ -4,7 +4,7 @@ import com.bestcommerce.customer.domain.Address;
 import com.bestcommerce.customer.dto.AddressDto;
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.repository.domain.AddressRepository;
-import com.bestcommerce.customer.service.account.AccountService;
+import com.bestcommerce.customer.service.customer.CustomerService;
 import com.bestcommerce.customer.service.address.AddressService;
 import com.bestcommerce.customer.util.DtoConverter;
 import org.json.JSONArray;
@@ -33,7 +33,7 @@ public class AddressControllerTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private AccountService accountService;
+    private CustomerService customerService;
 
     @Autowired
     private AddressService addressService;
@@ -62,7 +62,7 @@ public class AddressControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        List<Address> addressList = addressService.getAllAddressesByCustomer(accountService.getOneCustomerInfo(customerId));
+        List<Address> addressList = addressService.getAllAddressesByCustomer(customerService.getOneCustomerInfo(customerId));
 
         for(Address address : addressList){
             if(address.getAddr().equals(addr)){
@@ -86,7 +86,7 @@ public class AddressControllerTest {
         String testUrl = "http://localhost:"+port+"/address/get";
 
         ResponseEntity<String> response = restTemplate.postForEntity(testUrl, customerDto, String.class);
-        List<AddressDto> addressDtoList = dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(accountService.getOneCustomerInfo(customerEmail)));
+        List<AddressDto> addressDtoList = dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(customerService.getOneCustomerInfo(customerEmail)));
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 

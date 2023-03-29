@@ -1,4 +1,4 @@
-package com.bestcommerce.customer.service.account;
+package com.bestcommerce.customer.service.customer;
 
 import com.bestcommerce.customer.domain.Customer;
 import com.bestcommerce.customer.dto.CustomerDto;
@@ -11,10 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class AccountServiceTest {
+public class CustomerServiceTest {
 
     @Autowired
-    private AccountService accountService;
+    private CustomerService customerService;
 
     @Autowired
     private EntityConverter entityConverter;
@@ -24,9 +24,9 @@ public class AccountServiceTest {
     public void joinTestCase01() throws Exception{
         CustomerDto expected = new CustomerDto(1L, "test@gmail.com","test1234","test","010-2222-2222","19960131",'N',"","");
 
-        accountService.save(entityConverter.toCustomer(expected));
+        customerService.save(entityConverter.toCustomer(expected));
 
-        Customer actual = accountService.getOneCustomerInfo(expected.getCustomerEmail());
+        Customer actual = customerService.getOneCustomerInfo(expected.getCustomerEmail());
 
         assertEquals(expected.getCustomerEmail(),actual.getCuEmail());
         assertEquals(expected.getCustomerPassword(),actual.getPassword());

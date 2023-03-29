@@ -3,7 +3,7 @@ package com.bestcommerce.customer.service.address;
 
 import com.bestcommerce.customer.domain.Address;
 import com.bestcommerce.customer.domain.Customer;
-import com.bestcommerce.customer.service.account.AccountService;
+import com.bestcommerce.customer.service.customer.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,11 +19,11 @@ public class AddressServiceTest {
     private AddressService addressService;
 
     @Autowired
-    private AccountService accountService;
+    private CustomerService customerService;
 
     @Test
     public void putAddressTest() throws Exception{
-        Customer account = accountService.getOneCustomerInfo(1L);
+        Customer account = customerService.getOneCustomerInfo(1L);
         Address expected = new Address( "서울특별시",'Y',"????",account);
         addressService.saveAddress(expected);
 

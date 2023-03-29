@@ -1,4 +1,4 @@
-package com.bestcommerce.customer.service.account;
+package com.bestcommerce.customer.service.customer;
 
 import com.bestcommerce.customer.domain.Customer;
 import com.bestcommerce.customer.dto.CustomerDto;
@@ -9,15 +9,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccountService {
+public class CustomerService {
 
-    private static final Logger log = LoggerFactory.getLogger(AccountService.class);
+    private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
 
     private final CustomerRepository customerRepository;
 
     private final CustomerRepositorySupport customerRepositorySupport;
 
-    public AccountService(CustomerRepository customerRepository, CustomerRepositorySupport customerRepositorySupport){
+    public CustomerService(CustomerRepository customerRepository, CustomerRepositorySupport customerRepositorySupport){
         this.customerRepository = customerRepository;
         this.customerRepositorySupport = customerRepositorySupport;
     }
