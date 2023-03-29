@@ -3,7 +3,7 @@ package com.bestcommerce.customer.controller.cart;
 import com.bestcommerce.customer.dto.CartDto;
 import com.bestcommerce.customer.dto.CartItemDto;
 import com.bestcommerce.customer.dto.CartKeyDto;
-import com.bestcommerce.customer.service.account.AccountService;
+import com.bestcommerce.customer.service.customer.CustomerService;
 import com.bestcommerce.customer.service.cart.CartService;
 import com.bestcommerce.customer.service.product.ProductSelectService;
 import com.bestcommerce.customer.service.size.SizeService;
@@ -19,23 +19,23 @@ public class CartController {
 
     private final ProductSelectService productSelectService;
 
-    private final AccountService accountService;
+    private final CustomerService customerService;
 
     private final SizeService sizeService;
 
     private final EntityConverter entityConverter;
 
-    public CartController(CartService cartService, ProductSelectService productSelectService, AccountService accountService, SizeService sizeService, EntityConverter entityConverter){
+    public CartController(CartService cartService, ProductSelectService productSelectService, CustomerService customerService, SizeService sizeService, EntityConverter entityConverter){
         this.cartService = cartService;
         this.productSelectService = productSelectService;
-        this.accountService = accountService;
+        this.customerService = customerService;
         this.sizeService = sizeService;
         this.entityConverter = entityConverter;
     }
 
     @PostMapping("/put")
     public void putProductToCart(@RequestBody CartDto cartDto){
-        cartService.putProductToCart(sizeService.getOneSizeInfo(cartDto.getSizeId()), accountService.getOneCustomerInfo(cartDto.getCustomerId()), productSelectService.getOnlyOneProduct(cartDto.getProductId()), cartDto.getProductCount());
+        cartService.putProductToCart(sizeService.getOneSizeInfo(cartDto.getSizeId()), customerService.getOneCustomerInfo(cartDto.getCustomerId()), productSelectService.getOnlyOneProduct(cartDto.getProductId()), cartDto.getProductCount());
     }
 
     @PostMapping("/list")
