@@ -1,4 +1,4 @@
-package com.bestcommerce.customer.controller;
+package com.bestcommerce.customer.integration.controller;
 
 import com.bestcommerce.customer.domain.Customer;
 import com.bestcommerce.customer.dto.CustomerDto;
