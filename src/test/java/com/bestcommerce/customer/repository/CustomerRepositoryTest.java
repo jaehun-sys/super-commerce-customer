@@ -12,6 +12,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -48,6 +50,16 @@ public class CustomerRepositoryTest {
         assertThat(testCustomer.getCuName()).isEqualTo(testTargetCustomer.getCuName());
 
         customerRepository.deleteCustomerByCuEmail(testEmail);
+    }
+
+    @Test
+    @DisplayName("이메일 중복 테스트")
+    void existsByCuEmailTest(){
+        String testEmail01 = "dudtkd0219@gmail.com";
+        String testEmail02 = "zzangman@gmail.com";
+
+        assertTrue(customerRepository.existsByCuEmail(testEmail01));
+        assertFalse(customerRepository.existsByCuEmail(testEmail02));
 
     }
 }
