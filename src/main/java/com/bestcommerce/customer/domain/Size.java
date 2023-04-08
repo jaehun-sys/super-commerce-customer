@@ -36,6 +36,9 @@ public class Size {
     @OneToMany(mappedBy = "size")
     private List<Cart> cartList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "size")
+    private List<Order> orderList = new ArrayList<>();
+
     public Size(Long measureId, String measureName, Long contentId, String contentName, int sizeValue, Product product) {
         this.measureId = measureId;
         this.measureName = measureName;

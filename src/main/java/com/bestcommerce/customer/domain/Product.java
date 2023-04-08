@@ -18,7 +18,7 @@ public class Product {
     @Column(name = "product_nm")
     private String productName;
 
-    @Column(name = "product_cost")
+    @Column(name = "product_price")
     private int productCost;
 
     @Column(name = "info")
@@ -38,4 +38,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Size> sizeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<Order> orderList = new ArrayList<>();
 }
