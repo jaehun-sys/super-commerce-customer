@@ -40,5 +40,5 @@ public class Product {
     private List<Size> sizeList = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
-    private List<Order> orderList = new ArrayList<>();
+    private List<Payment> paymentList = new ArrayList<>();
 }

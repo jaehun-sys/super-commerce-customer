@@ -46,7 +46,7 @@ public class Customer {
     private List<Cart> cartsList = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer")
-    private List<Order> orderList = new ArrayList<>();
+    private List<Payment> paymentList = new ArrayList<>();
 
     public Customer() {
 

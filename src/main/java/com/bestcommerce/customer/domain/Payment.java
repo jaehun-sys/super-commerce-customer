@@ -6,10 +6,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity(name = "order")
+@Entity(name = "payment")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Order {
+public class Payment {
 
     @Id
     @Column(name = "order_id")
@@ -17,8 +17,8 @@ public class Order {
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "order_no")
-    private OrderLog orderLog;
+    @JoinColumn(name = "pay_no")
+    private PaymentLog paymentLog;
 
     @ManyToOne
     @JoinColumn(name = "cu_id")
@@ -38,8 +38,8 @@ public class Order {
     @Column(name = "product_price")
     private int productPrice;
 
-    public Order(OrderLog orderLog, Customer customer, Product product, Size size, int productCount, int productPrice) {
-        this.orderLog = orderLog;
+    public Payment(PaymentLog paymentLog, Customer customer, Product product, Size size, int productCount, int productPrice) {
+        this.paymentLog = paymentLog;
         this.customer = customer;
         this.product = product;
         this.size = size;
