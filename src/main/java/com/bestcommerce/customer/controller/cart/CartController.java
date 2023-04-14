@@ -8,11 +8,13 @@ import com.bestcommerce.customer.service.cart.CartService;
 import com.bestcommerce.customer.service.product.ProductSelectService;
 import com.bestcommerce.customer.service.size.SizeService;
 import com.bestcommerce.customer.util.EntityConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/cart")
 public class CartController {
     private final CartService cartService;
@@ -25,13 +27,6 @@ public class CartController {
 
     private final EntityConverter entityConverter;
 
-    public CartController(CartService cartService, ProductSelectService productSelectService, CustomerService customerService, SizeService sizeService, EntityConverter entityConverter){
-        this.cartService = cartService;
-        this.productSelectService = productSelectService;
-        this.customerService = customerService;
-        this.sizeService = sizeService;
-        this.entityConverter = entityConverter;
-    }
 
     @PostMapping("/put")
     public void putProductToCart(@RequestBody CartDto cartDto){

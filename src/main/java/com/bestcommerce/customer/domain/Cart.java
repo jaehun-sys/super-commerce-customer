@@ -1,11 +1,14 @@
 package com.bestcommerce.customer.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
 @Entity(name = "cart")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Cart{
 
     @EmbeddedId
@@ -28,9 +31,6 @@ public class Cart{
 
     @Column(name = "product_cnt")
     private int productCount;
-
-    public Cart(){
-    }
 
     public Cart(int productCount, Size size, Customer customer, Product product){
         this.productCount = productCount;

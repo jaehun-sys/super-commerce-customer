@@ -4,11 +4,13 @@ import com.bestcommerce.customer.domain.Customer;
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.repository.domain.CustomerRepository;
 import com.bestcommerce.customer.repository.support.CustomerRepositorySupport;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
 
     private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
@@ -16,11 +18,6 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     private final CustomerRepositorySupport customerRepositorySupport;
-
-    public CustomerService(CustomerRepository customerRepository, CustomerRepositorySupport customerRepositorySupport){
-        this.customerRepository = customerRepository;
-        this.customerRepositorySupport = customerRepositorySupport;
-    }
 
     public Boolean isUsableEmail(String cu_email){
         return !customerRepository.existsByCuEmail(cu_email);

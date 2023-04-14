@@ -8,6 +8,7 @@ import com.bestcommerce.customer.repository.domain.PaymentLogRepository;
 import com.bestcommerce.customer.repository.domain.PaymentRepository;
 import com.bestcommerce.customer.util.PaymentInsertDtoConverter;
 import com.bestcommerce.customer.util.TimeFormat;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
@@ -24,13 +26,6 @@ public class PaymentService {
     private final PaymentBulkInsertRepository paymentBulkInsertRepository;
 
     private final PaymentInsertDtoConverter paymentInsertDtoConverter;
-
-    public PaymentService(PaymentRepository paymentRepository, PaymentLogRepository paymentLogRepository, PaymentBulkInsertRepository paymentBulkInsertRepository, PaymentInsertDtoConverter paymentInsertDtoConverter) {
-        this.paymentRepository = paymentRepository;
-        this.paymentLogRepository = paymentLogRepository;
-        this.paymentBulkInsertRepository = paymentBulkInsertRepository;
-        this.paymentInsertDtoConverter = paymentInsertDtoConverter;
-    }
 
     public void save(List<PaymentDto> paymentDtoList){
         List<Payment> paymentList = new ArrayList<>();
