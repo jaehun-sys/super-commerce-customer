@@ -1,13 +1,16 @@
 package com.bestcommerce.customer.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Entity(name = "size")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Size {
     @Id
     @Column(name = "size_id")
@@ -49,7 +52,4 @@ public class Size {
         this.product = product;
     }
 
-    public Size() {
-
-    }
 }

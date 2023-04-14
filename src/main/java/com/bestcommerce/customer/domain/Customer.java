@@ -1,6 +1,8 @@
 package com.bestcommerce.customer.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Entity(name = "customer")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Customer {
 
     @Id
@@ -47,10 +50,6 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private List<Payment> paymentList = new ArrayList<>();
-
-    public Customer() {
-
-    }
 
     public Customer(String cuEmail, String password, String cuName, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
         this.cuEmail = cuEmail;

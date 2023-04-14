@@ -1,11 +1,14 @@
 package com.bestcommerce.customer.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity(name = "address")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Address {
 
     @Id
@@ -25,10 +28,6 @@ public class Address {
     @ManyToOne
     @JoinColumn(name = "cu_id")
     private Customer customer;
-
-    public Address() {
-
-    }
 
     public Address(String addr, Character repYn, String zipCode, Customer customer){
         this.addr = addr;

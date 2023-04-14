@@ -1,14 +1,17 @@
 package com.bestcommerce.customer.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Getter
 @Embeddable
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CartKey implements Serializable {
 
     @Column(name = "cu_id")
@@ -19,10 +22,6 @@ public class CartKey implements Serializable {
 
     @Column(name = "size_id")
     private Long sizeId;
-
-    public CartKey() {
-
-    }
 
     public CartKey(Long customerId, Long productId, Long sizeId) {
         this.customerId = customerId;

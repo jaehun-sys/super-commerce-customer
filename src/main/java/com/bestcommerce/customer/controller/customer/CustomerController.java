@@ -3,20 +3,17 @@ package com.bestcommerce.customer.controller.customer;
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.service.customer.CustomerService;
 import com.bestcommerce.customer.util.EntityConverter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/account")
 public class CustomerController {
 
     private final CustomerService customerService;
 
     private final EntityConverter entityConverter;
-
-    public CustomerController(CustomerService customerService, EntityConverter entityConverter){
-        this.customerService = customerService;
-        this.entityConverter = entityConverter;
-    }
 
     @PostMapping("/check/email")
     public Boolean checkEmail(@RequestBody CustomerDto customerDto){
