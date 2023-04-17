@@ -5,6 +5,7 @@ import com.bestcommerce.customer.dto.PaymentDto;
 import com.bestcommerce.customer.service.customer.CustomerService;
 import com.bestcommerce.customer.service.product.ProductSelectService;
 import com.bestcommerce.customer.service.size.SizeService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
+@RequiredArgsConstructor
 public class PaymentInsertDtoConverter {
 
     private static final Logger log = LoggerFactory.getLogger(PaymentInsertDtoConverter.class);
@@ -21,12 +23,6 @@ public class PaymentInsertDtoConverter {
     private final ProductSelectService productSelectService;
 
     private final SizeService sizeService;
-
-    public PaymentInsertDtoConverter(CustomerService customerService, ProductSelectService productSelectService, SizeService sizeService) {
-        this.customerService = customerService;
-        this.productSelectService = productSelectService;
-        this.sizeService = sizeService;
-    }
 
     public void paymentConverterForInsert(List<PaymentDto> paymentDtoList, List<Payment> paymentList, PaymentLog paymentLog){
         try {
