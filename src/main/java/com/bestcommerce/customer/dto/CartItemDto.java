@@ -1,10 +1,11 @@
 package com.bestcommerce.customer.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
+@NoArgsConstructor
 public class CartItemDto {
     private Long customerId;
 

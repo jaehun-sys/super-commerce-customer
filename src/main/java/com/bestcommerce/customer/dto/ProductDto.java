@@ -1,20 +1,22 @@
 package com.bestcommerce.customer.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductDto {
-    private final Long productId;
+    private Long productId;
 
-    private final String productName;
+    private String productName;
 
-    private final int productCost;
+    private int productCost;
 
-    private final String info;
+    private String info;
 
-    private final String thumbPath;
+    private String thumbPath;
 
-    private final int deliveryCost;
+    private int deliveryCost;
 
     public ProductDto(Long productId,
                       String productName,

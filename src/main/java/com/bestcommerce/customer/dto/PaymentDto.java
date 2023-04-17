@@ -1,8 +1,10 @@
 package com.bestcommerce.customer.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class PaymentDto {
 
     private Long paymentId;
