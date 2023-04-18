@@ -2,7 +2,7 @@ package com.bestcommerce.customer.controller.customer;
 
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.service.customer.CustomerService;
-import com.bestcommerce.customer.util.EntityConverter;
+import com.bestcommerce.customer.util.converter.EntityConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

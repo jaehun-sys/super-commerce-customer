@@ -6,7 +6,7 @@ import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.repository.domain.AddressRepository;
 import com.bestcommerce.customer.service.customer.CustomerService;
 import com.bestcommerce.customer.service.address.AddressService;
-import com.bestcommerce.customer.util.DtoConverter;
+import com.bestcommerce.customer.util.converter.DtoConverter;
 import org.json.JSONArray;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

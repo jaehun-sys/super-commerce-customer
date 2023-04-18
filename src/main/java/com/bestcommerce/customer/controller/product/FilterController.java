@@ -2,7 +2,7 @@ package com.bestcommerce.customer.controller.product;
 
 import com.bestcommerce.customer.dto.ProductDto;
 import com.bestcommerce.customer.service.product.ProductSelectService;
-import com.bestcommerce.customer.util.DtoConverter;
+import com.bestcommerce.customer.util.converter.DtoConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

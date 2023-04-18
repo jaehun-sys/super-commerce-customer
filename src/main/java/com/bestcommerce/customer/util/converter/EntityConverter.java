@@ -1,4 +1,4 @@
-package com.bestcommerce.customer.util;
+package com.bestcommerce.customer.util.converter;
 
 import com.bestcommerce.customer.domain.Address;
 import com.bestcommerce.customer.domain.CartKey;
@@ -15,6 +15,7 @@ import java.util.List;
 
 @Component
 public class EntityConverter {
+
     public Customer toCustomer(CustomerDto customerDto){
         if(!StringUtils.hasText(customerDto.getRegisterDate())){
             return new Customer(customerDto.getCustomerEmail(), customerDto.getCustomerPassword(), customerDto.getCustomerName(), customerDto.getCustomerTelNumber(), customerDto.getCustomerBirthDate(), customerDto.getAuthYn(), LocalDate.now().toString(), customerDto.getModifyDate());

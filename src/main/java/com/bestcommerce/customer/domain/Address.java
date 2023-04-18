@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Entity(name = "address")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class Address {
 
     @Id

@@ -6,7 +6,7 @@ import com.bestcommerce.customer.dto.CartItemDto;
 import com.bestcommerce.customer.dto.CartKeyDto;
 import com.bestcommerce.customer.repository.domain.CartRepository;
 import com.bestcommerce.customer.service.cart.CartService;
-import com.bestcommerce.customer.util.DtoConverter;
+import com.bestcommerce.customer.util.converter.DtoConverter;
 import org.json.JSONArray;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

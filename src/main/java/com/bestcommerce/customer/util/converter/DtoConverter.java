@@ -1,4 +1,4 @@
-package com.bestcommerce.customer.util;
+package com.bestcommerce.customer.util.converter;
 
 import com.bestcommerce.customer.domain.Address;
 import com.bestcommerce.customer.domain.Cart;
