@@ -6,7 +6,7 @@ import com.bestcommerce.customer.dto.PaymentDto;
 import com.bestcommerce.customer.repository.bulk.PaymentBulkInsertRepository;
 import com.bestcommerce.customer.repository.domain.PaymentLogRepository;
 import com.bestcommerce.customer.repository.domain.PaymentRepository;
-import com.bestcommerce.customer.util.PaymentInsertDtoConverter;
+import com.bestcommerce.customer.util.converter.PaymentInsertDtoConverter;
 import com.bestcommerce.customer.util.TimeFormat;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

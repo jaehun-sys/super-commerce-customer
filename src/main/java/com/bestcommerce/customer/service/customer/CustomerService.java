@@ -19,6 +19,7 @@ public class CustomerService {
 
     private final CustomerRepositorySupport customerRepositorySupport;
 
+
     public Boolean isUsableEmail(String cu_email){
         return !customerRepository.existsByCuEmail(cu_email);
     }

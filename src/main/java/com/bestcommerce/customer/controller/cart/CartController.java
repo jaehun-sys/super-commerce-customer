@@ -7,7 +7,7 @@ import com.bestcommerce.customer.service.customer.CustomerService;
 import com.bestcommerce.customer.service.cart.CartService;
 import com.bestcommerce.customer.service.product.ProductSelectService;
 import com.bestcommerce.customer.service.size.SizeService;
-import com.bestcommerce.customer.util.EntityConverter;
+import com.bestcommerce.customer.util.converter.EntityConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

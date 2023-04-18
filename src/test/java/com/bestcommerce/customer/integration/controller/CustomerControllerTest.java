@@ -45,7 +45,8 @@ public class CustomerControllerTest {
         CustomerDto customerDto = new CustomerDto(1L, testEmail,testPassword,testName,testNumber,testBirthDate,testAuthYn, "","");
         String testUrl = "http://localhost:"+port+"/account/register";
 
-        ResponseEntity<Long> response = restTemplate.postForEntity(testUrl, customerDto, Long.class);
+        ResponseEntity<Long> response = restTemplate.withBasicAuth("spring","secret").postForEntity(testUrl, customerDto, Long.class);
+
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
