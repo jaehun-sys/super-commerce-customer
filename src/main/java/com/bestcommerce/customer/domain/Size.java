@@ -1,5 +1,8 @@
 package com.bestcommerce.customer.domain;
 
+import com.bestcommerce.customer.exception.QuantityException;
+import com.bestcommerce.customer.exception.QuantityInsufficientException;
+import com.bestcommerce.customer.exception.QuantitySoldOutException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,7 +48,17 @@ public class Size {
     @OneToMany(mappedBy = "size")
     private List<Payment> paymentList = new ArrayList<>();
 
-    public Size(Long sizeId, Long measureId, String measureName, Long contentId, String contentName, int sizeValue, Product product) {
+    public void orderSize(int sizeRemainQuantity) throws QuantityException {
+        if(this.sizeRemainQuantity == 0){
+            throw new QuantitySoldOutException();
+        }
+        else if(this.sizeRemainQuantity - sizeRemainQuantity < 0){
+            throw new QuantityInsufficientException();
+        }
+        this.sizeRemainQuantity -= sizeRemainQuantity;
+    }
+
+    public Size(Long sizeId, Long measureId, String measureName, Long contentId, String contentName, int sizeValue, Product product, int sizeRemainQuantity) {
         this.sizeId = sizeId;
         this.measureId = measureId;
         this.measureName = measureName;
@@ -53,6 +66,7 @@ public class Size {
         this.contentName = contentName;
         this.sizeValue = sizeValue;
         this.product = product;
+        this.sizeRemainQuantity = sizeRemainQuantity;
     }
 
 }

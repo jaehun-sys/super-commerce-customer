@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class Payment {
 
     @Id
-    @Column(name = "order_id")
+    @Column(name = "pay_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
