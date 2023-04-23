@@ -23,15 +23,16 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/save")
-    public void paymentSave(@RequestBody DtoList dtoList){
+    public String paymentSave(@RequestBody DtoList dtoList){
         try {
             List<PaymentDto> paymentDtoList = dtoList.getOrderList();
-            paymentService.save(paymentDtoList);
+            return paymentService.save(paymentDtoList);
         }
         catch (NullPointerException npe){
             log.error("maybe order list is null");
             log.error(npe.getMessage());
         }
+        return null;
     }
 
 }
