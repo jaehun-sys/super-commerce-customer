@@ -1,6 +1,7 @@
 package com.bestcommerce.customer.integration.service.payment;
 
 import com.bestcommerce.customer.domain.Payment;
+import com.bestcommerce.customer.dto.DtoList;
 import com.bestcommerce.customer.dto.PaymentDto;
 import com.bestcommerce.customer.service.payment.PaymentService;
 import org.assertj.core.api.Assertions;
@@ -10,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,27 +22,25 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PaymentServiceTest {
 
     private static final Logger log = LoggerFactory.getLogger(PaymentServiceTest.class);
 
+    @LocalServerPort
+    private int port;
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+
     @Autowired
     private PaymentService paymentService;
+
 
     @Test
     @DisplayName("대량 주문 테스트")
     void saveBigOrderListTest(){
-        List<PaymentDto> paymentDtoList = new ArrayList<>();
-        Long customerId = 1L;
-        Long productId = 1L;
-        Long[] sizeIdArray = {1L,2L,3L,4L,5L,6L};
 
-        for(int i = 0; i < 100000; i++){
-            paymentDtoList.add(new PaymentDto(0L,0L,customerId,productId,sizeIdArray[(int)(Math.random()*6)], (int)(Math.random()*6), (int)(Math.random()*50000)));
-        }
-
-        paymentService.save(paymentDtoList);
     }
 
     @Test
@@ -55,19 +57,25 @@ public class PaymentServiceTest {
         PaymentDto onePaymentDto  = new PaymentDto(0L,0L,1L,1L,3L, 1, 200);
         PaymentDto twoPaymentDto = new PaymentDto(0L,0L,1L,1L,3L, 1, 200);
 
-        List<PaymentDto> onePaymentDtoList = new ArrayList<>();
-        List<PaymentDto> twoPaymentDtoList = new ArrayList<>();
+        String testUrl = "http://localhost:"+port+"/pay/save";
 
-        onePaymentDtoList.add(onePaymentDto);
-        twoPaymentDtoList.add(twoPaymentDto);
+        List<PaymentDto> oneOrderList = new ArrayList<>();
+        List<PaymentDto> twoOrderList = new ArrayList<>();
+        oneOrderList.add(onePaymentDto);
+        twoOrderList.add(twoPaymentDto);
+
+        DtoList oneDtoList = new DtoList(oneOrderList);
+        DtoList twoDtoList = new DtoList(twoOrderList);
 
         log.info("동시성 테스트 실행");
         service.execute(() -> {
-            paymentService.save(onePaymentDtoList);
+            ResponseEntity<String> response = restTemplate.postForEntity(testUrl, oneDtoList, String.class);
+            System.out.println("Thread 1 Status : "+response.getBody());
             latch.countDown();
         });
         service.execute(() -> {
-            paymentService.save(twoPaymentDtoList);
+            ResponseEntity<String> response = restTemplate.postForEntity(testUrl, twoDtoList, String.class);
+            System.out.println("Thread 2 Status : "+response.getBody());
             latch.countDown();
         });
 
