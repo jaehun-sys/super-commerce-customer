@@ -1,11 +1,11 @@
 package com.bestcommerce.customer.integration.controller;
 
-import com.bestcommerce.customer.domain.CartKey;
-import com.bestcommerce.customer.dto.CartDto;
-import com.bestcommerce.customer.dto.CartItemDto;
-import com.bestcommerce.customer.dto.CartKeyDto;
-import com.bestcommerce.customer.repository.domain.CartRepository;
-import com.bestcommerce.customer.service.cart.CartService;
+import com.bestcommerce.customer.cart.CartKey;
+import com.bestcommerce.customer.cart.CartDto;
+import com.bestcommerce.customer.cart.CartItemDto;
+import com.bestcommerce.customer.cart.CartKeyDto;
+import com.bestcommerce.customer.cart.CartRepository;
+import com.bestcommerce.customer.cart.CartService;
 import com.bestcommerce.customer.util.converter.DtoConverter;
 import org.json.JSONArray;
 import org.junit.jupiter.api.DisplayName;

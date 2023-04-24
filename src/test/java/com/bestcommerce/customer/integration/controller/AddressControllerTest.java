@@ -1,11 +1,11 @@
 package com.bestcommerce.customer.integration.controller;
 
-import com.bestcommerce.customer.domain.Address;
-import com.bestcommerce.customer.dto.AddressDto;
-import com.bestcommerce.customer.dto.CustomerDto;
-import com.bestcommerce.customer.repository.domain.AddressRepository;
-import com.bestcommerce.customer.service.customer.CustomerService;
-import com.bestcommerce.customer.service.address.AddressService;
+import com.bestcommerce.customer.address.Address;
+import com.bestcommerce.customer.address.AddressDto;
+import com.bestcommerce.customer.account.CustomerDto;
+import com.bestcommerce.customer.address.AddressRepository;
+import com.bestcommerce.customer.account.CustomerService;
+import com.bestcommerce.customer.address.AddressService;
 import com.bestcommerce.customer.util.converter.DtoConverter;
 import org.json.JSONArray;
 import org.junit.jupiter.api.DisplayName;
