@@ -1,9 +1,9 @@
 package com.bestcommerce.customer.repository;
 
-import com.bestcommerce.customer.account.Customer;
-import com.bestcommerce.customer.account.CustomerDto;
-import com.bestcommerce.customer.account.CustomerRepository;
-import com.bestcommerce.customer.util.converter.EntityConverter;
+import com.bestcommerce.customer.Customer;
+import com.bestcommerce.customer.CustomerDto;
+import com.bestcommerce.customer.CustomerRepository;
+import com.bestcommerce.util.converter.EntityConverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
