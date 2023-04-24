@@ -1,11 +1,11 @@
 package com.bestcommerce.util.converter;
 
-import com.bestcommerce.customer.Customer;
-import com.bestcommerce.customer.CustomerDto;
-import com.bestcommerce.address.Address;
-import com.bestcommerce.cart.CartKey;
-import com.bestcommerce.address.AddressDto;
-import com.bestcommerce.cart.CartKeyDto;
+import com.bestcommerce.customer.entity.Customer;
+import com.bestcommerce.customer.dto.CustomerDto;
+import com.bestcommerce.address.entity.Address;
+import com.bestcommerce.cart.entity.CartKey;
+import com.bestcommerce.address.dto.AddressDto;
+import com.bestcommerce.cart.dto.CartKeyDto;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 

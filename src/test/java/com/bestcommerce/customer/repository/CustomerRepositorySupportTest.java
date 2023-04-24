@@ -1,10 +1,8 @@
 package com.bestcommerce.customer.repository;
 
 import com.bestcommerce.customer.config.QueryDslTestConfig;
-import com.bestcommerce.customer.Customer;
-import com.bestcommerce.customer.CustomerDto;
-import com.bestcommerce.customer.CustomerRepository;
-import com.bestcommerce.customer.CustomerRepositorySupport;
+import com.bestcommerce.customer.entity.Customer;
+import com.bestcommerce.customer.dto.CustomerDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
