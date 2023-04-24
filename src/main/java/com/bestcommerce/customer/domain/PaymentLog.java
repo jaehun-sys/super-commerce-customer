@@ -32,16 +32,4 @@ public class PaymentLog {
         this.payDate = payDate;
         this.customer = customer;
     }
-
-    public void setPayDateForNowDate(String payDate){
-        this.payDate = payDate;
-    }
-
-    public void addTotalPriceForPaymentInsert(Long price){
-        this.totalPrice += price;
-    }
-
-    public void setCustomer(Customer customer){
-        this.customer = customer;
-    }
 }
