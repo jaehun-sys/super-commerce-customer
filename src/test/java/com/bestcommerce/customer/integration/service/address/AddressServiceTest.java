@@ -1,10 +1,10 @@
 package com.bestcommerce.customer.integration.service.address;
 
 
-import com.bestcommerce.customer.domain.Address;
-import com.bestcommerce.customer.domain.Customer;
-import com.bestcommerce.customer.service.address.AddressService;
-import com.bestcommerce.customer.service.customer.CustomerService;
+import com.bestcommerce.address.entity.Address;
+import com.bestcommerce.customer.entity.Customer;
+import com.bestcommerce.address.service.AddressService;
+import com.bestcommerce.customer.service.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,9 +1,9 @@
 package com.bestcommerce.customer.integration.service.payment;
 
-import com.bestcommerce.customer.domain.Payment;
-import com.bestcommerce.customer.dto.DtoList;
-import com.bestcommerce.customer.dto.PaymentDto;
-import com.bestcommerce.customer.service.payment.PaymentService;
+import com.bestcommerce.payment.entity.Payment;
+import com.bestcommerce.util.DtoList;
+import com.bestcommerce.payment.dto.PaymentDto;
+import com.bestcommerce.payment.service.PaymentService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

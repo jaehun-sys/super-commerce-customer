@@ -1,9 +1,9 @@
 package com.bestcommerce.customer.integration.service.customer;
 
-import com.bestcommerce.customer.domain.Customer;
+import com.bestcommerce.customer.entity.Customer;
 import com.bestcommerce.customer.dto.CustomerDto;
-import com.bestcommerce.customer.service.customer.CustomerService;
-import com.bestcommerce.customer.util.converter.EntityConverter;
+import com.bestcommerce.customer.service.CustomerService;
+import com.bestcommerce.util.converter.EntityConverter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

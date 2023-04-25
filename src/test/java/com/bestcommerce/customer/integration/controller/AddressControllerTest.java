@@ -1,12 +1,12 @@
 package com.bestcommerce.customer.integration.controller;
 
-import com.bestcommerce.customer.domain.Address;
-import com.bestcommerce.customer.dto.AddressDto;
+import com.bestcommerce.address.entity.Address;
+import com.bestcommerce.address.dto.AddressDto;
 import com.bestcommerce.customer.dto.CustomerDto;
-import com.bestcommerce.customer.repository.domain.AddressRepository;
-import com.bestcommerce.customer.service.customer.CustomerService;
-import com.bestcommerce.customer.service.address.AddressService;
-import com.bestcommerce.customer.util.converter.DtoConverter;
+import com.bestcommerce.address.repository.AddressRepository;
+import com.bestcommerce.customer.service.CustomerService;
+import com.bestcommerce.address.service.AddressService;
+import com.bestcommerce.util.converter.DtoConverter;
 import org.json.JSONArray;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -112,7 +112,7 @@ public class AddressControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
-        Address address = addressRepository.findById(addressDto.getAddressId()).orElseGet(Address::new);
+        Address address = addressRepository.findById(addressDto.getAddressId()).orElseThrow(NullPointerException::new);
 
         assertThat(address.getAddr()).isEqualTo(addressDto.getAddr());
         assertThat(address.getZipCode()).isEqualTo(addressDto.getZipcode());
