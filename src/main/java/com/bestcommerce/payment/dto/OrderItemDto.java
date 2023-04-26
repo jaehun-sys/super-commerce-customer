@@ -32,7 +32,7 @@ public class OrderItemDto {
 
     private String thumbNail;
 
-    public OrderItemDto(Long orderNo, Long totalPrice, String orderDate, Long productId, int productCount, int productPrice, Long sizeId, String sizeName, int sizeValue, String productName, Long sellerId, String thumbNail) {
+    public OrderItemDto(Long orderNo, Long totalPrice, String orderDate, int productCount, int productPrice, Long sizeId, String sizeName, int sizeValue, Long productId, String productName, Long sellerId, String thumbNail) {
         this.orderNo = orderNo;
         this.totalPrice = totalPrice;
         this.orderDate = orderDate;

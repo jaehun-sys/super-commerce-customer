@@ -6,6 +6,8 @@ import com.bestcommerce.address.entity.Address;
 import com.bestcommerce.cart.entity.CartKey;
 import com.bestcommerce.address.dto.AddressDto;
 import com.bestcommerce.cart.dto.CartKeyDto;
+import com.bestcommerce.payment.dto.PaymentLogDto;
+import com.bestcommerce.payment.entity.PaymentLog;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -45,5 +47,9 @@ public class EntityConverter {
             cartKeyList.add(toCartKey(cartKeyDto));
         }
         return cartKeyList;
+    }
+
+    public PaymentLog toPaymentLog(PaymentLogDto paymentLogDto, Customer customer){
+        return new PaymentLog(paymentLogDto.getPayNo(), paymentLogDto.getTotalPrice(), paymentLogDto.getOrderDate(), customer);
     }
 }

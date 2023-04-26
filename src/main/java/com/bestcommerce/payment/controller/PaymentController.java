@@ -1,11 +1,14 @@
 package com.bestcommerce.payment.controller;
 
 import com.bestcommerce.customer.entity.Customer;
+import com.bestcommerce.payment.dto.OrderItemDto;
+import com.bestcommerce.payment.dto.PaymentLogDto;
 import com.bestcommerce.payment.entity.Payment;
 import com.bestcommerce.payment.dto.PaymentDto;
 import com.bestcommerce.payment.service.PaymentService;
 import com.bestcommerce.size.entity.Size;
 import com.bestcommerce.util.DtoList;
+import com.bestcommerce.util.converter.EntityConverter;
 import com.bestcommerce.util.exception.QuantityInsufficientException;
 import com.bestcommerce.util.exception.QuantitySoldOutException;
 import com.bestcommerce.customer.service.CustomerService;
@@ -36,6 +39,8 @@ public class PaymentController {
 
     private final SizeService sizeService;
 
+    private final EntityConverter entityConverter;
+
     @PostMapping("/save")
     public String paymentSave(@RequestBody DtoList dtoList){
         try {
@@ -56,6 +61,11 @@ public class PaymentController {
             log.error("Quantity Insufficient Exception : {}", e.getMessage());
             return e.getMessage();
         }
+    }
+
+    @PostMapping("/get/recent")
+    public List<OrderItemDto> getPaymentList(@RequestBody PaymentLogDto paymentLogDto){
+        return paymentService.getOrderList(entityConverter.toPaymentLog(paymentLogDto, customerService.getOneCustomerInfo(paymentLogDto.getCustomerId())));
     }
 
 

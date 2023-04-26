@@ -32,7 +32,7 @@ public class PaymentService {
     private final OrderItemRepository orderItemRepository;
 
     public String save(List<Payment> paymentList, Customer customer, Long[] totalPrice){
-        PaymentLog paymentLog = new PaymentLog(totalPrice[0], LocalDateTime.now().format(TimeFormat.orderLogDateFormat), customer);
+        PaymentLog paymentLog = new PaymentLog(0L, totalPrice[0], LocalDateTime.now().format(TimeFormat.orderLogDateFormat), customer);
         paymentLogRepository.save(paymentLog);
         paymentBulkInsertRepository.saveAll(paymentList, paymentLog);
         log.info("Payment Success");

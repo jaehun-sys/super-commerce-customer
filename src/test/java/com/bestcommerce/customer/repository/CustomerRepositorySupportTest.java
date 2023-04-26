@@ -33,7 +33,7 @@ public class CustomerRepositorySupportTest {
 
         customerRepositorySupport.updateCustomer(customerDto);
 
-        Customer updateCheckCustomer = customerRepository.findById(customerDto.getCustomerId()).orElseGet(Customer::new);
+        Customer updateCheckCustomer = customerRepository.findById(customerDto.getCustomerId()).orElseThrow(NullPointerException::new);
 
         assertThat(customerDto.getCustomerName()).isEqualTo(updateCheckCustomer.getCuName());
         assertThat(customerDto.getCustomerPassword()).isEqualTo(updateCheckCustomer.getPassword());

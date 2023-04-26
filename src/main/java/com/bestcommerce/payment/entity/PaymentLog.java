@@ -28,7 +28,8 @@ public class PaymentLog {
     @JoinColumn(name = "cu_id")
     private Customer customer;
 
-    public PaymentLog(Long totalPrice, String payDate, Customer customer) {
+    public PaymentLog(Long payNo,Long totalPrice, String payDate, Customer customer) {
+        this.payNo = payNo;
         this.totalPrice = totalPrice;
         this.payDate = payDate;
         this.customer = customer;
