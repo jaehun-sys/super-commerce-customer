@@ -1,8 +1,10 @@
 package com.bestcommerce.payment.service;
 
 import com.bestcommerce.customer.entity.Customer;
+import com.bestcommerce.payment.dto.OrderItemDto;
 import com.bestcommerce.payment.entity.Payment;
 import com.bestcommerce.payment.entity.PaymentLog;
+import com.bestcommerce.payment.repository.OrderItemRepository;
 import com.bestcommerce.payment.repository.PaymentBulkInsertRepository;
 import com.bestcommerce.payment.repository.PaymentLogRepository;
 import com.bestcommerce.payment.repository.PaymentRepository;
@@ -27,16 +29,18 @@ public class PaymentService {
 
     private final PaymentBulkInsertRepository paymentBulkInsertRepository;
 
+    private final OrderItemRepository orderItemRepository;
+
     public String save(List<Payment> paymentList, Customer customer, Long[] totalPrice){
-        PaymentLog paymentLog = new PaymentLog(totalPrice[0], LocalDateTime.now().format(TimeFormat.orderLogDateFormat), customer);
+        PaymentLog paymentLog = new PaymentLog(0L, totalPrice[0], LocalDateTime.now().format(TimeFormat.orderLogDateFormat), customer);
         paymentLogRepository.save(paymentLog);
         paymentBulkInsertRepository.saveAll(paymentList, paymentLog);
         log.info("Payment Success");
         return "Payment Success";
     }
 
-    public List<Payment> getPaymentList(PaymentLog paymentLog){
-        return paymentRepository.getPaymentsByPaymentLog(paymentLog);
+    public List<OrderItemDto> getOrderList(PaymentLog paymentLog){
+        return orderItemRepository.getOrderItemList(paymentLog.getPayNo());
     }
 
     public List<Payment> findAllPaymentList(){
