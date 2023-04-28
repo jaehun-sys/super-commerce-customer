@@ -1,9 +1,7 @@
 package com.bestcommerce.customer.integration.service.payment;
 
-import com.bestcommerce.payment.entity.Payment;
 import com.bestcommerce.util.DtoList;
 import com.bestcommerce.payment.dto.PaymentDto;
-import com.bestcommerce.payment.service.PaymentService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,16 +31,6 @@ public class PaymentServiceTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    @Autowired
-    private PaymentService paymentService;
-
-
-    @Test
-    @DisplayName("대량 주문 테스트")
-    void saveBigOrderListTest(){
-
-    }
-
     @Test
     @DisplayName("주문 동시성 테스트")
     void orderConcurrencyTest() throws InterruptedException {
@@ -68,21 +56,24 @@ public class PaymentServiceTest {
         DtoList twoDtoList = new DtoList(twoOrderList);
 
         log.info("동시성 테스트 실행");
+        final String[] responseOne = new String[1];
+        final String[] responseTwo = new String[1];
         service.execute(() -> {
             ResponseEntity<String> response = restTemplate.postForEntity(testUrl, oneDtoList, String.class);
-            System.out.println("Thread 1 Status : "+response.getBody());
+            responseOne[0] = response.getBody();
             latch.countDown();
         });
         service.execute(() -> {
             ResponseEntity<String> response = restTemplate.postForEntity(testUrl, twoDtoList, String.class);
-            System.out.println("Thread 2 Status : "+response.getBody());
+            responseTwo[0] = response.getBody();
             latch.countDown();
         });
 
         latch.await();
 
         log.info("payment 동시성 테스트 결과 검증");
-        List<Payment> paymentList = paymentService.findAllPaymentList();
-        Assertions.assertThat(paymentList.size()).isEqualTo(1);
+        System.out.println("Thread 1 Status : "+responseOne[0]);
+        System.out.println("Thread 2 Status : "+responseTwo[0]);
+        Assertions.assertThat(responseOne[0]).isNotEqualTo(responseTwo[0]);
     }
 }

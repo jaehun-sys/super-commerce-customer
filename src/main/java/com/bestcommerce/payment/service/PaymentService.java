@@ -33,8 +33,8 @@ public class PaymentService {
 
     public String save(List<Payment> paymentList, Customer customer, Long[] totalPrice){
         PaymentLog paymentLog = new PaymentLog(0L, totalPrice[0], LocalDateTime.now().format(TimeFormat.orderLogDateFormat), customer);
-        paymentLogRepository.save(paymentLog);
-        paymentBulkInsertRepository.saveAll(paymentList, paymentLog);
+        Long id = paymentLogRepository.save(paymentLog).getPayNo();
+        paymentBulkInsertRepository.saveAll(paymentList, id);
         log.info("Payment Success");
         return "Payment Success";
     }

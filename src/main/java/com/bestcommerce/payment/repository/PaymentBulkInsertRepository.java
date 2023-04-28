@@ -1,7 +1,6 @@
 package com.bestcommerce.payment.repository;
 
 import com.bestcommerce.payment.entity.Payment;
-import com.bestcommerce.payment.entity.PaymentLog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,7 +16,7 @@ public class PaymentBulkInsertRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Transactional
-    public void saveAll(List<Payment> paymentList, PaymentLog paymentLog){
+    public void saveAll(List<Payment> paymentList, Long id){
 
         String sql = "INSERT INTO payment (pay_no, cu_id, product_id, size_id, product_cnt, product_price) " +
                      "VALUES (?, ?, ?, ?, ?, ?) ";
@@ -26,7 +25,7 @@ public class PaymentBulkInsertRepository {
                                 paymentList,
                                 paymentList.size(),
                                 (PreparedStatement ps, Payment payment) -> {
-                                    ps.setLong(1, paymentLog.getPayNo());
+                                    ps.setLong(1, id);
                                     ps.setLong(2, payment.getCustomer().getCuId());
                                     ps.setLong(3, payment.getProduct().getProductId());
                                     ps.setLong(4, payment.getSize().getSizeId());

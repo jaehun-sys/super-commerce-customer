@@ -1,6 +1,8 @@
 package com.bestcommerce.customer.integration.controller;
 
+import com.bestcommerce.payment.dto.PaymentDto;
 import com.bestcommerce.payment.dto.PaymentLogDto;
+import com.bestcommerce.util.DtoList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.junit.jupiter.api.DisplayName;
@@ -13,11 +15,12 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.Rollback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@Rollback
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PaymentControllerTest {
 
@@ -47,6 +50,32 @@ public class PaymentControllerTest {
         for(int i = 0; i < jsonArray.length(); i++){
             assertThat(jsonArray.getJSONObject(i).getString("productName")).isEqualTo("나이키 티엠포 레전드 9 엘리트 FG");
         }
+
+    }
+
+    @Test
+    @DisplayName("대량 주문 테스트")
+    void saveBigOrderListTest(){
+
+        Long[] customerIdArray = {1L,5L,8L,9L,27L};
+        List<PaymentDto> orderList = new ArrayList<>();
+
+        for(long i = 1L; i <= 6L; i++){
+            orderList.add(new PaymentDto(0L,0L,
+                    customerIdArray[1],
+                    1L,
+                    i,
+                    (int)(Math.random()*10 + 1),
+                    0));
+        }
+
+        DtoList oneDtoList = new DtoList(orderList);
+
+        String testUrl = "http://localhost:"+port+"/pay/save";
+        ResponseEntity<String> response = restTemplate.postForEntity(testUrl, oneDtoList, String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        System.out.println(response.getBody());
+
 
     }
 
