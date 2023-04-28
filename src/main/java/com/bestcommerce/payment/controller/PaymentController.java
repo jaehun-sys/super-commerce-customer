@@ -73,8 +73,8 @@ public class PaymentController {
         Map<Long, Size> sizeMap = new HashMap<>();
         for(PaymentDto paymentDto : paymentDtoList){
             sizeService.putEntityToEntityMap(sizeMap, paymentDto.getSizeId(), paymentDto.getProductCount());
-            totalPrice[0] += (long)paymentDto.getProductPrice();
-            paymentList.add(new Payment(null, customer, sizeMap.get(paymentDto.getSizeId()).getProduct(), sizeMap.get(paymentDto.getSizeId()), paymentDto.getProductCount(), paymentDto.getProductPrice()));
+            totalPrice[0] += (long)sizeMap.get(paymentDto.getSizeId()).getProduct().getProductCost();
+            paymentList.add(new Payment(null, customer, sizeMap.get(paymentDto.getSizeId()).getProduct(), sizeMap.get(paymentDto.getSizeId()), paymentDto.getProductCount(), sizeMap.get(paymentDto.getSizeId()).getProduct().getProductCost()));
         }
     }
 
