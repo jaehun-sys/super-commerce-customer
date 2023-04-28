@@ -20,5 +20,7 @@ public class ProductSelectService {
         return productRepository.findById(product_id).orElseThrow(NullPointerException::new);
     }
 
-
+    public List<Product> searchProducts(String searchValue){
+        return productRepository.findAllByProductNameContainingOrInfoContaining(searchValue,searchValue);
+    }
 }

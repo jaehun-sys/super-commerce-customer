@@ -1,5 +1,6 @@
 package com.bestcommerce.size.service;
 
+import com.bestcommerce.product.entity.Product;
 import com.bestcommerce.size.entity.Size;
 import com.bestcommerce.size.repository.SizeRepository;
 import com.bestcommerce.util.exception.QuantityException;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -18,6 +20,10 @@ public class SizeService {
     public Size getOneSizeInfo(Long id){
         Optional<Size> size = sizeRepository.findById(id);
         return size.orElseThrow(NullPointerException::new);
+    }
+
+    public List<Size> getSizeListByProductDetail(Product product){
+        return sizeRepository.findAllByProduct(product);
     }
 
     @Transactional
