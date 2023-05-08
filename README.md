@@ -2,9 +2,15 @@
  ===========
  
  > spring boot
+ > 
  > gradle
+ > 
  > jpa
+ > 
  > queryDsl
+ > 
  > mariaDB
+ > 
  > Amazon RDS
+ > 
  
