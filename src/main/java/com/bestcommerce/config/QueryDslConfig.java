@@ -1,4 +1,4 @@
-package com.bestcommerce.util.config;
+package com.bestcommerce.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;

@@ -2,6 +2,8 @@ package com.bestcommerce.customer.controller;
 
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.service.CustomerService;
+import com.bestcommerce.member.entity.Member;
+import com.bestcommerce.member.service.MemberService;
 import com.bestcommerce.util.converter.EntityConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +15,15 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    private final EntityConverter entityConverter;
+    private final MemberService memberService;
 
-    @PostMapping("/check/email")
-    public Boolean checkEmail(@RequestBody CustomerDto customerDto){
-        return customerService.isUsableEmail(customerDto.getCustomerEmail());
-    }
+    private final EntityConverter entityConverter;
 
     @PostMapping("/register")
     public void register(@RequestBody CustomerDto customerDto){
-        customerService.save(entityConverter.toCustomer(customerDto));
+        Long memberId = memberService.saveMember(customerDto.getCustomerEmail(), customerDto.getCustomerPassword());
+        Member member = memberService.findMember(memberId);
+        customerService.save(entityConverter.toCustomer(customerDto, member));
     }
 
     @PostMapping("/update")
