@@ -6,6 +6,7 @@ import com.bestcommerce.address.entity.Address;
 import com.bestcommerce.cart.entity.CartKey;
 import com.bestcommerce.address.dto.AddressDto;
 import com.bestcommerce.cart.dto.CartKeyDto;
+import com.bestcommerce.member.entity.Member;
 import com.bestcommerce.payment.dto.PaymentLogDto;
 import com.bestcommerce.payment.entity.PaymentLog;
 import org.springframework.stereotype.Component;
@@ -18,19 +19,11 @@ import java.util.List;
 @Component
 public class EntityConverter {
 
-    public Customer toCustomer(CustomerDto customerDto){
+    public Customer toCustomer(CustomerDto customerDto, Member member){
         if(!StringUtils.hasText(customerDto.getRegisterDate())){
-            return new Customer(customerDto.getCustomerEmail(), customerDto.getCustomerPassword(), customerDto.getCustomerName(), customerDto.getCustomerTelNumber(), customerDto.getCustomerBirthDate(), customerDto.getAuthYn(), LocalDate.now().toString(), customerDto.getModifyDate());
+            return new Customer(member, customerDto.getCustomerName(), customerDto.getCustomerTelNumber(), customerDto.getCustomerBirthDate(), customerDto.getAuthYn(), LocalDate.now().toString(), customerDto.getModifyDate());
         }
-        return new Customer(customerDto.getCustomerEmail(), customerDto.getCustomerPassword(), customerDto.getCustomerName(), customerDto.getCustomerTelNumber(), customerDto.getCustomerBirthDate(), customerDto.getAuthYn(), customerDto.getRegisterDate(), customerDto.getModifyDate());
-    }
-
-    public List<Customer> toCustomerList(List<CustomerDto> customerDtoList){
-        List<Customer> customerList = new ArrayList<>();
-        for(CustomerDto customerDto : customerDtoList){
-            customerList.add(toCustomer(customerDto));
-        }
-        return customerList;
+        return new Customer(member, customerDto.getCustomerName(), customerDto.getCustomerTelNumber(), customerDto.getCustomerBirthDate(), customerDto.getAuthYn(), customerDto.getRegisterDate(), customerDto.getModifyDate());
     }
 
     public Address toAddress(AddressDto addressDto, Customer customer){

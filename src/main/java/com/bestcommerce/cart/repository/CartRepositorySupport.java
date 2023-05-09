@@ -28,27 +28,24 @@ public class CartRepositorySupport extends QuerydslRepositorySupport {
     }
 
     public List<CartItemDto> getCartItemDtoList(Long id) {
-        List<CartItemDto> result =
-                queryFactory.select(Projections.constructor(CartItemDto.class,
-                                customer.cuId.as("customerId"),
-                                customer.cuName.as("customerName"),
-                                customer.cuEmail.as("customerEmail"),
-                                product.productId.as("productId"),
-                                product.productName.as("productName"),
-                                product.productCost.as("productCost"),
-                                product.sellerId.as("sellerId"),
-                                product.thumbPath.as("thumbnailPath"),
-                                product.deliveryCost.as("deliveryCost"),
-                                size.sizeId.as("sizeId"),
-                                size.measureId.as("measureId"),
-                                size.measureName.as("measureName"),
-                                size.contentId.as("contentId"),
-                                size.contentName.as("contentName"),
-                                size.sizeValue.as("sizeValue")))
-                        .from(cart).innerJoin(cart.customer, customer).innerJoin(cart.product, product).innerJoin(cart.size, size)
-                        .where(customer.cuId.eq(id)).fetch();
 
-        return result;
+        return queryFactory.select(Projections.constructor(CartItemDto.class,
+                        customer.cuId.as("customerId"),
+                        customer.cuName.as("customerName"),
+                        product.productId.as("productId"),
+                        product.productName.as("productName"),
+                        product.productCost.as("productCost"),
+                        product.sellerId.as("sellerId"),
+                        product.thumbPath.as("thumbnailPath"),
+                        product.deliveryCost.as("deliveryCost"),
+                        size.sizeId.as("sizeId"),
+                        size.measureId.as("measureId"),
+                        size.measureName.as("measureName"),
+                        size.contentId.as("contentId"),
+                        size.contentName.as("contentName"),
+                        size.sizeValue.as("sizeValue")))
+                .from(cart).innerJoin(cart.customer, customer).innerJoin(cart.product, product).innerJoin(cart.size, size)
+                .where(customer.cuId.eq(id)).fetch();
     }
 
     @Transactional
@@ -58,6 +55,6 @@ public class CartRepositorySupport extends QuerydslRepositorySupport {
         for(CartKey cartKey : cartKeyList){
             builder.or(qCartKey.eq(cartKey));
         }
-        long count = queryFactory.delete(cart).where(builder).execute();
+        queryFactory.delete(cart).where(builder).execute();
     }
 }

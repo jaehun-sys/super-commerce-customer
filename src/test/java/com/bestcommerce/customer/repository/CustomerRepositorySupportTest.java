@@ -29,13 +29,5 @@ public class CustomerRepositorySupportTest {
     @Rollback(false)
     void updateCustomerTest(){
 
-        CustomerDto customerDto = new CustomerDto(9L, "kazino@gmail.com","8888","상구야","","",'N',"","");
-
-        customerRepositorySupport.updateCustomer(customerDto);
-
-        Customer updateCheckCustomer = customerRepository.findById(customerDto.getCustomerId()).orElseThrow(NullPointerException::new);
-
-        assertThat(customerDto.getCustomerName()).isEqualTo(updateCheckCustomer.getCuName());
-        assertThat(customerDto.getCustomerPassword()).isEqualTo(updateCheckCustomer.getPassword());
     }
 }

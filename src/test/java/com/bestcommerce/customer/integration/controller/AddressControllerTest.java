@@ -6,19 +6,23 @@ import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.address.repository.AddressRepository;
 import com.bestcommerce.customer.service.CustomerService;
 import com.bestcommerce.address.service.AddressService;
+import com.bestcommerce.member.dto.MemberLoginDto;
 import com.bestcommerce.util.converter.DtoConverter;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -44,23 +48,44 @@ public class AddressControllerTest {
     @Autowired
     private AddressRepository addressRepository;
 
+    private String getToken(){
+        String testUrl = "http://localhost:"+port+"/member/login";
+
+        MemberLoginDto memberLoginDto = new MemberLoginDto("test01","1234");
+
+        ResponseEntity<HashMap> response = restTemplate.postForEntity(testUrl, memberLoginDto, HashMap.class);
+
+        return Objects.requireNonNull(response.getBody()).get("accessToken").toString();
+    }
+
 
     @DisplayName("주소 저장 테스트")
     @Test
-    public void saveAddressTest() throws Exception{
+    public void saveAddressTest() throws JSONException {
 
-        Long customerId = 1L;
-        String addr = "대구광역시 서초구 남천동 네컷아파트 403호";
-        Character represent = 'Y';
-        String zipcode = "23897";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(getToken());
 
-        AddressDto addressDto = new AddressDto(1L,customerId, addr, represent, zipcode);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("customerId","38");
+        jsonObject.put("addr","대구광역시 서초구 남천동 네고컷아파트 403호");
+        jsonObject.put("represent","Y");
+        jsonObject.put("zipcode","23427");
+
+
+        HttpEntity<String> request = new HttpEntity<>(jsonObject.toString(), headers);
 
         String testUrl = "http://localhost:"+port+"/address/save";
 
-        ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, addressDto, Object.class);
+        ResponseEntity<Object> response = restTemplate.exchange(testUrl, HttpMethod.POST, request, Object.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+        Long customerId = 38L;
+        String addr = "대구광역시 서초구 남천동 네고컷아파트 403호";
+        Character represent = 'Y';
+        String zipcode = "23427";
 
         List<Address> addressList = addressService.getAllAddressesByCustomer(customerService.getOneCustomerInfo(customerId));
 
@@ -69,7 +94,7 @@ public class AddressControllerTest {
                 assertThat(address.getCustomer().getCuId()).isEqualTo(customerId);
                 assertThat(address.getRepYn()).isEqualTo(represent);
                 assertThat(address.getZipCode()).isEqualTo(zipcode);
-                addressService.deleteAddressByAddrId(address.getAddrId());
+//                addressService.deleteAddressByAddrId(address.getAddrId());
                 break;
             }
         }

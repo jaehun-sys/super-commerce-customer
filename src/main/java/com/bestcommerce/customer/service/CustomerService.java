@@ -20,17 +20,9 @@ public class CustomerService {
     private final CustomerRepositorySupport customerRepositorySupport;
 
 
-    public Boolean isUsableEmail(String cu_email){
-        return !customerRepository.existsByCuEmail(cu_email);
-    }
 
     public void save(Customer customer){
-        if(!customerRepository.existsByCuEmail(customer.getCuEmail())){
-            customerRepository.save(customer);
-            return;
-        }
-        log.error("Duplicated email");
-        throw new RuntimeException("Duplicated Email !");
+        customerRepository.save(customer);
     }
 
     public Customer getOneCustomerInfo(long id){
@@ -38,11 +30,12 @@ public class CustomerService {
     }
 
     public Customer getOneCustomerInfo(String cu_email){
-        return customerRepository.findByCuEmail(cu_email);
+
+        return null;
     }
 
     public void deleteOneCustomer(String cu_email){
-        customerRepository.deleteCustomerByCuEmail(cu_email);
+
     }
 
     public void updateCustomer(CustomerDto customerDto){

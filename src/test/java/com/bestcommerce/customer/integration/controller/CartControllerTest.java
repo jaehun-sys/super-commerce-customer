@@ -69,7 +69,7 @@ public class CartControllerTest {
     public void getCartListByCustomerIdTest() throws Exception{
         Long customerId = 1L;
 
-        CartItemDto cartItemDto = new CartItemDto(customerId,"","",0L,"",0,0L,"",0,0L,0L,"",0L,"",0);
+        CartItemDto cartItemDto = new CartItemDto(customerId,"",0L,"",0,0L,"",0,0L,0L,"",0L,"",0);
 
         String testUrl = "http://localhost:"+port+"/cart/list";
 

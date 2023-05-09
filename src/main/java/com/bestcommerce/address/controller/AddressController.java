@@ -36,7 +36,7 @@ public class AddressController {
 
     @PostMapping("/get")
     public List<AddressDto> getAllAddress(@RequestBody CustomerDto customerDto){
-        return dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(customerService.getOneCustomerInfo(customerDto.getCustomerEmail())));
+        return dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(customerService.getOneCustomerInfo(customerDto.getCustomerId())));
     }
 
     @PostMapping("/update")

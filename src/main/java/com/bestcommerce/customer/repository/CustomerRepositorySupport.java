@@ -36,9 +36,6 @@ public class CustomerRepositorySupport extends QuerydslRepositorySupport {
     }
 
     private void setCustomerModifyBuilder(CustomerDto customerDto, UpdateClause<JPAUpdateClause> builder){
-        if(StringUtils.hasText(customerDto.getCustomerPassword())){
-            builder.set(customer.password, customerDto.getCustomerPassword());
-        }
         if(StringUtils.hasText(customerDto.getCustomerName())){
             builder.set(customer.cuName, customerDto.getCustomerName());
         }

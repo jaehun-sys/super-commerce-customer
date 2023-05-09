@@ -2,6 +2,7 @@ package com.bestcommerce.customer.entity;
 
 import com.bestcommerce.address.entity.Address;
 import com.bestcommerce.cart.entity.Cart;
+import com.bestcommerce.member.entity.Member;
 import com.bestcommerce.payment.entity.Payment;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,12 +22,6 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long cuId;
 
-    @Column(name = "cu_email")
-    private String cuEmail;
-
-    @Column(name = "password")
-    private String password;
-
     @Column(name = "cu_name")
     private String cuName;
 
@@ -45,6 +40,10 @@ public class Customer {
     @Column(name = "modify_date")
     private String modifyDate;
 
+    @OneToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
     @OneToMany(mappedBy = "customer")
     private List<Address> addressList = new ArrayList<>();
 
@@ -54,9 +53,8 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Payment> paymentList = new ArrayList<>();
 
-    public Customer(String cuEmail, String password, String cuName, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
-        this.cuEmail = cuEmail;
-        this.password = password;
+    public Customer(Member member, String cuName, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
+        this.member = member;
         this.cuName = cuName;
         this.cuTelNumber = cuTelNumber;
         this.birthdate = birthdate;

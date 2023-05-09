@@ -11,8 +11,6 @@ public class CartItemDto {
 
     private String customerName;
 
-    private String customerEmail;
-
     private Long productId;
 
     private String productName;
@@ -37,10 +35,9 @@ public class CartItemDto {
 
     private int sizeValue;
 
-    public CartItemDto(Long customerId, String customerName, String customerEmail, Long productId, String productName, int productCost, Long sellerId, String thumbnailPath, int deliveryCost, Long sizeId, Long measureId, String measureName, Long contentId, String contentName, int sizeValue) {
+    public CartItemDto(Long customerId, String customerName, Long productId, String productName, int productCost, Long sellerId, String thumbnailPath, int deliveryCost, Long sizeId, Long measureId, String measureName, Long contentId, String contentName, int sizeValue) {
         this.customerId = customerId;
         this.customerName = customerName;
-        this.customerEmail = customerEmail;
         this.productId = productId;
         this.productName = productName;
         this.productCost = productCost;
