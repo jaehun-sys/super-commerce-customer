@@ -1,8 +1,10 @@
 package com.bestcommerce.customer.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class CustomerDto {
 
     private long customerId;
@@ -23,10 +25,11 @@ public class CustomerDto {
 
     private String modifyDate;
 
-    public CustomerDto(String cuEmail, String password, String cuName, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
-        this.customerEmail = cuEmail;
-        this.customerPassword = password;
+    public CustomerDto(long customerId, String cuName, String customerEmail, String customerPassword, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
+        this.customerId = customerId;
         this.customerName = cuName;
+        this.customerEmail = customerEmail;
+        this.customerPassword = customerPassword;
         this.customerTelNumber = cuTelNumber;
         this.customerBirthDate = birthdate;
         this.authYn = authYn;
