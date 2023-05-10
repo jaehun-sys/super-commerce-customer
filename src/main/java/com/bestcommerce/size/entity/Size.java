@@ -41,7 +41,7 @@ public class Size {
     @Column(name = "remain")
     private int sizeRemainQuantity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 
