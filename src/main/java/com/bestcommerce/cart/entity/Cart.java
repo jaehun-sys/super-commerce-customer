@@ -17,17 +17,17 @@ public class Cart{
     @EmbeddedId
     private CartKey cartKey = new CartKey();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cu_id")
     @MapsId("customerId")
     private Customer customer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     @MapsId("productId")
     private Product product;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "size_id")
     @MapsId("sizeId")
     private Size size;
