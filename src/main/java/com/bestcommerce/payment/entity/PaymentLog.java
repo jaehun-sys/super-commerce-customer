@@ -24,7 +24,7 @@ public class PaymentLog {
     @Column(name = "pay_date")
     private String payDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cu_id")
     private Customer customer;
 

@@ -32,7 +32,7 @@ public class CustomerRepositorySupport extends QuerydslRepositorySupport {
         UpdateClause<JPAUpdateClause> builder = update(customer);
         setCustomerModifyBuilder(customerDto,builder);
         builder.set(customer.modifyDate, LocalDate.now().toString());
-        long count = builder.where(customer.cuId.eq(customerDto.getCustomerId())).execute();
+        builder.where(customer.cuId.eq(customerDto.getCustomerId())).execute();
     }
 
     private void setCustomerModifyBuilder(CustomerDto customerDto, UpdateClause<JPAUpdateClause> builder){

@@ -53,7 +53,7 @@ public class MemberService {
         throw new RuntimeException("중복된 이메일 입니다.");
     }
 
-    public Member findMember(Long id){
-        return memberRepository.findById(id).orElseThrow(()-> new RuntimeException("등록된 사용자가 아닙니다."));
+    public Member findMember(String email){
+        return memberRepository.findByMemberEmail(email).orElseThrow(()-> new RuntimeException("등록된 사용자가 아닙니다."));
     }
 }
