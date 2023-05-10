@@ -20,8 +20,6 @@ public class CustomerService {
 
     private final CustomerRepositorySupport customerRepositorySupport;
 
-
-
     public void save(Customer customer){
         customerRepository.save(customer);
     }
@@ -32,10 +30,6 @@ public class CustomerService {
 
     public Customer getOneCustomerInfo(Member member){
         return customerRepository.findByMember(member).orElseThrow(()-> new NullPointerException("고객이 없습니다."));
-    }
-
-    public void deleteOneCustomer(String cu_email){
-
     }
 
     public void updateCustomer(CustomerDto customerDto){

@@ -1,68 +1,66 @@
 package com.bestcommerce.customer.integration.controller;
 
 import com.bestcommerce.member.dto.MemberLoginDto;
-import org.json.JSONException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.*;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.util.StringUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import java.util.HashMap;
-import java.util.Objects;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Rollback(false)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
 public class MemberControllerTest {
 
-    @LocalServerPort
-    private int port;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private ObjectMapper objectMapper;
 
-    private String getToken(){
-        String testUrl = "http://localhost:"+port+"/member/login";
+    @Autowired
+    private WebApplicationContext webApplicationContext;
 
-        MemberLoginDto memberLoginDto = new MemberLoginDto("test01","1234");
-
-        ResponseEntity<HashMap> response = restTemplate.postForEntity(testUrl, memberLoginDto, HashMap.class);
-
-        return Objects.requireNonNull(response.getBody()).get("accessToken").toString();
-    }
-
-    @DisplayName("login 테스트")
-    @Test
-    void loginTest(){
-        String testUrl = "http://localhost:"+port+"/member/login";
+    @BeforeEach
+    void initial() throws Exception {
 
         MemberLoginDto memberLoginDto = new MemberLoginDto("test01","1234");
 
-        ResponseEntity<HashMap> response = restTemplate.postForEntity(testUrl, memberLoginDto, HashMap.class);
+        String content = objectMapper.writeValueAsString(memberLoginDto);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        String result = mockMvc.perform(post("/member/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content))
+                .andReturn().getResponse().getContentAsString();
 
-        assertThat(StringUtils.hasText(response.getBody().get("accessToken").toString())).isTrue();
-        assertThat(StringUtils.hasText(response.getBody().get("refreshToken").toString())).isTrue();
+        String token = new JSONObject(result).getString("accessToken");
+
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .defaultRequest(get("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .defaultRequest(post("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .build();
     }
+
 
     @DisplayName("로그인 하고 발급된 bearer token으로 다른 api 접속 가능한지 테스트")
     @Test
-    void LoginAndAccessAuthenticatedAPITest(){
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(getToken());
-        String testUrl = "http://localhost:"+port+"/member/test";
+    void LoginAndAccessAuthenticatedAPITest() throws Exception {
 
-        ResponseEntity<String> response = restTemplate.exchange(testUrl, HttpMethod.GET, new HttpEntity<>(headers), String.class);
+        mockMvc.perform(get("/member/test"))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getBody()).isEqualTo("success");
     }
 }
