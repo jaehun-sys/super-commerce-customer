@@ -21,8 +21,8 @@ public class CustomerController {
 
     @PostMapping("/register")
     public void register(@RequestBody CustomerDto customerDto){
-        Long memberId = memberService.saveMember(customerDto.getCustomerEmail(), customerDto.getCustomerPassword());
-        Member member = memberService.findMember(memberId);
+        memberService.saveMember(customerDto.getCustomerEmail(), customerDto.getCustomerPassword());
+        Member member = memberService.findMember(customerDto.getCustomerEmail());
         customerService.save(entityConverter.toCustomer(customerDto, member));
     }
 

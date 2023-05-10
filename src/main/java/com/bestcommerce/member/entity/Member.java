@@ -36,7 +36,7 @@ public class Member implements UserDetails {
     @OneToOne(mappedBy = "member")
     private Customer customer;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
 

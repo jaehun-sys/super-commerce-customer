@@ -4,6 +4,7 @@ import com.bestcommerce.customer.entity.Customer;
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.repository.CustomerRepository;
 import com.bestcommerce.customer.repository.CustomerRepositorySupport;
+import com.bestcommerce.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,9 +30,8 @@ public class CustomerService {
         return customerRepository.findById(id).orElseThrow(NullPointerException::new);
     }
 
-    public Customer getOneCustomerInfo(String cu_email){
-
-        return null;
+    public Customer getOneCustomerInfo(Member member){
+        return customerRepository.findByMember(member).orElseThrow(()-> new NullPointerException("고객이 없습니다."));
     }
 
     public void deleteOneCustomer(String cu_email){

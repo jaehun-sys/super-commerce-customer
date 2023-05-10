@@ -4,6 +4,7 @@ import com.bestcommerce.address.dto.AddressDto;
 import com.bestcommerce.address.service.AddressService;
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.service.CustomerService;
+import com.bestcommerce.member.service.MemberService;
 import com.bestcommerce.util.converter.DtoConverter;
 import com.bestcommerce.util.converter.EntityConverter;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,8 @@ public class AddressController {
 
     private final CustomerService customerService;
 
+    private final MemberService memberService;
+
     private final DtoConverter dtoConverter;
 
     private final EntityConverter entityConverter;
@@ -36,7 +39,7 @@ public class AddressController {
 
     @PostMapping("/get")
     public List<AddressDto> getAllAddress(@RequestBody CustomerDto customerDto){
-        return dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(customerService.getOneCustomerInfo(customerDto.getCustomerId())));
+        return dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(customerService.getOneCustomerInfo(memberService.findMember(customerDto.getCustomerEmail()))));
     }
 
     @PostMapping("/update")
