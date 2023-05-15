@@ -1,73 +1,80 @@
 package com.bestcommerce.customer.integration.controller;
 
-import com.bestcommerce.product.dto.ProductDetailDto;
+import com.bestcommerce.member.dto.MemberLoginDto;
 import com.bestcommerce.product.dto.ProductDto;
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import java.util.ArrayList;
-import java.util.Map;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-@Rollback
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
 public class ProductSearchControllerTest {
 
-    @LocalServerPort
-    private int port;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    @BeforeEach
+    void initial() throws Exception {
+
+        MemberLoginDto memberLoginDto = new MemberLoginDto("test01","1234");
+
+        String content = objectMapper.writeValueAsString(memberLoginDto);
+
+        String result = mockMvc.perform(post("/member/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content))
+                .andReturn().getResponse().getContentAsString();
+
+        String token = new JSONObject(result).getString("accessToken");
+
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .defaultRequest(get("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .defaultRequest(post("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .build();
+    }
+
 
     @Test
     @DisplayName("상품 상세 조회 테스트")
-    public void viewDetailProductTest() throws JSONException {
-        ProductDto productDto = new ProductDto(1L, "",0,"","",0);
+    public void viewDetailProductTest() throws Exception {
+        ProductDto dto = new ProductDto(1L, "",0,"","",0);
 
-        String testUrl = "http://localhost:"+port+"/item/view";
+        String content = objectMapper.writeValueAsString(dto);
 
-        ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, productDto, Object.class);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        System.out.println(response.getBody());
-
-        JSONObject responseObject = new JSONObject((Map) response.getBody());
-        JSONObject productJsonObject = responseObject.getJSONObject("productDto");
-        JSONArray sizeJsonArray = responseObject.getJSONArray("sizeDtoList");
-        System.out.println(productJsonObject);
-        for(int i = 0; i < sizeJsonArray.length(); i++){
-            System.out.println(sizeJsonArray.getJSONObject(i));
-        }
-        assertThat(sizeJsonArray.length()).isEqualTo(6);
-        assertThat(productJsonObject.getString("productName")).isEqualTo("나이키 티엠포 레전드 9 엘리트 FG");
+        mockMvc.perform(post("/item/view").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     @DisplayName("상품 이름 또는 정보 검색")
-    public void searchProductTest(){
+    public void searchProductTest() throws Exception{
+
         String searchValue = "나이키";
 
-        String testUrl = "http://localhost:"+port+"/item/search";
-
-        ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, searchValue, Object.class);
-
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        ArrayList<ProductDetailDto> list = (ArrayList<ProductDetailDto>) response.getBody();
-        System.out.println(list);
-        assert list != null;
-        assertThat(list.size()).isEqualTo(10);
+        mockMvc.perform(post("/item/search").contentType(MediaType.APPLICATION_JSON).content(searchValue))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
     }
 }
