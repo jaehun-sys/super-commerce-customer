@@ -60,6 +60,9 @@ public class PaymentController {
         } catch (QuantityInsufficientException e){
             log.error("Quantity Insufficient Exception : {}", e.getMessage());
             return e.getMessage();
+        } catch (RuntimeException e){
+            e.printStackTrace();
+            return e.getMessage();
         }
     }
 
