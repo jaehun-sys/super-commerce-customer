@@ -6,11 +6,10 @@ import com.bestcommerce.address.repository.AddressRepository;
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.service.CustomerService;
 import com.bestcommerce.address.service.AddressService;
-import com.bestcommerce.member.dto.MemberLoginDto;
+import com.bestcommerce.customer.util.TestUtilService;
 import com.bestcommerce.member.service.MemberService;
 import com.bestcommerce.util.converter.DtoConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,13 +19,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,11 +35,6 @@ public class AddressControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
-
 
     @Autowired
     private CustomerService customerService;
@@ -60,25 +51,13 @@ public class AddressControllerTest {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    private TestUtilService testUtilService;
+
 
     @BeforeEach
     void initial() throws Exception {
-
-        MemberLoginDto memberLoginDto = new MemberLoginDto("test01","1234");
-
-        String content = objectMapper.writeValueAsString(memberLoginDto);
-
-        String result = mockMvc.perform(post("/member/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(content))
-                        .andReturn().getResponse().getContentAsString();
-
-        String token = new JSONObject(result).getString("accessToken");
-
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .defaultRequest(get("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                .defaultRequest(post("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                .build();
+        mockMvc = testUtilService.loginWithJwtToken(mockMvc,objectMapper);
     }
 
 
