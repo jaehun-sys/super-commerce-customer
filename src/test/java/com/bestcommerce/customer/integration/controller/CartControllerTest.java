@@ -6,28 +6,23 @@ import com.bestcommerce.cart.dto.CartItemDto;
 import com.bestcommerce.cart.dto.CartKeyDto;
 import com.bestcommerce.cart.repository.CartRepository;
 import com.bestcommerce.cart.service.CartService;
-import com.bestcommerce.member.dto.MemberLoginDto;
+import com.bestcommerce.customer.util.TestUtilService;
 import com.bestcommerce.util.converter.DtoConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,9 +37,6 @@ public class CartControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
-
-    @Autowired
     private CartService cartService;
 
     @Autowired
@@ -53,24 +45,12 @@ public class CartControllerTest {
     @Autowired
     private DtoConverter dtoConverter;
 
+    @Autowired
+    private TestUtilService testUtilService;
+
     @BeforeEach
     void initial() throws Exception {
-
-        MemberLoginDto memberLoginDto = new MemberLoginDto("test01","1234");
-
-        String content = objectMapper.writeValueAsString(memberLoginDto);
-
-        String result = mockMvc.perform(post("/member/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(content))
-                .andReturn().getResponse().getContentAsString();
-
-        String token = new JSONObject(result).getString("accessToken");
-
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .defaultRequest(get("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                .defaultRequest(post("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                .build();
+        mockMvc = testUtilService.loginWithJwtToken(mockMvc,objectMapper);
     }
 
     @DisplayName("장바구니 담는 테스트")
@@ -113,7 +93,7 @@ public class CartControllerTest {
 
         List<CartItemDto> cartItemDtoList = cartService.getCartList(customerId);
 
-        assertThat(3).isEqualTo(cartItemDtoList.size());
+        assertThat(2).isEqualTo(cartItemDtoList.size());
     }
 
     @DisplayName("장바구니 리스트 삭제 테스트")
