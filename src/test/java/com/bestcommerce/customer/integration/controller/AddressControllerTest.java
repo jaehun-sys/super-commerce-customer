@@ -98,7 +98,7 @@ public class AddressControllerTest {
 
         String customerEmail = "dudtkd0219@gmail.com";
 
-        CustomerDto customerDto = new CustomerDto(0L, "",customerEmail,"","","",'0',"","");
+        CustomerDto customerDto = new CustomerDto(0L, "",customerEmail,"","","","","");
 
         String content = objectMapper.writeValueAsString(customerDto);
 

@@ -4,6 +4,8 @@ import com.bestcommerce.address.entity.Address;
 import com.bestcommerce.address.dto.AddressDto;
 import com.bestcommerce.cart.entity.Cart;
 import com.bestcommerce.cart.dto.CartDto;
+import com.bestcommerce.customer.dto.CustomerDto;
+import com.bestcommerce.customer.entity.Customer;
 import com.bestcommerce.product.entity.Product;
 import com.bestcommerce.product.dto.ProductDto;
 import com.bestcommerce.size.dto.SizeDto;
@@ -54,5 +56,9 @@ public class DtoConverter {
             sizeDtoList.add(toSizeDto(size));
         }
         return sizeDtoList;
+    }
+
+    public CustomerDto toCustomerDto(Customer customer){
+        return new CustomerDto(customer.getCuId(), customer.getCuName(), customer.getMember().getMemberEmail(), "", customer.getCuTelNumber(), customer.getBirthdate(), customer.getRegisterDate(), customer.getModifyDate());
     }
 }

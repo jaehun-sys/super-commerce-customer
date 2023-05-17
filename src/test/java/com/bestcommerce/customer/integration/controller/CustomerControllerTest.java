@@ -65,9 +65,8 @@ public class CustomerControllerTest {
         String testName = "테스트계정3";
         String testNumber = "010-0101-0001";
         String testBirthDate = "19990101";
-        Character testAuthYn ='N';
 
-        CustomerDto dto = new CustomerDto(1L, testName, testEmail,testPassword,testNumber,testBirthDate,testAuthYn, "","");
+        CustomerDto dto = new CustomerDto(1L, testName, testEmail,testPassword,testNumber,testBirthDate, "","");
 
         String content = objectMapper.writeValueAsString(dto);
 
@@ -87,7 +86,7 @@ public class CustomerControllerTest {
     @Test
     public void updateCustomerTest() throws Exception{
 
-        CustomerDto dto = new CustomerDto(40L, "test계정","","","017-012-0384","2003.07.18",'N',"","");
+        CustomerDto dto = new CustomerDto(40L, "test계정","","","017-012-0384","2003.07.18","","");
 
         String content = objectMapper.writeValueAsString(dto);
 
@@ -101,5 +100,20 @@ public class CustomerControllerTest {
         assertThat(dto.getCustomerTelNumber()).isEqualTo(modifyCustomer.getCuTelNumber());
         assertThat(dto.getCustomerBirthDate()).isEqualTo(modifyCustomer.getBirthdate());
         assertThat(LocalDate.now().toString()).isEqualTo(modifyCustomer.getModifyDate());
+    }
+
+    @DisplayName("회원 정보 조회")
+    @Test
+    public void getCustomerTest() throws Exception{
+
+        String customerEmail = "dudtkd0219@gmail.com";
+        CustomerDto dto = new CustomerDto(0L,"",customerEmail,"","","","","");
+
+        String content = objectMapper.writeValueAsString(dto);
+
+        mockMvc.perform(post("/account/get").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
     }
 }
