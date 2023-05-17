@@ -28,11 +28,11 @@ public class OrderItemDto {
 
     private String productName;
 
-    private Long sellerId;
+    private Long brandId;
 
     private String thumbNail;
 
-    public OrderItemDto(Long orderNo, Long totalPrice, String orderDate, int productCount, int productPrice, Long sizeId, String sizeName, int sizeValue, Long productId, String productName, Long sellerId, String thumbNail) {
+    public OrderItemDto(Long orderNo, Long totalPrice, String orderDate, int productCount, int productPrice, Long sizeId, String sizeName, int sizeValue, Long productId, String productName, Long brandId, String thumbNail) {
         this.orderNo = orderNo;
         this.totalPrice = totalPrice;
         this.orderDate = orderDate;
@@ -43,7 +43,7 @@ public class OrderItemDto {
         this.sizeName = sizeName;
         this.sizeValue = sizeValue;
         this.productName = productName;
-        this.sellerId = sellerId;
+        this.brandId = brandId;
         this.thumbNail = thumbNail;
     }
 }

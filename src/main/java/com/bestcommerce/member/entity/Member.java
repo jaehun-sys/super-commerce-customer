@@ -1,5 +1,6 @@
 package com.bestcommerce.member.entity;
 
+import com.bestcommerce.brand.entity.Brand;
 import com.bestcommerce.customer.entity.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +36,9 @@ public class Member implements UserDetails {
 
     @OneToOne(mappedBy = "member")
     private Customer customer;
+
+    @OneToOne(mappedBy = "member")
+    private Brand brand;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
