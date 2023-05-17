@@ -101,4 +101,19 @@ public class CustomerControllerTest {
         assertThat(dto.getCustomerBirthDate()).isEqualTo(modifyCustomer.getBirthdate());
         assertThat(LocalDate.now().toString()).isEqualTo(modifyCustomer.getModifyDate());
     }
+
+    @DisplayName("회원 정보 조회")
+    @Test
+    public void getCustomerTest() throws Exception{
+
+        String customerEmail = "dudtkd0219@gmail.com";
+        CustomerDto dto = new CustomerDto(0L,"",customerEmail,"","","","","");
+
+        String content = objectMapper.writeValueAsString(dto);
+
+        mockMvc.perform(post("/account/get").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
+    }
 }

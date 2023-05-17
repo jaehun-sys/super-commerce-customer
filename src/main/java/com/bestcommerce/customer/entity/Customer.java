@@ -37,7 +37,7 @@ public class Customer {
     @Column(name = "modify_date")
     private String modifyDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
