@@ -31,9 +31,6 @@ public class Customer {
     @Column(name = "birthdate")
     private String birthdate;
 
-    @Column(name = "auth_yn")
-    private Character authYn;
-
     @Column(name = "regdate")
     private String registerDate;
 
@@ -53,12 +50,11 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Payment> paymentList = new ArrayList<>();
 
-    public Customer(Member member, String cuName, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
+    public Customer(Member member, String cuName, String cuTelNumber, String birthdate, String registerDate, String modifyDate){
         this.member = member;
         this.cuName = cuName;
         this.cuTelNumber = cuTelNumber;
         this.birthdate = birthdate;
-        this.authYn = authYn;
         this.registerDate = registerDate;
         this.modifyDate = modifyDate;
     }

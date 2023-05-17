@@ -21,9 +21,9 @@ public class EntityConverter {
 
     public Customer toCustomer(CustomerDto customerDto, Member member){
         if(!StringUtils.hasText(customerDto.getRegisterDate())){
-            return new Customer(member, customerDto.getCustomerName(), customerDto.getCustomerTelNumber(), customerDto.getCustomerBirthDate(), customerDto.getAuthYn(), LocalDate.now().toString(), customerDto.getModifyDate());
+            return new Customer(member, customerDto.getCustomerName(), customerDto.getCustomerTelNumber(), customerDto.getCustomerBirthDate(), LocalDate.now().toString(), customerDto.getModifyDate());
         }
-        return new Customer(member, customerDto.getCustomerName(), customerDto.getCustomerTelNumber(), customerDto.getCustomerBirthDate(), customerDto.getAuthYn(), customerDto.getRegisterDate(), customerDto.getModifyDate());
+        return new Customer(member, customerDto.getCustomerName(), customerDto.getCustomerTelNumber(), customerDto.getCustomerBirthDate(), customerDto.getRegisterDate(), customerDto.getModifyDate());
     }
 
     public Address toAddress(AddressDto addressDto, Customer customer){
