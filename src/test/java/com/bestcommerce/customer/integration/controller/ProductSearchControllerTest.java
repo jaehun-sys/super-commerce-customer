@@ -38,7 +38,7 @@ public class ProductSearchControllerTest {
     @Test
     @DisplayName("상품 상세 조회 테스트")
     public void viewDetailProductTest() throws Exception {
-        ProductDto dto = new ProductDto(1L, "",0,"","",0);
+        ProductDto dto = new ProductDto(1L,1L, "",0,"","",0);
 
         String content = objectMapper.writeValueAsString(dto);
 

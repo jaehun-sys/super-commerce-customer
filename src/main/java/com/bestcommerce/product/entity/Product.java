@@ -1,5 +1,6 @@
 package com.bestcommerce.product.entity;
 
+import com.bestcommerce.brand.entity.Brand;
 import com.bestcommerce.cart.entity.Cart;
 import com.bestcommerce.size.entity.Size;
 import com.bestcommerce.payment.entity.Payment;
@@ -30,14 +31,15 @@ public class Product {
     @Column(name = "info")
     private String info;
 
-    @Column(name = "seller_id")
-    private Long sellerId;
-
     @Column(name = "thumb_path")
     private String thumbPath;
 
     @Column(name = "delivery_cost")
     private int deliveryCost;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
     @OneToMany(mappedBy = "product")
     private List<Cart> cartsList = new ArrayList<>();

@@ -35,7 +35,7 @@ public class OrderItemRepository extends QuerydslRepositorySupport {
                         size.sizeValue.as("sizeValue"),
                         product.productId.as("productId"),
                         product.productName.as("productName"),
-                        product.sellerId.as("sellerId"),
+                        product.brand.id.as("brandId"),
                         product.thumbPath.as("thumbNail")
                 ))
                 .from(payment)
