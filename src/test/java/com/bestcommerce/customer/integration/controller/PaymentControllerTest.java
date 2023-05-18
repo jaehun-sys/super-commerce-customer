@@ -47,13 +47,13 @@ public class PaymentControllerTest {
     @DisplayName("대량 주문 테스트")
     void saveBigOrderListTest() throws Exception {
 
-        Long[] customerIdArray = {38L,39L,40L};
+        Long[] customerIdArray = {38L,40L};
         List<PaymentDto> orderList = new ArrayList<>();
 
-        for(long i = 1L; i <= 6L; i++){
+        for(long i = 8L; i <= 10L; i++){
             orderList.add(new PaymentDto(0L,0L,
-                    customerIdArray[0],
-                    1L,
+                    customerIdArray[1],
+                    2L,
                     i,
                     (int)(Math.random()*10 + 1),
                     0));

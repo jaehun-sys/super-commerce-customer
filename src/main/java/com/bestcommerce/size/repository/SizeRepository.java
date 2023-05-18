@@ -18,4 +18,7 @@ public interface SizeRepository extends JpaRepository<Size,Long> {
     Optional<Size> findWithIdForUpdate(@Param("id") Long id);
 
     List<Size> findAllByProduct(Product product);
+
+    @Query("select s from size s where s.product.productId = :id")
+    List<Size> getAllSizeListByProductId(@Param("id") Long productId);
 }

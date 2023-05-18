@@ -1,6 +1,6 @@
 package com.bestcommerce.member.entity;
 
-import com.bestcommerce.brand.entity.Brand;
+import com.bestcommerce.product.entity.Brand;
 import com.bestcommerce.customer.entity.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,10 +34,10 @@ public class Member implements UserDetails {
     @Column(name = "password")
     private String memberPassword;
 
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
     private Customer customer;
 
-    @OneToOne(mappedBy = "member")
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
     private Brand brand;
 
     @ElementCollection(fetch = FetchType.LAZY)

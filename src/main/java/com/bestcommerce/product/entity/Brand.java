@@ -1,7 +1,6 @@
-package com.bestcommerce.brand.entity;
+package com.bestcommerce.product.entity;
 
 import com.bestcommerce.member.entity.Member;
-import com.bestcommerce.product.entity.Product;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +31,7 @@ public class Brand {
     @Column(name = "regdate")
     private String registerDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

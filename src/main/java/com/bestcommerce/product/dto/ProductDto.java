@@ -10,6 +10,8 @@ public class ProductDto {
 
     private Long brandId;
 
+    private String brandName;
+
     private String productName;
 
     private int productCost;
@@ -22,6 +24,7 @@ public class ProductDto {
 
     public ProductDto(Long productId,
                       Long brandId,
+                      String brandName,
                       String productName,
                       int productCost,
                       String info,
@@ -29,6 +32,7 @@ public class ProductDto {
                       int deliveryCost){
         this.productId = productId;
         this.brandId = brandId;
+        this.brandName = brandName;
         this.productName = productName;
         this.productCost = productCost;
         this.info = info;

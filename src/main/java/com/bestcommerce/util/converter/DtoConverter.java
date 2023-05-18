@@ -19,7 +19,7 @@ import java.util.List;
 public class DtoConverter {
 
     public ProductDto toProductDto(Product product){
-        return new ProductDto(product.getProductId(), product.getBrand().getId(), product.getProductName(), product.getProductCost(), product.getInfo(), product.getThumbPath(), product.getDeliveryCost());
+        return new ProductDto(product.getProductId(), product.getBrand().getId(), "", product.getProductName(), product.getProductCost(), product.getInfo(), product.getThumbPath(), product.getDeliveryCost());
     }
 
     public List<ProductDto> toProductDtoList(List<Product> productList){
