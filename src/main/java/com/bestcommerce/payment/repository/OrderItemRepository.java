@@ -12,6 +12,7 @@ import static com.bestcommerce.payment.entity.QPayment.payment;
 import static com.bestcommerce.payment.entity.QPaymentLog.paymentLog;
 import static com.bestcommerce.size.entity.QSize.size;
 import static com.bestcommerce.product.entity.QProduct.product;
+import static com.bestcommerce.product.entity.QBrand.brand;
 
 @Repository
 public class OrderItemRepository extends QuerydslRepositorySupport {
@@ -33,15 +34,17 @@ public class OrderItemRepository extends QuerydslRepositorySupport {
                         size.sizeId.as("sizeId"),
                         size.contentName.as("sizeName"),
                         size.sizeValue.as("sizeValue"),
+                        brand.id.as("brandId"),
+                        brand.name.as("brandName"),
                         product.productId.as("productId"),
                         product.productName.as("productName"),
-                        product.brand.id.as("brandId"),
                         product.thumbPath.as("thumbNail")
                 ))
                 .from(payment)
                 .innerJoin(payment.paymentLog, paymentLog)
                 .innerJoin(payment.size, size)
                 .innerJoin(payment.product, product)
+                .innerJoin(product.brand, brand)
                 .where(paymentLog.payNo.eq(orderNo)).fetch();
     }
 }

@@ -26,6 +26,10 @@ public class SizeService {
         return sizeRepository.findAllByProduct(product);
     }
 
+    public List<Size> getSizeListByProductId(Long productId){
+        return sizeRepository.getAllSizeListByProductId(productId);
+    }
+
     @Transactional
     public void putEntityToEntityMap(Map<Long, Size> sizeMap, Long sizeId, int productCount) throws QuantityException {
         if(sizeMap.containsKey(sizeId)){

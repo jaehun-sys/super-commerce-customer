@@ -14,6 +14,7 @@ import java.util.List;
 
 import static com.bestcommerce.cart.entity.QCart.cart;
 import static com.bestcommerce.customer.entity.QCustomer.customer;
+import static com.bestcommerce.product.entity.QBrand.brand;
 import static com.bestcommerce.product.entity.QProduct.product;
 import static com.bestcommerce.size.entity.QSize.size;
 
@@ -35,8 +36,8 @@ public class CartRepositorySupport extends QuerydslRepositorySupport {
                         product.productId.as("productId"),
                         product.productName.as("productName"),
                         product.productCost.as("productCost"),
-                        product.brand.id.as("brandId"),
-                        product.brand.name.as("brandName"),
+                        brand.id.as("brandId"),
+                        brand.name.as("brandName"),
                         product.thumbPath.as("thumbnailPath"),
                         product.deliveryCost.as("deliveryCost"),
                         size.sizeId.as("sizeId"),
@@ -45,7 +46,11 @@ public class CartRepositorySupport extends QuerydslRepositorySupport {
                         size.contentId.as("contentId"),
                         size.contentName.as("contentName"),
                         size.sizeValue.as("sizeValue")))
-                .from(cart).innerJoin(cart.customer, customer).innerJoin(cart.product, product).innerJoin(cart.size, size)
+                .from(cart)
+                .innerJoin(cart.customer, customer)
+                .innerJoin(cart.product, product)
+                .innerJoin(cart.size, size)
+                .innerJoin(product.brand, brand)
                 .where(customer.cuId.eq(id)).fetch();
     }
 

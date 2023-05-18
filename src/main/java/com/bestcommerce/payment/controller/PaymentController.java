@@ -6,6 +6,8 @@ import com.bestcommerce.payment.dto.PaymentLogDto;
 import com.bestcommerce.payment.entity.Payment;
 import com.bestcommerce.payment.dto.PaymentDto;
 import com.bestcommerce.payment.service.PaymentService;
+import com.bestcommerce.product.entity.Product;
+import com.bestcommerce.product.service.ProductSelectService;
 import com.bestcommerce.size.entity.Size;
 import com.bestcommerce.util.DtoList;
 import com.bestcommerce.util.converter.EntityConverter;
@@ -38,6 +40,8 @@ public class PaymentController {
     private final CustomerService customerService;
 
     private final SizeService sizeService;
+
+    private final ProductSelectService productSelectService;
 
     private final EntityConverter entityConverter;
 
@@ -74,10 +78,14 @@ public class PaymentController {
 
     private void paymentConverterForInsert(List<PaymentDto> paymentDtoList, List<Payment> paymentList, Customer customer, Long[] totalPrice) throws RuntimeException{
         Map<Long, Size> sizeMap = new HashMap<>();
+        Map<Long, Product> productMap = new HashMap<>();
         for(PaymentDto paymentDto : paymentDtoList){
             sizeService.putEntityToEntityMap(sizeMap, paymentDto.getSizeId(), paymentDto.getProductCount());
-            totalPrice[0] += (long)sizeMap.get(paymentDto.getSizeId()).getProduct().getProductCost();
-            paymentList.add(new Payment(null, customer, sizeMap.get(paymentDto.getSizeId()).getProduct(), sizeMap.get(paymentDto.getSizeId()), paymentDto.getProductCount(), sizeMap.get(paymentDto.getSizeId()).getProduct().getProductCost()));
+            if(!productMap.containsKey(paymentDto.getProductId())){
+                productMap.put(paymentDto.getProductId(), productSelectService.getOnlyOneProduct(paymentDto.getProductId()));
+            }
+            totalPrice[0] += (long) productMap.get(paymentDto.getProductId()).getProductCost();
+            paymentList.add(new Payment(null, customer, productMap.get(paymentDto.getProductId()), sizeMap.get(paymentDto.getSizeId()), paymentDto.getProductCount(), productMap.get(paymentDto.getProductId()).getProductCost()));
         }
     }
 

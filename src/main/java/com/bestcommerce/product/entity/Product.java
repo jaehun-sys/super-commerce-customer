@@ -1,6 +1,5 @@
 package com.bestcommerce.product.entity;
 
-import com.bestcommerce.brand.entity.Brand;
 import com.bestcommerce.cart.entity.Cart;
 import com.bestcommerce.size.entity.Size;
 import com.bestcommerce.payment.entity.Payment;
@@ -37,7 +36,7 @@ public class Product {
     @Column(name = "delivery_cost")
     private int deliveryCost;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
