@@ -34,12 +34,6 @@ public class Member implements UserDetails {
     @Column(name = "password")
     private String memberPassword;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
-    private Customer customer;
-
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
-    private Brand brand;
-
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private List<String> roles = new ArrayList<>();

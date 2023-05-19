@@ -36,6 +36,7 @@ public class CustomerController {
 
     @PostMapping("/get")
     public CustomerDto get(@RequestBody CustomerDto customerDto){
-        return  dtoConverter.toCustomerDto(customerService.getOneCustomerInfo(memberService.findMember(customerDto.getCustomerEmail())));
+        Member member = memberService.findMember(customerDto.getCustomerEmail());
+        return  dtoConverter.toCustomerDto(customerService.getOneCustomerInfo(member), member.getMemberEmail());
     }
 }
