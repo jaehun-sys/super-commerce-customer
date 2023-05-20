@@ -58,7 +58,7 @@ public class DtoConverter {
         return sizeDtoList;
     }
 
-    public CustomerDto toCustomerDto(Customer customer){
-        return new CustomerDto(customer.getCuId(), customer.getCuName(), customer.getMember().getMemberEmail(), "", customer.getCuTelNumber(), customer.getBirthdate(), customer.getRegisterDate(), customer.getModifyDate());
+    public CustomerDto toCustomerDto(Customer customer, String customerEmail){
+        return new CustomerDto(customer.getCuId(), customer.getCuName(), customerEmail, "", customer.getCuTelNumber(), customer.getBirthdate(), customer.getRegisterDate(), customer.getModifyDate());
     }
 }
