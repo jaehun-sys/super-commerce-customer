@@ -16,19 +16,15 @@ public class ProductSelectService {
 
     private final ProductRepositorySupport productRepositorySupport;
 
-    public List<Product> getAllProductList(){
-        return productRepository.findAll();
-    }
-
     public Product getOnlyOneProduct(Long product_id){
         return productRepository.findById(product_id).orElseThrow(NullPointerException::new);
     }
 
-    public ProductDto getDetailProduct(Long productId){
-        return productRepositorySupport.getDetailProduct(productId);
+    public ProductDto getDetailProduct(Long customerId, Long productId){
+        return productRepositorySupport.getDetailProduct(customerId, productId);
     }
 
-    public List<ProductDto> getSearchProducts(String searchValue){
-        return productRepositorySupport.getSearchProducts(searchValue);
+    public List<ProductDto> getSearchProducts(Long customerId, String searchValue){
+        return productRepositorySupport.getSearchProducts(customerId,searchValue);
     }
 }

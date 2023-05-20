@@ -18,18 +18,6 @@ import java.util.List;
 @Component
 public class DtoConverter {
 
-    public ProductDto toProductDto(Product product){
-        return new ProductDto(product.getProductId(), product.getBrand().getId(), "", product.getProductName(), product.getProductCost(), product.getInfo(), product.getThumbPath(), product.getDeliveryCost());
-    }
-
-    public List<ProductDto> toProductDtoList(List<Product> productList){
-        List<ProductDto> productDtoList = new ArrayList<>();
-        for(Product product : productList){
-            productDtoList.add(toProductDto(product));
-        }
-        return productDtoList;
-    }
-
     public AddressDto toAddressDto(Address address){
         return new AddressDto(address.getAddrId(), address.getCustomer().getCuId(), address.getAddr(), address.getRepYn(), address.getZipCode());
     }

@@ -1,5 +1,6 @@
 package com.bestcommerce.product.controller;
 
+import com.bestcommerce.product.dto.ProductActDto;
 import com.bestcommerce.product.dto.ProductDetailDto;
 import com.bestcommerce.product.dto.ProductDto;
 import com.bestcommerce.product.service.ProductSelectService;
@@ -25,21 +26,16 @@ public class SearchProductController {
     private final SizeService sizeService;
     private final DtoConverter dtoConverter;
 
-    @GetMapping("/all")
-    public List<ProductDto> showAllProduct(){
-        return dtoConverter.toProductDtoList(productSelectService.getAllProductList());
-    }
-
     @PostMapping("/view")
-    public ProductDetailDto viewProductDetail(@RequestBody ProductDto productDto){
-        ProductDto searchProductDto = productSelectService.getDetailProduct(productDto.getProductId());
-        List<SizeDto> searchProductSizeList = dtoConverter.toSizeDtoList(sizeService.getSizeListByProductId(productDto.getProductId()));
+    public ProductDetailDto viewProductDetail(@RequestBody ProductActDto productActDto){
+        ProductDto searchProductDto = productSelectService.getDetailProduct(productActDto.getCustomerId(), productActDto.getProductId());
+        List<SizeDto> searchProductSizeList = dtoConverter.toSizeDtoList(sizeService.getSizeListByProductId(productActDto.getProductId()));
         return new ProductDetailDto(searchProductDto, searchProductSizeList);
     }
 
     @PostMapping("/search")
-    public List<ProductDto> searchItem(@RequestBody String searchValue){
-        log.info("search Value : {}", searchValue);
-        return productSelectService.getSearchProducts(searchValue);
+    public List<ProductDto> searchItem(@RequestBody ProductActDto productActDto){
+        log.info("search Value : {}", productActDto.getSearchValue());
+        return productSelectService.getSearchProducts(productActDto.getCustomerId(), productActDto.getSearchValue());
     }
 }
