@@ -2,7 +2,7 @@ package com.bestcommerce.product.controller;
 
 import com.bestcommerce.customer.entity.Customer;
 import com.bestcommerce.customer.service.CustomerService;
-import com.bestcommerce.product.dto.ProductLikeDto;
+import com.bestcommerce.product.dto.ProductActDto;
 import com.bestcommerce.product.entity.Product;
 import com.bestcommerce.product.service.ProductLikeService;
 import com.bestcommerce.product.service.ProductSelectService;
@@ -25,10 +25,10 @@ public class LikeController {
     private final ProductLikeService productLikeService;
 
     @PostMapping("/product")
-    public StatusDto productLikeOrCancelLike(@RequestBody ProductLikeDto productLikeDto){
+    public StatusDto productLikeOrCancelLike(@RequestBody ProductActDto productActDto){
 
-        Customer customer = customerService.getOneCustomerInfo(productLikeDto.getCustomerId());
-        Product product = productSelectService.getOnlyOneProduct(productLikeDto.getProductId());
+        Customer customer = customerService.getOneCustomerInfo(productActDto.getCustomerId());
+        Product product = productSelectService.getOnlyOneProduct(productActDto.getProductId());
 
         return StatusDto.builder().status(productLikeService.likeOrCancelLikeProduct(customer, product)).build();
     }

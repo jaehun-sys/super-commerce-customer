@@ -5,14 +5,17 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ProductLikeDto {
+public class ProductActDto {
 
     private Long customerId;
 
     private Long productId;
 
-    public ProductLikeDto(Long customerId, Long productId) {
+    private String searchValue;
+
+    public ProductActDto(Long customerId, Long productId, String searchValue) {
         this.customerId = customerId;
         this.productId = productId;
+        this.searchValue = searchValue;
     }
 }

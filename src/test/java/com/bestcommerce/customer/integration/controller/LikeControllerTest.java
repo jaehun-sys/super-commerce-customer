@@ -1,7 +1,7 @@
 package com.bestcommerce.customer.integration.controller;
 
 import com.bestcommerce.customer.util.TestUtilService;
-import com.bestcommerce.product.dto.ProductLikeDto;
+import com.bestcommerce.product.dto.ProductActDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +38,7 @@ public class LikeControllerTest {
     @Test
     void likeTest() throws Exception{
 
-        ProductLikeDto dto = new ProductLikeDto(42L, 7L);
+        ProductActDto dto = new ProductActDto(42L, 7L,"");
 
         String content = objectMapper.writeValueAsString(dto);
 
