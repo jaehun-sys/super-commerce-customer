@@ -39,7 +39,7 @@ public class ProductSearchControllerTest {
     @Test
     @DisplayName("상품 상세 조회 테스트")
     public void viewDetailProductTest() throws Exception {
-        ProductActDto dto = new ProductActDto(42L, 7L, "");
+        ProductActDto dto = new ProductActDto(42L, 1L, "");
 
         String content = objectMapper.writeValueAsString(dto);
 
