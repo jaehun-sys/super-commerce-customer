@@ -37,6 +37,26 @@ public class ProductRepositorySupport extends QuerydslRepositorySupport {
                 .where(product.productName.contains(searchValue).or(product.info.contains(searchValue))).fetch();
     }
 
+    public List<ProductDto> getLikeProductList(Long customerId){
+        return queryFactory.select(Projections.constructor(ProductDto.class,
+                        product.productId.as("productId"),
+                        brand.id.as("brandId"),
+                        brand.name.as("brandName"),
+                        product.productName.as("productName"),
+                        product.productCost.as("productCost"),
+                        product.info.as("info"),
+                        product.thumbPath.as("thumbPath"),
+                        product.deliveryCost.as("deliveryCost"),
+                        productLike.likeDate.as("productLike")
+                ))
+                .from(productLike)
+                .innerJoin(productLike.product, product)
+                .innerJoin(product.brand, brand)
+                .where(productLike.customer.cuId.eq(customerId))
+                .orderBy(productLike.likeDate.asc())
+                .fetch();
+    }
+
     private JPAQuery<ProductDto> getInitialJPAQuery(Long customerId){
         return queryFactory.select(Projections.constructor(ProductDto.class,
                         product.productId.as("productId"),
@@ -47,18 +67,11 @@ public class ProductRepositorySupport extends QuerydslRepositorySupport {
                         product.info.as("info"),
                         product.thumbPath.as("thumbPath"),
                         product.deliveryCost.as("deliveryCost"),
-                        new CaseBuilder()
-                                .when(isLike(customerId, product))
-                                .then("LIKE").otherwise("").as("productLike")
+                        productLike.likeDate.coalesce("notLike").as("productLike")
                 ))
                 .from(product)
-                .innerJoin(product.brand, brand);
-    }
-
-    private BooleanExpression isLike(Long customerId, QProduct product){
-        return JPAExpressions.selectOne()
-                .from(productLike)
-                .where(productLike.customer.cuId.eq(customerId).and(productLike.product.productId.eq(product.productId)))
-                .exists();
+                .innerJoin(product.brand, brand)
+                .leftJoin(productLike)
+                .on(productLike.product.productId.eq(product.productId).and(productLike.customer.cuId.eq(customerId)));
     }
 }

@@ -47,4 +47,17 @@ public class LikeControllerTest {
                 .andDo(MockMvcResultHandlers.print());
 
     }
+
+    @DisplayName("내가 좋아요한 상품 리스트")
+    @Test
+    void likeListTest() throws Exception{
+
+        ProductActDto dto = new ProductActDto(42L, 0L,"");
+
+        String content = objectMapper.writeValueAsString(dto);
+
+        mockMvc.perform(post("/like/list").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
 }

@@ -27,4 +27,8 @@ public class ProductSelectService {
     public List<ProductDto> getSearchProducts(Long customerId, String searchValue){
         return productRepositorySupport.getSearchProducts(customerId,searchValue);
     }
+
+    public List<ProductDto> getLikeProductList(Long customerId){
+        return productRepositorySupport.getLikeProductList(customerId);
+    }
 }
