@@ -37,4 +37,7 @@ public class Brand {
 
     @OneToMany(mappedBy = "brand")
     private List<Product> productList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "brand")
+    private List<BrandLike> likeList = new ArrayList<>();
 }

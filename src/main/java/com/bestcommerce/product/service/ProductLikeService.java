@@ -16,7 +16,7 @@ public class ProductLikeService {
 
     private final ProductLikeRepository productLikeRepository;
 
-    public String likeOrCancelLikeProduct(Customer customer, Product product){
+    public String productLikeAct(Customer customer, Product product){
         if(productLikeRepository.existsByCustomerAndProduct(customer,product)) {
             productLikeRepository.deleteByCustomerAndProduct(customer, product);
             return "DisLike";

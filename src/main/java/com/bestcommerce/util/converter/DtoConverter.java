@@ -6,8 +6,6 @@ import com.bestcommerce.cart.entity.Cart;
 import com.bestcommerce.cart.dto.CartDto;
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.entity.Customer;
-import com.bestcommerce.product.entity.Product;
-import com.bestcommerce.product.dto.ProductDto;
 import com.bestcommerce.size.dto.SizeDto;
 import com.bestcommerce.size.entity.Size;
 import org.springframework.stereotype.Component;

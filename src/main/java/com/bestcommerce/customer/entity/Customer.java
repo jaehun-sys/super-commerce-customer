@@ -4,6 +4,7 @@ import com.bestcommerce.address.entity.Address;
 import com.bestcommerce.cart.entity.Cart;
 import com.bestcommerce.member.entity.Member;
 import com.bestcommerce.payment.entity.Payment;
+import com.bestcommerce.product.entity.BrandLike;
 import com.bestcommerce.product.entity.ProductLike;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -52,7 +53,10 @@ public class Customer {
     private List<Payment> paymentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "customer")
-    private List<ProductLike> likeList = new ArrayList<>();
+    private List<ProductLike> productLikeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "customer")
+    private List<BrandLike> brandLikeList = new ArrayList<>();
 
     public Customer(Member member, String cuName, String cuTelNumber, String birthdate, String registerDate, String modifyDate){
         this.member = member;

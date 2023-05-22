@@ -4,7 +4,10 @@ import com.bestcommerce.customer.entity.Customer;
 import com.bestcommerce.customer.service.CustomerService;
 import com.bestcommerce.product.dto.ProductActDto;
 import com.bestcommerce.product.dto.ProductDto;
+import com.bestcommerce.product.entity.Brand;
 import com.bestcommerce.product.entity.Product;
+import com.bestcommerce.product.service.BrandLikeService;
+import com.bestcommerce.product.service.BrandService;
 import com.bestcommerce.product.service.ProductLikeService;
 import com.bestcommerce.product.service.ProductSelectService;
 import com.bestcommerce.util.json.StatusDto;
@@ -25,7 +28,11 @@ public class LikeController {
 
     private final ProductSelectService productSelectService;
 
+    private final BrandService brandService;
+
     private final ProductLikeService productLikeService;
+
+    private final BrandLikeService brandLikeService;
 
     @PostMapping("/product")
     public StatusDto productLikeOrCancelLike(@RequestBody ProductActDto productActDto){
@@ -33,12 +40,21 @@ public class LikeController {
         Customer customer = customerService.getOneCustomerInfo(productActDto.getCustomerId());
         Product product = productSelectService.getOnlyOneProduct(productActDto.getProductId());
 
-        return StatusDto.builder().status(productLikeService.likeOrCancelLikeProduct(customer, product)).build();
+        return StatusDto.builder().status(productLikeService.productLikeAct(customer, product)).build();
     }
 
-    @PostMapping("/list")
+    @PostMapping("/product/list")
     public List<ProductDto> gogo(@RequestBody ProductActDto productActDto){
         return productSelectService.getLikeProductList(productActDto.getCustomerId());
+    }
+
+    @PostMapping("/brand")
+    public StatusDto brandLikeOrCancel(@RequestBody ProductActDto productActDto){
+
+        Customer customer = customerService.getOneCustomerInfo(productActDto.getCustomerId());
+        Brand brand = brandService.getBrand(productActDto.getBrandId());
+
+        return StatusDto.builder().status(brandLikeService.brandLikeAct(customer, brand)).build();
     }
 
 }
