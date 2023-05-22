@@ -36,9 +36,9 @@ public class LikeControllerTest {
 
     @DisplayName("상품 좋아요 및 취소 테스트")
     @Test
-    void likeTest() throws Exception{
+    void likeProductTest() throws Exception{
 
-        ProductActDto dto = new ProductActDto(42L, 7L,"");
+        ProductActDto dto = new ProductActDto(42L, 0L,7L,"");
 
         String content = objectMapper.writeValueAsString(dto);
 
@@ -52,11 +52,24 @@ public class LikeControllerTest {
     @Test
     void likeListTest() throws Exception{
 
-        ProductActDto dto = new ProductActDto(42L, 0L,"");
+        ProductActDto dto = new ProductActDto(42L, 0L,0L,"");
 
         String content = objectMapper.writeValueAsString(dto);
 
-        mockMvc.perform(post("/like/list").contentType(MediaType.APPLICATION_JSON).content(content))
+        mockMvc.perform(post("/like/product/list").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @DisplayName("브랜드 좋아요 및 취소 테스트")
+    @Test
+    void likeBrandTest() throws Exception{
+
+        ProductActDto dto = new ProductActDto(42L, 1L,0L,"");
+
+        String content = objectMapper.writeValueAsString(dto);
+
+        mockMvc.perform(post("/like/brand").contentType(MediaType.APPLICATION_JSON).content(content))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }

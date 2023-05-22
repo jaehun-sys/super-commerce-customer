@@ -2,7 +2,6 @@ package com.bestcommerce.customer.integration.controller;
 
 import com.bestcommerce.customer.util.TestUtilService;
 import com.bestcommerce.product.dto.ProductActDto;
-import com.bestcommerce.product.dto.ProductDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,7 +38,7 @@ public class ProductSearchControllerTest {
     @Test
     @DisplayName("상품 상세 조회 테스트")
     public void viewDetailProductTest() throws Exception {
-        ProductActDto dto = new ProductActDto(42L, 1L, "");
+        ProductActDto dto = new ProductActDto(42L, 0L, 1L, "");
 
         String content = objectMapper.writeValueAsString(dto);
 
@@ -52,7 +51,7 @@ public class ProductSearchControllerTest {
     @DisplayName("상품 이름 또는 정보 검색")
     public void searchProductTest() throws Exception{
 
-        ProductActDto dto = new ProductActDto(42L, 0L, "나이키");
+        ProductActDto dto = new ProductActDto(42L, 0L, 0L, "나이키");
 
         String content = objectMapper.writeValueAsString(dto);
 
