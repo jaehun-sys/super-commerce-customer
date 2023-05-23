@@ -24,4 +24,8 @@ public class BrandLikeService {
         brandLikeRepository.save(new BrandLike(0L, customer, brand, LocalDateTime.now().format(TimeFormat.orderLogDateFormat)));
         return "like";
     }
+
+    public String isLike(Customer customer, Brand brand){
+        return brandLikeRepository.existsByCustomerAndBrand(customer, brand) ? "LIKE" : "NONE";
+    }
 }

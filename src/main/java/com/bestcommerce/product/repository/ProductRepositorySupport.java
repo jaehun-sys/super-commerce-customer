@@ -53,6 +53,11 @@ public class ProductRepositorySupport extends QuerydslRepositorySupport {
                 .fetch();
     }
 
+    public List<ProductDto> getBrandProductList(Long customerId, Long brandId){
+        return getInitialJPAQuery(customerId)
+                .where(brand.id.eq(brandId)).fetch();
+    }
+
     private JPAQuery<ProductDto> getInitialJPAQuery(Long customerId){
         return queryFactory.select(Projections.constructor(ProductDto.class,
                         product.productId.as("productId"),
