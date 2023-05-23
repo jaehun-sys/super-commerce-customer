@@ -31,4 +31,8 @@ public class ProductSelectService {
     public List<ProductDto> getLikeProductList(Long customerId){
         return productRepositorySupport.getLikeProductList(customerId);
     }
+
+    public List<ProductDto> getBrandProductList(Long customerId, Long brandId){
+        return productRepositorySupport.getBrandProductList(customerId, brandId);
+    }
 }
