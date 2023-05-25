@@ -8,18 +8,17 @@ import com.bestcommerce.member.service.MemberService;
 import com.bestcommerce.util.converter.DtoConverter;
 import com.bestcommerce.util.converter.EntityConverter;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/address")
 public class AddressController {
 
-    private static final Logger log = LoggerFactory.getLogger(AddressController.class);
     private final AddressService addressService;
 
     private final CustomerService customerService;

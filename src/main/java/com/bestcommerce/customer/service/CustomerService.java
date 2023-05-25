@@ -6,15 +6,13 @@ import com.bestcommerce.customer.repository.CustomerRepository;
 import com.bestcommerce.customer.repository.CustomerRepositorySupport;
 import com.bestcommerce.member.entity.Member;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
-
-    private static final Logger log = LoggerFactory.getLogger(CustomerService.class);
 
     private final CustomerRepository customerRepository;
 

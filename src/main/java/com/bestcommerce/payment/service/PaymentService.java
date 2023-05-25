@@ -10,18 +10,16 @@ import com.bestcommerce.payment.repository.PaymentLogRepository;
 import com.bestcommerce.payment.repository.PaymentRepository;
 import com.bestcommerce.util.TimeFormat;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
-
-    private static final Logger log = LoggerFactory.getLogger(PaymentService.class);
 
     private final PaymentRepository paymentRepository;
 

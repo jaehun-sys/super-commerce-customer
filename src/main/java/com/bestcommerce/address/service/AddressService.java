@@ -4,17 +4,16 @@ import com.bestcommerce.address.entity.Address;
 import com.bestcommerce.address.repository.AddressRepository;
 import com.bestcommerce.customer.entity.Customer;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AddressService {
     private final AddressRepository addressRepository;
-    private static final Logger log = LoggerFactory.getLogger(AddressService.class);
 
     public void saveAddress(Address address){
         addressRepository.save(address);

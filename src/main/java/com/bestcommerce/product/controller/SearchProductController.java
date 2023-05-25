@@ -8,19 +8,17 @@ import com.bestcommerce.size.dto.SizeDto;
 import com.bestcommerce.size.service.SizeService;
 import com.bestcommerce.util.converter.DtoConverter;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/item")
 public class SearchProductController {
-
-    private static final Logger log = LoggerFactory.getLogger(SearchProductController.class);
 
     private final ProductSelectService productSelectService;
     private final SizeService sizeService;

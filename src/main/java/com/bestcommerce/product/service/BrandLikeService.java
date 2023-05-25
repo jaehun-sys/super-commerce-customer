@@ -6,10 +6,12 @@ import com.bestcommerce.product.entity.BrandLike;
 import com.bestcommerce.product.repository.BrandLikeRepository;
 import com.bestcommerce.util.TimeFormat;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class BrandLikeService {
