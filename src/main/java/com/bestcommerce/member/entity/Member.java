@@ -1,7 +1,5 @@
 package com.bestcommerce.member.entity;
 
-import com.bestcommerce.product.entity.Brand;
-import com.bestcommerce.customer.entity.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -19,7 +19,6 @@ bin/
 
 ### IntelliJ IDEA ###
 *.properties
-.gradle
 .idea
 .DS_Store
 *.iws

@@ -7,8 +7,10 @@ import com.bestcommerce.member.service.MemberService;
 import com.bestcommerce.util.converter.DtoConverter;
 import com.bestcommerce.util.converter.EntityConverter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/account")

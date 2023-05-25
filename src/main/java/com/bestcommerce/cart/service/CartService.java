@@ -9,11 +9,13 @@ import com.bestcommerce.customer.entity.Customer;
 import com.bestcommerce.product.entity.Product;
 import com.bestcommerce.size.entity.Size;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CartService {
