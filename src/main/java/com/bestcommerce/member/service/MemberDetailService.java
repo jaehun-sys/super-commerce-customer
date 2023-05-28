@@ -1,5 +1,6 @@
 package com.bestcommerce.member.service;
 
+import com.bestcommerce.member.entity.CustomerUserDetails;
 import com.bestcommerce.member.entity.Member;
 import com.bestcommerce.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,17 +20,11 @@ public class MemberDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("loadUserByUsername :: {}", username);
-        return memberRepository.findByMemberEmail(username)
-                .map(this::createUserDetails)
-                .orElseThrow(() -> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다."));
+        return createUserDetails(memberRepository.findByMemberEmail(username).orElseThrow(() -> new UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다.")));
     }
 
     private UserDetails createUserDetails(Member member) {
-        return Member.builder()
-                .memberEmail(member.getMemberEmail())
-                .memberPassword(member.getMemberPassword())
-                .roles(member.getRoles())
-                .build();
+        return new CustomerUserDetails(member);
     }
 
 }
