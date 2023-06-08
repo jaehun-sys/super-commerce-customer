@@ -1,0 +1,18 @@
+= minlog API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels:2
+:sectlinks:
+
+== 내 장바구니 조회
+
+=== 요청
+
+include::{snippets}/cart/myCartList/http-request.adoc[]
+
+=== 응답
+
+
+include::{snippets}/cart/myCartList/response-body.adoc[]

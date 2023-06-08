@@ -13,21 +13,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
+@AutoConfigureRestDocs
 public class AddressControllerTest {
 
     @Autowired
@@ -54,27 +62,31 @@ public class AddressControllerTest {
     @Autowired
     private TestUtilService testUtilService;
 
+    @RegisterExtension
+    final RestDocumentationExtension restDocumentation = new RestDocumentationExtension("build/generated-snippets");
 
     @BeforeEach
-    void initial() throws Exception {
-        mockMvc = testUtilService.loginWithJwtToken(mockMvc,objectMapper);
+    void initial(RestDocumentationContextProvider restDocumentation) throws Exception {
+        mockMvc = testUtilService.loginWithJwtToken(mockMvc,objectMapper,restDocumentation);
     }
-
 
     @DisplayName("주소 저장 테스트")
     @Test
     void saveAddressTest() throws Exception {
 
         Long customerId = 40L;
-        String addr = "나는 낭만 고양이";
+        String addr = "서울특별시 강남구 논현로 566";
         Character represent = 'N';
-        String zipcode = "29427";
+        String zipcode = "06135";
 
         AddressDto addressDto = new AddressDto(0L, customerId, addr, represent, zipcode);
 
         String content = objectMapper.writeValueAsString(addressDto);
 
         mockMvc.perform(post("/address/save").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andDo(document("address/saveAddress",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
 
@@ -103,6 +115,9 @@ public class AddressControllerTest {
         String content = objectMapper.writeValueAsString(customerDto);
 
         mockMvc.perform(post("/address/get").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andDo(document("address/getMyAddressList",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
 
@@ -118,11 +133,14 @@ public class AddressControllerTest {
     @DisplayName("주소 업데이트 테스트")
     @Test
     public void updateAddressTest() throws Exception{
-        AddressDto addressDto = new AddressDto(34L, 38L, "서울턱별시 관악구 봉천동",'0', "3237");
+        AddressDto addressDto = new AddressDto(34L, 38L, "서울 강남구 압구정로2길 15",'0', "06028");
 
         String content = objectMapper.writeValueAsString(addressDto);
 
         mockMvc.perform(post("/address/update").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andDo(document("address/updateAddress",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
 
