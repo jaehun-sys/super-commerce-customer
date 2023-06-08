@@ -70,6 +70,9 @@ public class LikeControllerTest {
         String content = objectMapper.writeValueAsString(dto);
 
         mockMvc.perform(post("/like/product/list").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andDo(document("like/myLikeProductList",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
@@ -83,6 +86,9 @@ public class LikeControllerTest {
         String content = objectMapper.writeValueAsString(dto);
 
         mockMvc.perform(post("/like/brand").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andDo(document("like/brandLikeOrCancel",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }

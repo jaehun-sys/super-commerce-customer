@@ -33,21 +33,6 @@ public class TestUtilService {
     @RegisterExtension
     final RestDocumentationExtension restDocumentation = new RestDocumentationExtension("custom");
 
-    public MockMvc loginWithJwtToken(MockMvc mockMvc, ObjectMapper objectMapper) throws Exception{
-
-        String result = mockMvc.perform(post("/member/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(new MemberLoginDto(testId,testPwd))))
-                .andReturn().getResponse().getContentAsString();
-
-        String token = new JSONObject(result).getString("accessToken");
-
-        return MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .defaultRequest(get("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                .defaultRequest(post("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                .build();
-    }
-
     public MockMvc loginWithJwtToken(MockMvc mockMvc, ObjectMapper objectMapper, RestDocumentationContextProvider restDocumentation) throws Exception{
 
         String result = mockMvc.perform(post("/member/login")
@@ -60,6 +45,11 @@ public class TestUtilService {
         return MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(documentationConfiguration(restDocumentation))
                 .defaultRequest(get("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
                 .defaultRequest(post("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+                .build();
+    }
+
+    public MockMvc setRestDocumentation(RestDocumentationContextProvider restDocumentation){
+        return MockMvcBuilders.webAppContextSetup(webApplicationContext).apply(documentationConfiguration(restDocumentation))
                 .build();
     }
 }

@@ -1,0 +1,18 @@
+= minlog API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels:2
+:sectlinks:
+
+== 주소 조회
+
+=== 요청
+
+include::{snippets}/address/getMyAddressList/http-request.adoc[]
+
+=== 응답
+
+
+include::{snippets}/address/getMyAddressList/response-body.adoc[]
