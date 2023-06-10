@@ -16,3 +16,5 @@
  > spring securit
  > 
  > jwt
+ > 
+ > spring rest docs
