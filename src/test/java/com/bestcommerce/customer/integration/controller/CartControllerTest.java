@@ -68,11 +68,10 @@ public class CartControllerTest {
     @Test
     public void insertAccountInfoTest() throws Exception {
         int productCount = 7;
-        Long sizeId = 6L;
         Long customerId = 40L;
-        Long productId = 1L;
+        Long quantityId = 3L;
 
-        CartDto dto = new CartDto(productCount,sizeId,customerId,productId);
+        CartDto dto = new CartDto(productCount,customerId,quantityId);
 
         String content = objectMapper.writeValueAsString(dto);
 
@@ -83,13 +82,12 @@ public class CartControllerTest {
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
 
-        CartKey cartKey = new CartKey(customerId, productId, sizeId);
+        CartKey cartKey = new CartKey(customerId, quantityId);
 
         CartDto resultCartDto = dtoConverter.toCartDto(cartRepository.getCartByCartKey(cartKey));
 
         assertThat(resultCartDto.getCustomerId()).isEqualTo(customerId);
-        assertThat(resultCartDto.getProductId()).isEqualTo(productId);
-        assertThat(resultCartDto.getSizeId()).isEqualTo(sizeId);
+        assertThat(resultCartDto.getQuantityId()).isEqualTo(quantityId);
     }
 
     @DisplayName("장바구니 리스트 조회 테스트")
@@ -97,7 +95,7 @@ public class CartControllerTest {
     public void getCartListByCustomerIdTest() throws Exception{
         Long customerId = 40L;
 
-        CartItemDto dto = new CartItemDto(customerId,"",0L,"",0,0L,"","",0,0L,0L,"",0L,"",0);
+        CartItemDto dto = new CartItemDto(customerId,"",0L,"",0,0L,"","",0,0L,"");
 
         String content = objectMapper.writeValueAsString(dto);
 
@@ -110,7 +108,7 @@ public class CartControllerTest {
 
         List<CartItemDto> cartItemDtoList = cartService.getCartList(customerId);
 
-        assertThat(3).isEqualTo(cartItemDtoList.size());
+        assertThat(2).isEqualTo(cartItemDtoList.size());
     }
 
     @DisplayName("장바구니 리스트 삭제 테스트")
@@ -119,8 +117,8 @@ public class CartControllerTest {
 
         List<CartKeyDto> dto = new ArrayList<>();
 
-        dto.add(new CartKeyDto(40L,1L,3L));
-        dto.add(new CartKeyDto(40L,1L,6L));
+        dto.add(new CartKeyDto(40L,2L));
+        dto.add(new CartKeyDto(40L,3L));
 
         String content = objectMapper.writeValueAsString(dto);
 

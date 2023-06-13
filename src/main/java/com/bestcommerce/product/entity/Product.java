@@ -1,8 +1,6 @@
 package com.bestcommerce.product.entity;
 
-import com.bestcommerce.cart.entity.Cart;
-import com.bestcommerce.size.entity.Size;
-import com.bestcommerce.payment.entity.Payment;
+import com.bestcommerce.size.entity.Quantity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,14 +39,8 @@ public class Product {
     private Brand brand;
 
     @OneToMany(mappedBy = "product")
-    private List<Cart> cartsList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "product")
-    private List<Size> sizeList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "product")
-    private List<Payment> paymentList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "product")
     private List<ProductLike> likeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    private List<Quantity> quantityList = new ArrayList<>();
 }

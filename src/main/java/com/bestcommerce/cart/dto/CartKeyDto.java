@@ -9,13 +9,10 @@ public class CartKeyDto {
 
     private Long customerId;
 
-    private Long productId;
+    private Long quantityId;
 
-    private Long sizeId;
-
-    public CartKeyDto(Long customerId, Long productId, Long sizeId) {
+    public CartKeyDto(Long customerId, Long quantityId) {
         this.customerId = customerId;
-        this.productId = productId;
-        this.sizeId = sizeId;
+        this.quantityId = quantityId;
     }
 }

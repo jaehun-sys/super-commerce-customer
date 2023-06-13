@@ -61,13 +61,12 @@ public class PaymentControllerTest {
         Long[] customerIdArray = {38L,40L};
         List<PaymentDto> orderList = new ArrayList<>();
 
-        for(long i = 8L; i <= 10L; i++){
+        for(long i = 1L; i <= 4L; i++){
             orderList.add(new PaymentDto(0L,0L,
                     customerIdArray[1],
-                    2L,
                     i,
                     (int)(Math.random()*10 + 1),
-                    0));
+                    (int)(Math.random()*100000 + 1)));
         }
 
         DtoList oneDtoList = new DtoList(orderList);
@@ -88,7 +87,7 @@ public class PaymentControllerTest {
     void getRecentPayListTest() throws Exception {
         log.info("테스트 시작");
 
-        PaymentLogDto paymentLogDto = new PaymentLogDto(36L,38L,0L, "");
+        PaymentLogDto paymentLogDto = new PaymentLogDto(46L,38L,0L, "");
 
         String content = objectMapper.writeValueAsString(paymentLogDto);
 

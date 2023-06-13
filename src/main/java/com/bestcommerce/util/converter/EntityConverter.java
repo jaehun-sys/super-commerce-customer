@@ -31,7 +31,7 @@ public class EntityConverter {
     }
 
     public CartKey toCartKey(CartKeyDto cartKeyDto){
-        return new CartKey(cartKeyDto.getCustomerId(), cartKeyDto.getProductId(), cartKeyDto.getSizeId());
+        return new CartKey(cartKeyDto.getCustomerId(), cartKeyDto.getQuantityId());
     }
 
     public List<CartKey> toCartKeyList(List<CartKeyDto> cartKeyDtoList){

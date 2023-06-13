@@ -24,19 +24,11 @@ public class CartItemDto {
 
     private int deliveryCost;
 
-    private Long sizeId;
+    private Long quantityId;
 
-    private Long measureId;
+    private String quantityName;
 
-    private String measureName;
-
-    private Long contentId;
-
-    private String contentName;
-
-    private int sizeValue;
-
-    public CartItemDto(Long customerId, String customerName, Long productId, String productName, int productCost, Long brandId, String brandName, String thumbnailPath, int deliveryCost, Long sizeId, Long measureId, String measureName, Long contentId, String contentName, int sizeValue) {
+    public CartItemDto(Long customerId, String customerName, Long productId, String productName, int productCost, Long brandId, String brandName, String thumbnailPath, int deliveryCost, Long quantityId, String quantityName) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.productId = productId;
@@ -46,12 +38,8 @@ public class CartItemDto {
         this.brandName = brandName;
         this.thumbnailPath = thumbnailPath;
         this.deliveryCost = deliveryCost;
-        this.sizeId = sizeId;
-        this.measureId = measureId;
-        this.measureName = measureName;
-        this.contentId = contentId;
-        this.contentName = contentName;
-        this.sizeValue = sizeValue;
+        this.quantityId = quantityId;
+        this.quantityName = quantityName;
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
 import java.util.HashMap;
@@ -62,24 +63,22 @@ public class PaymentServiceTest {
         ExecutorService service = Executors.newFixedThreadPool(numberOfThreads);
         CountDownLatch latch = new CountDownLatch(numberOfThreads);
 
-        log.info("size id가 3인 상품을 주문할 것이며 해당 상품은 총 잔여수량이 1개임");
+        log.info("수량 id가 3인 상품을 주문할 것이며 해당 상품은 총 잔여수량이 1개임");
         JSONObject oneJsonObject = new JSONObject();
         oneJsonObject.put("paymentId","0");
         oneJsonObject.put("paymentLogId","0");
         oneJsonObject.put("customerId","40");
-        oneJsonObject.put("productId","1");
-        oneJsonObject.put("sizeId","3");
+        oneJsonObject.put("quantityId","3");
         oneJsonObject.put("productCount","1");
-        oneJsonObject.put("productPrice","200");
+        oneJsonObject.put("paymentPrice","200");
 
         JSONObject twoJsonObject = new JSONObject();
         twoJsonObject.put("paymentId","0");
         twoJsonObject.put("paymentLogId","0");
         twoJsonObject.put("customerId","42");
-        twoJsonObject.put("productId","1");
-        twoJsonObject.put("sizeId","3");
+        twoJsonObject.put("quantityId","3");
         twoJsonObject.put("productCount","1");
-        twoJsonObject.put("productPrice","200");
+        twoJsonObject.put("paymentPrice","200");
 
         JSONObject oneJsonList = new JSONObject();
         JSONArray oneJsonArray = new JSONArray();
@@ -108,12 +107,12 @@ public class PaymentServiceTest {
         final String[] responseOne = new String[1];
         final String[] responseTwo = new String[1];
         service.execute(() -> {
-            ResponseEntity<Object> response = restTemplate.exchange(testUrl, HttpMethod.POST, oneRequest, Object.class);
+            ResponseEntity<Object> response = restTemplate.exchange(testUrl, HttpMethod.POST, oneRequest, ParameterizedTypeReference.forType(String.class), Object.class);
             responseOne[0] = response.getBody().toString();
             latch.countDown();
         });
         service.execute(() -> {
-            ResponseEntity<Object> response = restTemplate.exchange(testUrl, HttpMethod.POST, twoRequest, Object.class);
+            ResponseEntity<Object> response = restTemplate.exchange(testUrl, HttpMethod.POST, twoRequest, ParameterizedTypeReference.forType(String.class), Object.class);
             responseTwo[0] = response.getBody().toString();
             latch.countDown();
         });
