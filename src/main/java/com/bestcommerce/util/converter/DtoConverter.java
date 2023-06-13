@@ -8,8 +8,6 @@ import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.entity.Customer;
 import com.bestcommerce.product.dto.BrandDto;
 import com.bestcommerce.product.entity.Brand;
-import com.bestcommerce.size.dto.SizeDto;
-import com.bestcommerce.size.entity.Size;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -31,20 +29,9 @@ public class DtoConverter {
     }
 
     public CartDto toCartDto(Cart cart){
-        return new CartDto(cart.getProductCount(), cart.getSize().getSizeId(), cart.getCartKey().getCustomerId(), cart.getProduct().getProductId());
+        return new CartDto(cart.getProductCount(), cart.getCartKey().getCustomerId(), cart.getQuantity().getId());
     }
 
-    public SizeDto toSizeDto(Size size){
-        return new SizeDto(size.getSizeId(), size.getProduct().getProductId(), size.getMeasureId(), size.getMeasureName(), size.getContentId(), size.getContentName(), size.getSizeValue(), size.getSizeRemainQuantity());
-    }
-
-    public List<SizeDto> toSizeDtoList(List<Size> sizeList){
-        List<SizeDto> sizeDtoList = new ArrayList<>();
-        for(Size size : sizeList){
-            sizeDtoList.add(toSizeDto(size));
-        }
-        return sizeDtoList;
-    }
 
     public CustomerDto toCustomerDto(Customer customer, String customerEmail){
         return new CustomerDto(customer.getCuId(), customer.getCuName(), customerEmail, "", customer.getCuTelNumber(), customer.getBirthdate(), customer.getRegisterDate(), customer.getModifyDate());

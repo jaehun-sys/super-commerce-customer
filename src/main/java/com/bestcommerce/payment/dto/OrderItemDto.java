@@ -18,11 +18,9 @@ public class OrderItemDto {
 
     private int productPrice;
 
-    private Long sizeId;
+    private Long quantityId;
 
-    private String sizeName;
-
-    private int sizeValue;
+    private String quantityName;
 
     private Long brandId;
 
@@ -34,15 +32,14 @@ public class OrderItemDto {
 
     private String thumbNail;
 
-    public OrderItemDto(Long orderNo, Long totalPrice, String orderDate, int productCount, int productPrice, Long sizeId, String sizeName, int sizeValue, Long brandId, String brandName, Long productId, String productName, String thumbNail) {
+    public OrderItemDto(Long orderNo, Long totalPrice, String orderDate, int productCount, int productPrice, Long quantityId, String quantityName, Long brandId, String brandName, Long productId, String productName, String thumbNail) {
         this.orderNo = orderNo;
         this.totalPrice = totalPrice;
         this.orderDate = orderDate;
         this.productCount = productCount;
         this.productPrice = productPrice;
-        this.sizeId = sizeId;
-        this.sizeName = sizeName;
-        this.sizeValue = sizeValue;
+        this.quantityId = quantityId;
+        this.quantityName = quantityName;
         this.brandId = brandId;
         this.brandName = brandName;
         this.productId = productId;

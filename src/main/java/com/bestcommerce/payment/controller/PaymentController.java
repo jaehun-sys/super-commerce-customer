@@ -6,15 +6,12 @@ import com.bestcommerce.payment.dto.PaymentLogDto;
 import com.bestcommerce.payment.entity.Payment;
 import com.bestcommerce.payment.dto.PaymentDto;
 import com.bestcommerce.payment.service.PaymentService;
-import com.bestcommerce.product.entity.Product;
-import com.bestcommerce.product.service.ProductSelectService;
-import com.bestcommerce.size.entity.Size;
+import com.bestcommerce.size.service.QuantityService;
 import com.bestcommerce.util.DtoList;
 import com.bestcommerce.util.converter.EntityConverter;
 import com.bestcommerce.util.exception.QuantityInsufficientException;
 import com.bestcommerce.util.exception.QuantitySoldOutException;
 import com.bestcommerce.customer.service.CustomerService;
-import com.bestcommerce.size.service.SizeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -37,9 +32,7 @@ public class PaymentController {
 
     private final CustomerService customerService;
 
-    private final SizeService sizeService;
-
-    private final ProductSelectService productSelectService;
+    private final QuantityService quantityService;
 
     private final EntityConverter entityConverter;
 
@@ -75,15 +68,9 @@ public class PaymentController {
 
 
     private void paymentConverterForInsert(List<PaymentDto> paymentDtoList, List<Payment> paymentList, Customer customer, Long[] totalPrice) throws RuntimeException{
-        Map<Long, Size> sizeMap = new HashMap<>();
-        Map<Long, Product> productMap = new HashMap<>();
         for(PaymentDto paymentDto : paymentDtoList){
-            sizeService.putEntityToEntityMap(sizeMap, paymentDto.getSizeId(), paymentDto.getProductCount());
-            if(!productMap.containsKey(paymentDto.getProductId())){
-                productMap.put(paymentDto.getProductId(), productSelectService.getOnlyOneProduct(paymentDto.getProductId()));
-            }
-            totalPrice[0] += (long) productMap.get(paymentDto.getProductId()).getProductCost();
-            paymentList.add(new Payment(null, customer, productMap.get(paymentDto.getProductId()), sizeMap.get(paymentDto.getSizeId()), paymentDto.getProductCount(), productMap.get(paymentDto.getProductId()).getProductCost()));
+            totalPrice[0] += (long) paymentDto.getPaymentPrice();
+            paymentList.add(new Payment(null, customer, quantityService.getQuantityForPayment(paymentDto.getQuantityId(), paymentDto.getProductCount()), paymentDto.getProductCount(), paymentDto.getPaymentPrice()));
         }
     }
 
