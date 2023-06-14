@@ -9,26 +9,26 @@ public class SizeDto {
 
     private Long productId;
 
-    private Long measureId;
+    private Long quantityId;
 
-    private String measureName;
+    private String quantityName;
 
-    private Long contentId;
+    private Long bodyId;
 
-    private String contentName;
+    private String bodyName;
 
     private int sizeValue;
 
-    private int sizeRemainQuantity;
+    private int remain;
 
-    public SizeDto(Long sizeId, Long productId, Long measureId, String measureName, Long contentId, String contentName, int sizeValue, int sizeRemainQuantity) {
+    public SizeDto(Long sizeId, Long productId, Long quantityId, String quantityName, Long bodyId, String bodyName, int sizeValue, int remain) {
         this.sizeId = sizeId;
         this.productId = productId;
-        this.measureId = measureId;
-        this.measureName = measureName;
-        this.contentId = contentId;
-        this.contentName = contentName;
+        this.quantityId = quantityId;
+        this.quantityName = quantityName;
+        this.bodyId = bodyId;
+        this.bodyName = bodyName;
         this.sizeValue = sizeValue;
-        this.sizeRemainQuantity = sizeRemainQuantity;
+        this.remain = remain;
     }
 }
