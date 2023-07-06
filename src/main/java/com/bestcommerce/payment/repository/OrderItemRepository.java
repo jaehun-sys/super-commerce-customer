@@ -10,8 +10,9 @@ import java.util.List;
 
 import static com.bestcommerce.payment.entity.QPayment.payment;
 import static com.bestcommerce.payment.entity.QPaymentLog.paymentLog;
-import static com.bestcommerce.size.entity.QSize.size;
+import static com.bestcommerce.size.entity.QQuantity.quantity;
 import static com.bestcommerce.product.entity.QProduct.product;
+import static com.bestcommerce.product.entity.QBrand.brand;
 
 @Repository
 public class OrderItemRepository extends QuerydslRepositorySupport {
@@ -29,19 +30,20 @@ public class OrderItemRepository extends QuerydslRepositorySupport {
                         paymentLog.totalPrice.as("totalPrice"),
                         paymentLog.payDate.as("orderDate"),
                         payment.productCount.as("productCount"),
-                        payment.productPrice.as("productPrice"),
-                        size.sizeId.as("sizeId"),
-                        size.contentName.as("sizeName"),
-                        size.sizeValue.as("sizeValue"),
+                        payment.paymentPrice.as("productPrice"),
+                        quantity.id.as("quantityId"),
+                        quantity.name.as("quantityName"),
+                        brand.id.as("brandId"),
+                        brand.name.as("brandName"),
                         product.productId.as("productId"),
                         product.productName.as("productName"),
-                        product.sellerId.as("sellerId"),
                         product.thumbPath.as("thumbNail")
                 ))
                 .from(payment)
                 .innerJoin(payment.paymentLog, paymentLog)
-                .innerJoin(payment.size, size)
-                .innerJoin(payment.product, product)
+                .innerJoin(payment.quantity, quantity)
+                .innerJoin(quantity.product, product)
+                .innerJoin(product.brand, brand)
                 .where(paymentLog.payNo.eq(orderNo)).fetch();
     }
 }

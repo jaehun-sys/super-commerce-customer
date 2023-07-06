@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 public class ProductDto {
     private Long productId;
 
+    private Long brandId;
+
+    private String brandName;
+
     private String productName;
 
     private int productCost;
@@ -18,17 +22,25 @@ public class ProductDto {
 
     private int deliveryCost;
 
+    private String productLike;
+
     public ProductDto(Long productId,
+                      Long brandId,
+                      String brandName,
                       String productName,
                       int productCost,
                       String info,
                       String thumbPath,
-                      int deliveryCost){
+                      int deliveryCost,
+                      String productLike){
         this.productId = productId;
+        this.brandId = brandId;
+        this.brandName = brandName;
         this.productName = productName;
         this.productCost = productCost;
         this.info = info;
         this.thumbPath = thumbPath;
         this.deliveryCost = deliveryCost;
+        this.productLike = productLike;
     }
 }

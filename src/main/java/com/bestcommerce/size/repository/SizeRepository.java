@@ -1,21 +1,41 @@
 package com.bestcommerce.size.repository;
 
-import com.bestcommerce.product.entity.Product;
-import com.bestcommerce.size.entity.Size;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import com.bestcommerce.size.dto.SizeDto;
+import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.LockModeType;
 import java.util.List;
-import java.util.Optional;
 
-public interface SizeRepository extends JpaRepository<Size,Long> {
+import static com.bestcommerce.product.entity.QProduct.product;
+import static com.bestcommerce.size.entity.QQuantity.quantity;
+import static com.bestcommerce.size.entity.QSize.size;
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select s from size s where s.sizeId = :id")
-    Optional<Size> findWithIdForUpdate(@Param("id") Long id);
+@Repository
+public class SizeRepository extends QuerydslRepositorySupport {
 
-    List<Size> findAllByProduct(Product product);
+    private final JPAQueryFactory queryFactory;
+
+    public SizeRepository(JPAQueryFactory queryFactory){
+        super(SizeDto.class);
+        this.queryFactory = queryFactory;
+    }
+
+    public List<SizeDto> getSizeInfoForOneProduct(Long productId){
+        return queryFactory.select(Projections.constructor(SizeDto.class,
+                    size.sizeId.as("sizeId"),
+                    product.productId.as("productId"),
+                    quantity.id.as("quantityId"),
+                    quantity.name.as("quantityName"),
+                    size.bodyId.as("bodyId"),
+                    size.bodyName.as("bodyName"),
+                    size.sizeValue.as("sizeValue"),
+                    quantity.remain.as("remain")
+                ))
+                .from(size)
+                .leftJoin(size.quantity, quantity)
+                .leftJoin(quantity.product, product)
+                .on(product.productId.eq(productId)).fetch();
+    }
 }

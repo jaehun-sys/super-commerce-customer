@@ -1,8 +1,7 @@
 package com.bestcommerce.payment.entity;
 
 import com.bestcommerce.customer.entity.Customer;
-import com.bestcommerce.product.entity.Product;
-import com.bestcommerce.size.entity.Size;
+import com.bestcommerce.size.entity.Quantity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,35 +18,30 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pay_no")
     private PaymentLog paymentLog;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cu_id")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "size_id")
-    private Size size;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quantity_id")
+    private Quantity quantity;
 
     @Column(name = "product_cnt")
     private int productCount;
 
-    @Column(name = "product_price")
-    private int productPrice;
+    @Column(name = "payment_price")
+    private int paymentPrice;
 
-    public Payment(PaymentLog paymentLog, Customer customer, Product product, Size size, int productCount, int productPrice) {
+    public Payment(PaymentLog paymentLog, Customer customer, Quantity quantity, int productCount, int paymentPrice) {
         this.paymentLog = paymentLog;
         this.customer = customer;
-        this.product = product;
-        this.size = size;
+        this.quantity = quantity;
         this.productCount = productCount;
-        this.productPrice = productPrice;
+        this.paymentPrice = paymentPrice;
     }
 
 }

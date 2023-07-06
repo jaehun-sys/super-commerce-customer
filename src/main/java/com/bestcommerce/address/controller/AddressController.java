@@ -4,24 +4,26 @@ import com.bestcommerce.address.dto.AddressDto;
 import com.bestcommerce.address.service.AddressService;
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.service.CustomerService;
+import com.bestcommerce.member.service.MemberService;
 import com.bestcommerce.util.converter.DtoConverter;
 import com.bestcommerce.util.converter.EntityConverter;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/address")
 public class AddressController {
 
-    private static final Logger log = LoggerFactory.getLogger(AddressController.class);
     private final AddressService addressService;
 
     private final CustomerService customerService;
+
+    private final MemberService memberService;
 
     private final DtoConverter dtoConverter;
 
@@ -36,7 +38,7 @@ public class AddressController {
 
     @PostMapping("/get")
     public List<AddressDto> getAllAddress(@RequestBody CustomerDto customerDto){
-        return dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(customerService.getOneCustomerInfo(customerDto.getCustomerId())));
+        return dtoConverter.toAddressDtoList(addressService.getAllAddressesByCustomer(customerService.getOneCustomerInfo(memberService.findMember(customerDto.getCustomerEmail()))));
     }
 
     @PostMapping("/update")

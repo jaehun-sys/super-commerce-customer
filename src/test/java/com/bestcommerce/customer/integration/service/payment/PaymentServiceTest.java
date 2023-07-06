@@ -1,8 +1,10 @@
 package com.bestcommerce.customer.integration.service.payment;
 
-import com.bestcommerce.util.DtoList;
-import com.bestcommerce.payment.dto.PaymentDto;
+import com.bestcommerce.member.dto.MemberLoginDto;
 import org.assertj.core.api.Assertions;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -11,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,41 +34,86 @@ public class PaymentServiceTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    private String getThreadOneToken(){
+        String loginUrl = "http://localhost:"+port+"/member/login";
+
+        MemberLoginDto memberLoginDto = new MemberLoginDto("test01","1234");
+
+        ResponseEntity<HashMap> response = restTemplate.postForEntity(loginUrl, memberLoginDto, HashMap.class);
+
+        return Objects.requireNonNull(response.getBody()).get("accessToken").toString();
+    }
+
+    private String getThreadTwoToken(){
+        String loginUrl = "http://localhost:"+port+"/member/login";
+
+        MemberLoginDto memberLoginDto = new MemberLoginDto("test02","1234");
+
+        ResponseEntity<HashMap> response = restTemplate.postForEntity(loginUrl, memberLoginDto, HashMap.class);
+
+        return Objects.requireNonNull(response.getBody()).get("accessToken").toString();
+    }
+
     @Test
     @DisplayName("주문 동시성 테스트")
-    void orderConcurrencyTest() throws InterruptedException {
-        log.info("order product 동시성 테스트 시작");
+    void orderConcurrencyTest() throws InterruptedException, JSONException {
 
         log.info("order product 동시성 테스트 준비");
         final int numberOfThreads = 2;
         ExecutorService service = Executors.newFixedThreadPool(numberOfThreads);
         CountDownLatch latch = new CountDownLatch(numberOfThreads);
 
-        log.info("size id가 3인 상품을 주문할 것이며 해당 상품은 총 잔여수량이 1개임");
-        PaymentDto onePaymentDto  = new PaymentDto(0L,0L,1L,1L,3L, 1, 200);
-        PaymentDto twoPaymentDto = new PaymentDto(0L,0L,1L,1L,3L, 1, 200);
+        log.info("수량 id가 3인 상품을 주문할 것이며 해당 상품은 총 잔여수량이 1개임");
+        JSONObject oneJsonObject = new JSONObject();
+        oneJsonObject.put("paymentId","0");
+        oneJsonObject.put("paymentLogId","0");
+        oneJsonObject.put("customerId","40");
+        oneJsonObject.put("quantityId","3");
+        oneJsonObject.put("productCount","1");
+        oneJsonObject.put("paymentPrice","200");
+
+        JSONObject twoJsonObject = new JSONObject();
+        twoJsonObject.put("paymentId","0");
+        twoJsonObject.put("paymentLogId","0");
+        twoJsonObject.put("customerId","42");
+        twoJsonObject.put("quantityId","3");
+        twoJsonObject.put("productCount","1");
+        twoJsonObject.put("paymentPrice","200");
+
+        JSONObject oneJsonList = new JSONObject();
+        JSONArray oneJsonArray = new JSONArray();
+        oneJsonArray.put(oneJsonObject);
+        oneJsonList.put("orderList",oneJsonArray);
+
+        JSONObject twoJsonList = new JSONObject();
+        JSONArray twoJsonArray = new JSONArray();
+        twoJsonArray.put(twoJsonObject);
+        twoJsonList.put("orderList",twoJsonArray);
 
         String testUrl = "http://localhost:"+port+"/pay/save";
 
-        List<PaymentDto> oneOrderList = new ArrayList<>();
-        List<PaymentDto> twoOrderList = new ArrayList<>();
-        oneOrderList.add(onePaymentDto);
-        twoOrderList.add(twoPaymentDto);
 
-        DtoList oneDtoList = new DtoList(oneOrderList);
-        DtoList twoDtoList = new DtoList(twoOrderList);
+        HttpHeaders threadOneHeaders = new HttpHeaders();
+        threadOneHeaders.setContentType(MediaType.APPLICATION_JSON);
+        threadOneHeaders.setBearerAuth(getThreadOneToken());
+        HttpEntity<String> oneRequest = new HttpEntity<>(oneJsonList.toString(), threadOneHeaders);
+
+        HttpHeaders threadTwoHeaders = new HttpHeaders();
+        threadTwoHeaders.setContentType(MediaType.APPLICATION_JSON);
+        threadTwoHeaders.setBearerAuth(getThreadTwoToken());
+        HttpEntity<String> twoRequest = new HttpEntity<>(twoJsonList.toString(), threadTwoHeaders);
 
         log.info("동시성 테스트 실행");
         final String[] responseOne = new String[1];
         final String[] responseTwo = new String[1];
         service.execute(() -> {
-            ResponseEntity<String> response = restTemplate.postForEntity(testUrl, oneDtoList, String.class);
-            responseOne[0] = response.getBody();
+            ResponseEntity<Object> response = restTemplate.exchange(testUrl, HttpMethod.POST, oneRequest, ParameterizedTypeReference.forType(String.class), Object.class);
+            responseOne[0] = response.getBody().toString();
             latch.countDown();
         });
         service.execute(() -> {
-            ResponseEntity<String> response = restTemplate.postForEntity(testUrl, twoDtoList, String.class);
-            responseTwo[0] = response.getBody();
+            ResponseEntity<Object> response = restTemplate.exchange(testUrl, HttpMethod.POST, twoRequest, ParameterizedTypeReference.forType(String.class), Object.class);
+            responseTwo[0] = response.getBody().toString();
             latch.countDown();
         });
 

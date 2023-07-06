@@ -13,21 +13,18 @@ public class PaymentDto {
 
     private Long customerId;
 
-    private Long productId;
-
-    private Long sizeId;
+    private Long quantityId;
 
     private int productCount;
 
-    private int productPrice;
+    private int paymentPrice;
 
-    public PaymentDto(Long paymentId, Long paymentLogId, Long customerId, Long productId, Long sizeId, int productCount, int productPrice) {
+    public PaymentDto(Long paymentId, Long paymentLogId, Long customerId, Long quantityId, int productCount, int paymentPrice) {
         this.paymentId = paymentId;
         this.paymentLogId = paymentLogId;
         this.customerId = customerId;
-        this.productId = productId;
-        this.sizeId = sizeId;
+        this.quantityId = quantityId;
         this.productCount = productCount;
-        this.productPrice = productPrice;
+        this.paymentPrice = paymentPrice;
     }
 }

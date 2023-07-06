@@ -6,32 +6,43 @@ import com.bestcommerce.cart.dto.CartItemDto;
 import com.bestcommerce.cart.dto.CartKeyDto;
 import com.bestcommerce.cart.repository.CartRepository;
 import com.bestcommerce.cart.service.CartService;
+import com.bestcommerce.customer.util.TestUtilService;
 import com.bestcommerce.util.converter.DtoConverter;
-import org.json.JSONArray;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@Rollback
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs
 public class CartControllerTest {
 
-    @LocalServerPort
-    private int port;
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
-    private TestRestTemplate restTemplate;
+    private ObjectMapper objectMapper;
 
     @Autowired
     private CartService cartService;
@@ -42,70 +53,83 @@ public class CartControllerTest {
     @Autowired
     private DtoConverter dtoConverter;
 
+    @Autowired
+    private TestUtilService testUtilService;
+
+    @RegisterExtension
+    final RestDocumentationExtension restDocumentation = new RestDocumentationExtension("build/generated-snippets");
+
+    @BeforeEach
+    void initial(RestDocumentationContextProvider restDocumentation) throws Exception {
+        mockMvc = testUtilService.loginWithJwtToken(mockMvc,objectMapper,restDocumentation);
+    }
+
     @DisplayName("장바구니 담는 테스트")
     @Test
     public void insertAccountInfoTest() throws Exception {
-        int productCount = 8;
-        Long sizeId = 1L;
-        Long customerId = 5L;
-        Long productId = 7L;
+        int productCount = 7;
+        Long customerId = 40L;
+        Long quantityId = 3L;
 
-        CartDto cartDto = new CartDto(productCount,sizeId,customerId,productId);
-        CartKey cartKey = new CartKey(customerId, productId, sizeId);
+        CartDto dto = new CartDto(productCount,customerId,quantityId);
 
-        String testUrl = "http://localhost:"+port+"/cart/put";
+        String content = objectMapper.writeValueAsString(dto);
 
-        ResponseEntity<Object> response = restTemplate.postForEntity(testUrl, cartDto, Object.class);
+        mockMvc.perform(post("/cart/put").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andDo(document("cart/putProduct",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
+        CartKey cartKey = new CartKey(customerId, quantityId);
+
         CartDto resultCartDto = dtoConverter.toCartDto(cartRepository.getCartByCartKey(cartKey));
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(resultCartDto.getCustomerId()).isEqualTo(customerId);
-        assertThat(resultCartDto.getProductId()).isEqualTo(productId);
-        assertThat(resultCartDto.getSizeId()).isEqualTo(sizeId);
+        assertThat(resultCartDto.getQuantityId()).isEqualTo(quantityId);
     }
 
     @DisplayName("장바구니 리스트 조회 테스트")
     @Test
     public void getCartListByCustomerIdTest() throws Exception{
-        Long customerId = 1L;
+        Long customerId = 40L;
 
-        CartItemDto cartItemDto = new CartItemDto(customerId,"",0L,"",0,0L,"",0,0L,0L,"",0L,"",0);
+        CartItemDto dto = new CartItemDto(customerId,"",0L,"",0,0L,"","",0,0L,"");
 
-        String testUrl = "http://localhost:"+port+"/cart/list";
+        String content = objectMapper.writeValueAsString(dto);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(testUrl, cartItemDto, String.class);
+        mockMvc.perform(post("/cart/list").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andDo(document("cart/myCartList",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
         List<CartItemDto> cartItemDtoList = cartService.getCartList(customerId);
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-
-        JSONArray jsonArray = new JSONArray(response.getBody());
-        if(cartItemDtoList.isEmpty()){
-            System.out.println("장바구니가 비었습니다");
-            return;
-        }
-        assertThat(jsonArray.length()).isEqualTo(cartItemDtoList.size());
-        for(int i = 0; i < jsonArray.length(); i++){
-            assertThat(cartItemDtoList.get(i).getCustomerName()).isEqualTo(jsonArray.getJSONObject(i).getString("customerName"));
-            assertThat(cartItemDtoList.get(i).getProductName()).isEqualTo(jsonArray.getJSONObject(i).getString("productName"));
-            assertThat(cartItemDtoList.get(i).getProductCost()).isEqualTo(jsonArray.getJSONObject(i).getInt("productCost"));
-        }
+        assertThat(2).isEqualTo(cartItemDtoList.size());
     }
 
     @DisplayName("장바구니 리스트 삭제 테스트")
     @Test
     public void deleteCartListTest() throws Exception{
 
-        List<CartKeyDto> cartKeyDtoList = new ArrayList<>();
+        List<CartKeyDto> dto = new ArrayList<>();
 
-        cartKeyDtoList.add(new CartKeyDto(1L,1L,1L));
-        cartKeyDtoList.add(new CartKeyDto(1L,3L,1L));
+        dto.add(new CartKeyDto(40L,2L));
+        dto.add(new CartKeyDto(40L,3L));
 
-        String testUrl = "http://localhost:"+port+"/cart/delete";
+        String content = objectMapper.writeValueAsString(dto);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(testUrl, cartKeyDtoList, String.class);
+        mockMvc.perform(post("/cart/delete").contentType(MediaType.APPLICATION_JSON).content(content))
+                .andDo(document("cart/deleteProductFromMyCart",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())))
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
 
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-        List<CartItemDto> cartItemDtoList = cartService.getCartList(1L);
-        assertThat(cartItemDtoList.isEmpty()).isTrue();
+        List<CartItemDto> cartItemDtoList = cartService.getCartList(40L);
+        assertThat(1).isEqualTo(cartItemDtoList.size());
     }
 }

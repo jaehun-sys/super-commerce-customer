@@ -1,0 +1,18 @@
+= minlog API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels:2
+:sectlinks:
+
+== 장바구니에서 상품 삭제
+
+=== 요청
+
+include::{snippets}/cart/deleteProductFromMyCart/http-request.adoc[]
+
+=== 응답
+
+
+include::{snippets}/cart/deleteProductFromMyCart/response-body.adoc[]

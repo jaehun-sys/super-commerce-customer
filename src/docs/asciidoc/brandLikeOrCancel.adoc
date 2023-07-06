@@ -1,0 +1,18 @@
+= minlog API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels:2
+:sectlinks:
+
+== 브랜드 좋아요
+
+=== 요청
+
+include::{snippets}/like/brandLikeOrCancel/http-request.adoc[]
+
+=== 응답
+
+
+include::{snippets}/like/brandLikeOrCancel/response-body.adoc[]

@@ -18,8 +18,8 @@ public class PaymentBulkInsertRepository {
     @Transactional
     public void saveAll(List<Payment> paymentList, Long id){
 
-        String sql = "INSERT INTO payment (pay_no, cu_id, product_id, size_id, product_cnt, product_price) " +
-                     "VALUES (?, ?, ?, ?, ?, ?) ";
+        String sql = "INSERT INTO payment (pay_no, cu_id, quantity_id, product_cnt, payment_price) " +
+                     "VALUES (?, ?, ?, ?, ?) ";
 
         jdbcTemplate.batchUpdate(sql,
                                 paymentList,
@@ -27,10 +27,9 @@ public class PaymentBulkInsertRepository {
                                 (PreparedStatement ps, Payment payment) -> {
                                     ps.setLong(1, id);
                                     ps.setLong(2, payment.getCustomer().getCuId());
-                                    ps.setLong(3, payment.getProduct().getProductId());
-                                    ps.setLong(4, payment.getSize().getSizeId());
-                                    ps.setInt(5, payment.getProductCount());
-                                    ps.setInt(6, payment.getProductPrice());
+                                    ps.setLong(3, payment.getQuantity().getId());
+                                    ps.setLong(4, payment.getProductCount());
+                                    ps.setInt(5, payment.getPaymentPrice());
                                 });
 
     }

@@ -17,16 +17,12 @@ public class CartKey implements Serializable {
     @Column(name = "cu_id")
     private Long customerId;
 
-    @Column(name = "product_id")
-    private Long productId;
+    @Column(name = "quantity_id")
+    private Long quantityId;
 
-    @Column(name = "size_id")
-    private Long sizeId;
-
-    public CartKey(Long customerId, Long productId, Long sizeId) {
+    public CartKey(Long customerId, Long quantityId) {
         this.customerId = customerId;
-        this.productId = productId;
-        this.sizeId = sizeId;
+        this.quantityId = quantityId;
     }
 
     @Override
@@ -38,11 +34,11 @@ public class CartKey implements Serializable {
             return false;
         }
         CartKey other = (CartKey) obj;
-        return Objects.equals(customerId, other.customerId) && Objects.equals(productId, other.productId) && Objects.equals(sizeId, other.sizeId);
+        return Objects.equals(customerId, other.customerId) && Objects.equals(quantityId, other.quantityId);
     }
 
     @Override
     public int hashCode(){
-        return Objects.hash(customerId,productId,sizeId);
+        return Objects.hash(customerId,quantityId);
     }
 }

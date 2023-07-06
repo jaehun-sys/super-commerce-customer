@@ -18,32 +18,32 @@ public class OrderItemDto {
 
     private int productPrice;
 
-    private Long sizeId;
+    private Long quantityId;
 
-    private String sizeName;
+    private String quantityName;
 
-    private int sizeValue;
+    private Long brandId;
+
+    private String brandName;
 
     private Long productId;
 
     private String productName;
 
-    private Long sellerId;
-
     private String thumbNail;
 
-    public OrderItemDto(Long orderNo, Long totalPrice, String orderDate, int productCount, int productPrice, Long sizeId, String sizeName, int sizeValue, Long productId, String productName, Long sellerId, String thumbNail) {
+    public OrderItemDto(Long orderNo, Long totalPrice, String orderDate, int productCount, int productPrice, Long quantityId, String quantityName, Long brandId, String brandName, Long productId, String productName, String thumbNail) {
         this.orderNo = orderNo;
         this.totalPrice = totalPrice;
         this.orderDate = orderDate;
-        this.productId = productId;
         this.productCount = productCount;
         this.productPrice = productPrice;
-        this.sizeId = sizeId;
-        this.sizeName = sizeName;
-        this.sizeValue = sizeValue;
+        this.quantityId = quantityId;
+        this.quantityName = quantityName;
+        this.brandId = brandId;
+        this.brandName = brandName;
+        this.productId = productId;
         this.productName = productName;
-        this.sellerId = sellerId;
         this.thumbNail = thumbNail;
     }
 }

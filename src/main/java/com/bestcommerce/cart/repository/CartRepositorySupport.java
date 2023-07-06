@@ -14,8 +14,9 @@ import java.util.List;
 
 import static com.bestcommerce.cart.entity.QCart.cart;
 import static com.bestcommerce.customer.entity.QCustomer.customer;
+import static com.bestcommerce.product.entity.QBrand.brand;
 import static com.bestcommerce.product.entity.QProduct.product;
-import static com.bestcommerce.size.entity.QSize.size;
+import static com.bestcommerce.size.entity.QQuantity.quantity;
 
 @Repository
 public class CartRepositorySupport extends QuerydslRepositorySupport {
@@ -35,16 +36,17 @@ public class CartRepositorySupport extends QuerydslRepositorySupport {
                         product.productId.as("productId"),
                         product.productName.as("productName"),
                         product.productCost.as("productCost"),
-                        product.sellerId.as("sellerId"),
+                        brand.id.as("brandId"),
+                        brand.name.as("brandName"),
                         product.thumbPath.as("thumbnailPath"),
                         product.deliveryCost.as("deliveryCost"),
-                        size.sizeId.as("sizeId"),
-                        size.measureId.as("measureId"),
-                        size.measureName.as("measureName"),
-                        size.contentId.as("contentId"),
-                        size.contentName.as("contentName"),
-                        size.sizeValue.as("sizeValue")))
-                .from(cart).innerJoin(cart.customer, customer).innerJoin(cart.product, product).innerJoin(cart.size, size)
+                        quantity.id.as("quantityId"),
+                        quantity.name.as("quantityName")))
+                .from(cart)
+                .innerJoin(cart.customer, customer)
+                .innerJoin(cart.quantity, quantity)
+                .innerJoin(quantity.product, product)
+                .innerJoin(product.brand, brand)
                 .where(customer.cuId.eq(id)).fetch();
     }
 
