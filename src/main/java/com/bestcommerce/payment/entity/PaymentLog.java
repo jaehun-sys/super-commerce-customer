@@ -1,12 +1,11 @@
 package com.bestcommerce.payment.entity;
 
-
 import com.bestcommerce.customer.entity.Customer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity(name = "payment_log")
 @Getter
