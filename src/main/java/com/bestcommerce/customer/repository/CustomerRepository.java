@@ -3,7 +3,7 @@ package com.bestcommerce.customer.repository;
 import com.bestcommerce.customer.entity.Customer;
 import com.bestcommerce.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
+import jakarta.transaction.Transactional;
 
 import java.util.Optional;
 

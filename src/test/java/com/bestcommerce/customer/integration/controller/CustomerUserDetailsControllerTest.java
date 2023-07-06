@@ -71,11 +71,11 @@ public class CustomerUserDetailsControllerTest {
     @Test
     public void insertAccountInfoTest() throws Exception {
 
-        String testEmail = "test04";
+        String testEmail = "test05";
         String testPassword = "1234";
-        String testName = "테스트계정4";
-        String testNumber = "010-0101-0004";
-        String testBirthDate = "19990428";
+        String testName = "테스트계정5";
+        String testNumber = "010-0105-0005";
+        String testBirthDate = "20021213";
 
         CustomerDto dto = new CustomerDto(0L, testName, testEmail,testPassword,testNumber,testBirthDate, "","");
 

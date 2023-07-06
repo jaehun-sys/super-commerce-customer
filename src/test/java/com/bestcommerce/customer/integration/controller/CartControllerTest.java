@@ -68,8 +68,8 @@ public class CartControllerTest {
     @Test
     public void insertAccountInfoTest() throws Exception {
         int productCount = 7;
-        Long customerId = 40L;
-        Long quantityId = 3L;
+        Long customerId = 42L;
+        Long quantityId = 2L;
 
         CartDto dto = new CartDto(productCount,customerId,quantityId);
 
@@ -117,8 +117,8 @@ public class CartControllerTest {
 
         List<CartKeyDto> dto = new ArrayList<>();
 
-        dto.add(new CartKeyDto(40L,2L));
-        dto.add(new CartKeyDto(40L,3L));
+        dto.add(new CartKeyDto(42L,2L));
+        dto.add(new CartKeyDto(42L,3L));
 
         String content = objectMapper.writeValueAsString(dto);
 

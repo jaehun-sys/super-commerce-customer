@@ -74,10 +74,10 @@ public class AddressControllerTest {
     @Test
     void saveAddressTest() throws Exception {
 
-        Long customerId = 40L;
-        String addr = "서울특별시 강남구 논현로 566";
-        Character represent = 'N';
-        String zipcode = "06135";
+        Long customerId = 42L;
+        String addr = "서울특별시 강남구 논현로 6987";
+        Character represent = 'Y';
+        String zipcode = "06114";
 
         AddressDto addressDto = new AddressDto(0L, customerId, addr, represent, zipcode);
 
