@@ -4,7 +4,8 @@ import com.bestcommerce.customer.entity.Customer;
 import com.bestcommerce.product.entity.Brand;
 import com.bestcommerce.product.entity.BrandLike;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
+
+import jakarta.transaction.Transactional;
 
 public interface BrandLikeRepository extends JpaRepository<BrandLike, Long> {
 
