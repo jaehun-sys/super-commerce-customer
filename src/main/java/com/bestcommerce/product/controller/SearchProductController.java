@@ -4,8 +4,6 @@ import com.bestcommerce.product.dto.ProductActDto;
 import com.bestcommerce.product.dto.ProductDetailDto;
 import com.bestcommerce.product.dto.ProductDto;
 import com.bestcommerce.product.service.ProductSelectService;
-import com.bestcommerce.size.dto.SizeDto;
-import com.bestcommerce.size.service.SizeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +18,11 @@ import java.util.List;
 public class SearchProductController {
 
     private final ProductSelectService productSelectService;
-    private final SizeService sizeService;
 
     @PostMapping("/view")
     public ProductDetailDto viewProductDetail(@RequestBody ProductActDto productActDto){
         ProductDto searchProductDto = productSelectService.getDetailProduct(productActDto.getCustomerId(), productActDto.getProductId());
-        List<SizeDto> searchProductSizeList = sizeService.getSizeInfoForOneProduct(productActDto.getProductId());
-        return new ProductDetailDto(searchProductDto, searchProductSizeList);
+        return new ProductDetailDto(searchProductDto);
     }
 
     @PostMapping("/search")
