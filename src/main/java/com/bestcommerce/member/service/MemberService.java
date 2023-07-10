@@ -5,8 +5,7 @@ import com.bestcommerce.jwt.TokenInfo;
 import com.bestcommerce.member.entity.Member;
 import com.bestcommerce.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -14,12 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
-
-    private static final Logger log = LoggerFactory.getLogger(MemberService.class);
 
     private final MemberRepository memberRepository;
 
@@ -53,7 +51,7 @@ public class MemberService {
         throw new RuntimeException("중복된 이메일 입니다.");
     }
 
-    public Member findMember(Long id){
-        return memberRepository.findById(id).orElseThrow(()-> new RuntimeException("등록된 사용자가 아닙니다."));
+    public Member findMember(String email){
+        return memberRepository.findByMemberEmail(email).orElseThrow(()-> new RuntimeException("등록된 사용자가 아닙니다."));
     }
 }

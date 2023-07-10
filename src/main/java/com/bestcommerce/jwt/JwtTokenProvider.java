@@ -1,6 +1,5 @@
 package com.bestcommerce.jwt;
 
-import com.bestcommerce.member.entity.Member;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

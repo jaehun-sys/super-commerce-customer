@@ -1,13 +1,11 @@
 package com.bestcommerce.cart.entity;
 
 import com.bestcommerce.customer.entity.Customer;
-import com.bestcommerce.product.entity.Product;
-import com.bestcommerce.size.entity.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity(name = "cart")
 @Getter
@@ -17,28 +15,16 @@ public class Cart{
     @EmbeddedId
     private CartKey cartKey = new CartKey();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cu_id")
     @MapsId("customerId")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    @MapsId("productId")
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "size_id")
-    @MapsId("sizeId")
-    private Size size;
-
     @Column(name = "product_cnt")
     private int productCount;
 
-    public Cart(int productCount, Size size, Customer customer, Product product){
+    public Cart(CartKey cartKey, int productCount){
+        this.cartKey = cartKey;
         this.productCount = productCount;
-        this.size = size;
-        this.customer = customer;
-        this.product = product;
     }
 }

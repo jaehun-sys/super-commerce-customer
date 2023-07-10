@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity(name = "address")
 @Getter
@@ -26,7 +26,7 @@ public class Address {
     @Column(name = "zip_code")
     private String zipCode;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cu_id")
     private Customer customer;
 

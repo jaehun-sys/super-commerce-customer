@@ -3,12 +3,11 @@ package com.bestcommerce.customer.entity;
 import com.bestcommerce.address.entity.Address;
 import com.bestcommerce.cart.entity.Cart;
 import com.bestcommerce.member.entity.Member;
-import com.bestcommerce.payment.entity.Payment;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,16 +30,13 @@ public class Customer {
     @Column(name = "birthdate")
     private String birthdate;
 
-    @Column(name = "auth_yn")
-    private Character authYn;
-
     @Column(name = "regdate")
     private String registerDate;
 
     @Column(name = "modify_date")
     private String modifyDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -50,15 +46,11 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Cart> cartsList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "customer")
-    private List<Payment> paymentList = new ArrayList<>();
-
-    public Customer(Member member, String cuName, String cuTelNumber, String birthdate, Character authYn, String registerDate, String modifyDate){
+    public Customer(Member member, String cuName, String cuTelNumber, String birthdate, String registerDate, String modifyDate){
         this.member = member;
         this.cuName = cuName;
         this.cuTelNumber = cuTelNumber;
         this.birthdate = birthdate;
-        this.authYn = authYn;
         this.registerDate = registerDate;
         this.modifyDate = modifyDate;
     }

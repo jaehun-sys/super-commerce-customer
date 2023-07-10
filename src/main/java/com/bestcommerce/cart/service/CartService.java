@@ -6,14 +6,14 @@ import com.bestcommerce.cart.entity.CartKey;
 import com.bestcommerce.cart.repository.CartRepository;
 import com.bestcommerce.cart.repository.CartRepositorySupport;
 import com.bestcommerce.customer.entity.Customer;
-import com.bestcommerce.product.entity.Product;
-import com.bestcommerce.size.entity.Size;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CartService {
@@ -22,13 +22,13 @@ public class CartService {
 
     private final CartRepositorySupport cartRepositorySupport;
 
-    public void putProductToCart(Size size, Customer customer, Product product, int productCount){
-        CartKey cartKey = new CartKey(customer.getCuId(), product.getProductId(), size.getSizeId());
+    public void putProductToCart(Customer customer, Long quantityId, int productCount){
+        CartKey cartKey = new CartKey(customer.getCuId(), quantityId);
         if(cartRepository.existsById(cartKey)){
             cartRepository.increaseProductCountByCartKey(cartKey, productCount);
             return;
         }
-        cartRepository.save(new Cart(productCount, size, customer, product));
+        cartRepository.save(new Cart(cartKey, productCount));
     }
 
     public List<CartItemDto> getCartList(Long id){
