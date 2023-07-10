@@ -1,7 +1,6 @@
 package com.bestcommerce.cart.entity;
 
 import com.bestcommerce.customer.entity.Customer;
-import com.bestcommerce.size.entity.Quantity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,17 +20,11 @@ public class Cart{
     @MapsId("customerId")
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quantity_id")
-    @MapsId("quantityId")
-    private Quantity quantity;
-
     @Column(name = "product_cnt")
     private int productCount;
 
-    public Cart(int productCount, Customer customer, Quantity quantity){
+    public Cart(CartKey cartKey, int productCount){
+        this.cartKey = cartKey;
         this.productCount = productCount;
-        this.customer = customer;
-        this.quantity = quantity;
     }
 }
