@@ -95,7 +95,7 @@ public class CartControllerTest {
     public void getCartListByCustomerIdTest() throws Exception{
         Long customerId = 40L;
 
-        CartItemDto dto = new CartItemDto(customerId,"",0L,"",0,0L,"","",0,0L,"");
+        CartItemDto dto = new CartItemDto(customerId,"");
 
         String content = objectMapper.writeValueAsString(dto);
 

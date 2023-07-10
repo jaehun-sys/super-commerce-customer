@@ -5,7 +5,6 @@ import com.bestcommerce.cart.dto.CartItemDto;
 import com.bestcommerce.cart.dto.CartKeyDto;
 import com.bestcommerce.cart.service.CartService;
 import com.bestcommerce.customer.service.CustomerService;
-import com.bestcommerce.size.service.QuantityService;
 import com.bestcommerce.util.converter.EntityConverter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,14 +21,12 @@ public class CartController {
 
     private final CustomerService customerService;
 
-    private final QuantityService quantityService;
-
     private final EntityConverter entityConverter;
 
 
     @PostMapping("/put")
     public void putProductToCart(@RequestBody CartDto cartDto){
-        cartService.putProductToCart(customerService.getOneCustomerInfo(cartDto.getCustomerId()), quantityService.getQuantityForCart(cartDto.getQuantityId()), cartDto.getProductCount());
+        cartService.putProductToCart(customerService.getOneCustomerInfo(cartDto.getCustomerId()), cartDto.getQuantityId(), cartDto.getProductCount());
     }
 
     @PostMapping("/list")
