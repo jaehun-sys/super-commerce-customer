@@ -8,8 +8,8 @@ import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.entity.Customer;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class DtoConverter {
@@ -19,11 +19,7 @@ public class DtoConverter {
     }
 
     public List<AddressDto> toAddressDtoList(List<Address> addressList){
-        List<AddressDto> addressDtoList = new ArrayList<>();
-        for(Address address : addressList){
-            addressDtoList.add(toAddressDto(address));
-        }
-        return addressDtoList;
+        return addressList.stream().map(this::toAddressDto).collect(Collectors.toList());
     }
 
     public CartDto toCartDto(Cart cart){

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class EntityConverter {
@@ -33,11 +33,7 @@ public class EntityConverter {
     }
 
     public List<CartKey> toCartKeyList(List<CartKeyDto> cartKeyDtoList){
-        List<CartKey> cartKeyList = new ArrayList<>();
-        for(CartKeyDto cartKeyDto : cartKeyDtoList){
-            cartKeyList.add(toCartKey(cartKeyDto));
-        }
-        return cartKeyList;
+        return cartKeyDtoList.stream().map(this::toCartKey).collect(Collectors.toList());
     }
 
 }
