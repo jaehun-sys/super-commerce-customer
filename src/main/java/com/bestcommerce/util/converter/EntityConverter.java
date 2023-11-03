@@ -7,14 +7,12 @@ import com.bestcommerce.cart.entity.CartKey;
 import com.bestcommerce.address.dto.AddressDto;
 import com.bestcommerce.cart.dto.CartKeyDto;
 import com.bestcommerce.member.entity.Member;
-import com.bestcommerce.payment.dto.PaymentLogDto;
-import com.bestcommerce.payment.entity.PaymentLog;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class EntityConverter {
@@ -35,14 +33,7 @@ public class EntityConverter {
     }
 
     public List<CartKey> toCartKeyList(List<CartKeyDto> cartKeyDtoList){
-        List<CartKey> cartKeyList = new ArrayList<>();
-        for(CartKeyDto cartKeyDto : cartKeyDtoList){
-            cartKeyList.add(toCartKey(cartKeyDto));
-        }
-        return cartKeyList;
+        return cartKeyDtoList.stream().map(this::toCartKey).collect(Collectors.toList());
     }
 
-    public PaymentLog toPaymentLog(PaymentLogDto paymentLogDto, Customer customer){
-        return new PaymentLog(paymentLogDto.getPayNo(), paymentLogDto.getTotalPrice(), paymentLogDto.getOrderDate(), customer);
-    }
 }

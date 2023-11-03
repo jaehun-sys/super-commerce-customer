@@ -6,12 +6,10 @@ import com.bestcommerce.cart.entity.Cart;
 import com.bestcommerce.cart.dto.CartDto;
 import com.bestcommerce.customer.dto.CustomerDto;
 import com.bestcommerce.customer.entity.Customer;
-import com.bestcommerce.product.dto.BrandDto;
-import com.bestcommerce.product.entity.Brand;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class DtoConverter {
@@ -21,15 +19,11 @@ public class DtoConverter {
     }
 
     public List<AddressDto> toAddressDtoList(List<Address> addressList){
-        List<AddressDto> addressDtoList = new ArrayList<>();
-        for(Address address : addressList){
-            addressDtoList.add(toAddressDto(address));
-        }
-        return addressDtoList;
+        return addressList.stream().map(this::toAddressDto).collect(Collectors.toList());
     }
 
     public CartDto toCartDto(Cart cart){
-        return new CartDto(cart.getProductCount(), cart.getCartKey().getCustomerId(), cart.getQuantity().getId());
+        return new CartDto(cart.getProductCount(), cart.getCartKey().getCustomerId(), cart.getCartKey().getQuantityId());
     }
 
 
@@ -37,7 +31,4 @@ public class DtoConverter {
         return new CustomerDto(customer.getCuId(), customer.getCuName(), customerEmail, "", customer.getCuTelNumber(), customer.getBirthdate(), customer.getRegisterDate(), customer.getModifyDate());
     }
 
-    public BrandDto toBrandDto(Brand brand, String isLike){
-        return new BrandDto(brand.getId(), brand.getName(), brand.getIntro(), isLike);
-    }
 }
