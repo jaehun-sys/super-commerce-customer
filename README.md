@@ -21,4 +21,4 @@
 * querydsl
 
 ## ER 다이어그램
-
+<img src="commerce.png" width="1000px" height="700px" title="ER 다이어그램" alt="ER 다이어그램"></img>
